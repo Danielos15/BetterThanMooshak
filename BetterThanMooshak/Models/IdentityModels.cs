@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using BetterThanMooshak.Models.Entities;
 
 namespace BetterThanMooshak.Models
 {
@@ -29,5 +30,9 @@ namespace BetterThanMooshak.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Problem> Problems { get; set; }
     }
 }

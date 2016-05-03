@@ -1,0 +1,26 @@
+﻿@model BetterThanMooshak.Models.ViewModel.AssignmentViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="jumbotron">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.name
+                </td>
+            </tr>
+            @foreach(var x in Model.Problems)
+            {
+                <tr>
+                    <td>
+                        @x.name
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
