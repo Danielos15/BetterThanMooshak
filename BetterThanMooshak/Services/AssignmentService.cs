@@ -19,13 +19,7 @@ namespace BetterThanMooshak.Services
 
         public AssignmentViewModel GetAssignmentsByCourse (int courseId)
         {
-            var course = (from x in db.Courses where x.id == courseId select x).SingleOrDefault();
-
-            var result = (from x in db.Assignments where x.courseId == courseId select x).ToList();
-
-            var assignments = new AssignmentViewModel() { name = course.name, assignments = result };
-
-            return assignments;
+            return null;
         }
 
         public AssignmentViewModel GetAssignmentById (int? assignmentId)

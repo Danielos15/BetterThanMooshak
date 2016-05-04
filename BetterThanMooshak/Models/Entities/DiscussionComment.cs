@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace BetterThanMooshak.Models.Entities
 {
-    public class Assignment
+    public class DiscussionComment
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        [Display(Name = "Course")]
-        public int courseId { get; set; }
-        public string name { get; set; }
-        public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; }
+        public int discussionTopicId { get; set; }
+        public string message { get; set; }
     }
 }

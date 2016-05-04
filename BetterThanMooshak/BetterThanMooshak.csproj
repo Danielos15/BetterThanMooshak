@@ -177,6 +177,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Assignment.cs" />
     <Compile Include="Models\Entities\BestSolution.cs" />
+    <Compile Include="Models\Entities\DiscussionComment.cs" />
     <Compile Include="Models\Entities\DiscussionTopic.cs" />
     <Compile Include="Models\Entities\Notification.cs" />
     <Compile Include="Models\Entities\Problem.cs" />
@@ -187,9 +188,15 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Entities\Course.cs" />
     <Compile Include="Models\ViewModel\AssignmentViewModel.cs" />
+    <Compile Include="Models\ViewModel\CourseViewModel.cs" />
+    <Compile Include="Models\ViewModel\DiscussionCommentViewModel.cs" />
     <Compile Include="Models\ViewModel\DiscussionViewModel.cs" />
     <Compile Include="Models\ViewModel\FrontViewModel.cs" />
+    <Compile Include="Models\ViewModel\NotificationViewModel.cs" />
     <Compile Include="Models\ViewModel\ProblemViewModel.cs" />
+    <Compile Include="Models\ViewModel\SolutionViewModel.cs" />
+    <Compile Include="Models\ViewModel\TestcaseViewModel.cs" />
+    <Compile Include="Models\ViewModel\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AssignmentService.cs" />
     <Compile Include="Startup.cs" />

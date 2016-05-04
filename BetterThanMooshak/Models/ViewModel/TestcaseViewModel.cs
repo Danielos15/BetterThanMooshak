@@ -6,9 +6,8 @@ using System.Web;
 
 namespace BetterThanMooshak.Models.ViewModel
 {
-    public class AssignmentViewModel
+    public class TestcaseViewModel
     {
-        public string name { get; set; }
-        public List<Problem> problems { get; set; }
+        public List<Testcase> testcases { get; set; }
     }
 }
