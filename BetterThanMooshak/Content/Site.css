@@ -1,7 +1,51 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 80px;
     padding-bottom: 20px;
+    height: 100vh;
 }
+
+header.navbar {
+    height: 70px;
+    padding-top: 15px;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+header.navbar .menu {
+    position: relative
+}
+
+#mainmenuToggle {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    padding: 13px 0;
+}
+    #mainmenuToggle span {
+        display: block;
+        width: 35px;
+        height: 5px;
+        background: #000;
+        margin: 4px auto;
+        transition: -webkit-transform .3s ease 0s;
+        transition: transform .3s ease 0s;
+        transition: transform .3s ease 0s,-webkit-transform .3s ease 0s;
+    }
+        body.menuOpen #mainmenuToggle span.first {
+            -webkit-transform: translateY(8px) rotate(45deg);
+            transform: translateY(7px) rotate(45deg);
+        }
+        body.menuOpen #mainmenuToggle span.middle {
+            -webkit-transform: translateY(1px) rotate(-45deg);
+            transform: translateY(-2px) rotate(-45deg);
+        }
+        body.menuOpen #mainmenuToggle span.last {
+            display: none;
+        }
+    
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -22,3 +66,20 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+footer {
+    border-top: 1px solid #ccc;
+    padding: 16px 0;
+}
+
+    footer div.container div {
+        float: left;
+        width: 50%;
+    }
+        footer .dateTime {
+            text-transform: capitalize
+        }
+        footer .version {
+            text-align: right;
+        }
