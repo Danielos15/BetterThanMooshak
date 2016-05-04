@@ -79,6 +79,12 @@ namespace BetterThanMooshak.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Name")]
+        [StringLength(100, ErrorMessage = "Type in your name, god damn it!", MinimumLength = 2)]
+        public string Name { get; set; }
     }
 
     public class ResetPasswordViewModel
