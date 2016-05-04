@@ -1,4 +1,5 @@
 ﻿using BetterThanMooshak.Models;
+using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -16,35 +17,20 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public List<AssignmentViewModel> GetAssignmentsByCourse (int courseId)
+        public AssignmentViewModel GetAssignmentsByCourse (int courseId)
         {
-            return null;
+            var course = (from x in db.Courses where x.id == courseId select x).SingleOrDefault();
+
+            var result = (from x in db.Assignments where x.courseId == courseId select x).ToList();
+
+            var assignments = new AssignmentViewModel() { name = course.name, assignments = result };
+
+            return assignments;
         }
 
         public AssignmentViewModel GetAssignmentById (int? assignmentId)
         {
-            var assignment = db.Assignments.SingleOrDefault (x => x.Id == assignmentId.Value);
-
-            if (assignment == null)
-            {
-                // TODO: kasta villu!
-            }
-
-            var problems = db.Problems
-                .Where(x => x.assignmentId == assignmentId.Value)
-                .Select(x => new ProblemViewModel
-                {
-                    name = x.name
-                })
-                .ToList();
-
-            var viewModel = new AssignmentViewModel
-            {
-                name = assignment.name,
-                Problems = problems
-            };
-
-            return viewModel;
+            return null;
         }
     }
 }

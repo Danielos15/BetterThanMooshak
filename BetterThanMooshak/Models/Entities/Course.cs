@@ -9,8 +9,7 @@ namespace BetterThanMooshak.Models.Entities
     public class Course
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
+        public int id { get; set; }
         public string name { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }

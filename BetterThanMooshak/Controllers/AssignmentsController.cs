@@ -17,7 +17,7 @@ namespace BetterThanMooshak.Controllers
         }
         public ActionResult Details(int id)
         {
-            var viewModel = service.GetAssignmentById(id);
+            var viewModel = service.GetAssignmentsByCourse(id);
 
             return View(viewModel);
         }

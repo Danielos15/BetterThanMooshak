@@ -6,12 +6,13 @@ using System.Web;
 
 namespace BetterThanMooshak.Models.Entities
 {
-    public class Problem
+    public class BestSolution
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int assignmentId { get; set; }
-        public string name { get; set; }
-        public int maxAttempts { get; set; }
+        public int id { get; }
+        public int problemId { get; set; }
+        public string userId { get; set; }
+        public int solutionId { get; set; }
+        public float grade { get; set; }
     }
 }
