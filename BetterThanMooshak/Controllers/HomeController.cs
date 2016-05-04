@@ -15,6 +15,8 @@ namespace BetterThanMooshak.Controllers
 
         public ActionResult About()
         {
+            // Diff from master
+        
             ViewBag.Message = "Your application description page.";
 
             return View();
