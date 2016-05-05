@@ -15,23 +15,28 @@ namespace BetterThanMooshak.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult Overview()
-        {
-            UserViewModel viewModel = service.GetAllUsers();
+            UsersViewModel viewModel = service.GetAllUsers();
             return View(viewModel);
         }
 
-        [HttpPost]
         public ActionResult Add()
         {
             return View();
         }
 
         [HttpPost]
+        public ActionResult Add(UserAddViewModel newUser)
+        {
+            return View();
+        }
+        
         public ActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(UserEditViewModel user)
         {
             return View();
         }
@@ -48,7 +53,7 @@ namespace BetterThanMooshak.Controllers
         }
 
         [HttpPost] //TODO: changePassword viewModel to pass inn.
-        public ActionResult Changepassword(UserViewModel model)
+        public ActionResult Changepassword(UsersViewModel model)
         {
             return View();
         }

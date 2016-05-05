@@ -25,9 +25,9 @@ namespace BetterThanMooshak.Services
             return appUser;
         }
 
-        public UserViewModel GetAllUsers()
+        public UsersViewModel GetAllUsers()
         {
-            UserViewModel users = new UserViewModel();
+            UsersViewModel users = new UsersViewModel();
             users.users = (from user in db.Users
                             select user).ToList();
             return users;
