@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Better Than Mooshak</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/font-awesome.min.css")
     @Scripts.Render("~/bundles/modernizr")
@@ -22,13 +22,13 @@
     </header>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        
     </div>
     <footer>
         <div class="container">
             <div class="dateTime">
-                <p>@DateTime.Now.ToLongDateString()</p>
+                <p>
+                    @DateTime.Now.ToLongDateString()
+                </p>
             </div>
             <div class="version">
                 <p>
