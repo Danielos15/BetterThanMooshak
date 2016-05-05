@@ -26,6 +26,7 @@ namespace BetterThanMooshak.Services
 
             var userCourses = from courseusers in db.CourseUsers
                               join courses in db.Courses on courseusers.courseId equals courses.id into result
+                              where courseusers.userId == appUser.Id
                               from x in result
                               select x;
 
