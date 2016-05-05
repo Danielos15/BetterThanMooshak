@@ -1,31 +1,124 @@
-﻿@{
+﻿@model BetterThanMooshak.Models.ViewModel.FrontViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<h1>Hello @Model.user.Name</h1>
+
+<div class="col-md-6" id="Assignments">
+    <h2>Open Assignments</h2>
+    <div class="jumbotron">
+        <table class="table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Course
+                    </th>
+                    <th>
+                        Due Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model.assignments)
+                {
+                    <tr>
+                        <td>
+                            @x.name
+                        </td>
+                        <td>
+                            Name of course<!--TODO-->
+                        </td>
+                        <td>
+                            @x.endDate
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div class="col-md-6" id="Notifications">
+    <h2>Notifications</h2>
+    <div class="jumbotron">
+        <table>
+            <tbody>
+                @foreach (var x in Model.notifications)
+                {
+                    <tr>
+                        <td>
+                            @x.title
+                        </td>
+                        <td>
+                            Name of assignment <!--TODO-->
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+</div>
+
+<div class="col-md-6" id="Courses">
+    <h2>Active Courses</h2>
+    <div class="jumbotron">
+        <table class="table-bordered">
+            <tbody>
+                @foreach (var x in Model.courses)
+                {
+                    <tr>
+                        <td>
+                            @x.name
+                        </td>
+                        <td>
+                            <a href="#">More</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+</div>
+
+<div class="col-md-6" id="Grades">
+    <h2>Recent Grades</h2>
+    <div class="jumbotron">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Course
+                    </th>
+                    <th>
+                        Grade
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model.recentGrades)
+                {
+                    <tr>
+                        <td>
+                            Assignment name <!--TODO-->
+                        </td>
+                        <td>
+                            Course name <!--TODO-->
+                        </td>
+                        <td>
+                            @x.grade
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+
 </div>

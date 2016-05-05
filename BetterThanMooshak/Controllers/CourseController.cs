@@ -14,15 +14,9 @@ namespace BetterThanMooshak.Controllers
         // GET: Course
         public ActionResult Index()
         {
-            CourseViewModel viewModel = service.GetCourseById(1);
-            return View(viewModel);
-        }
-
-        public ActionResult Overview()
-        {
             CourseViewModel viewModel = service.GetAllCourses();
-
             return View(viewModel);
         }
+
     }
 }

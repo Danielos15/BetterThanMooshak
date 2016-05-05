@@ -12,7 +12,7 @@ namespace BetterThanMooshak.Models.Entities
         public int Id { get; set; }
         public int problemId { get; set; }
         public string userId { get; set; }
-        public float grade { get; set; }
+        public double grade { get; set; }
         public DateTime gradedDate { get; set; }
 
     }

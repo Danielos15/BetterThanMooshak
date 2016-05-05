@@ -22,11 +22,6 @@ namespace BetterThanMooshak.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Course> Courses { get; set; }
-        public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<Problem> Problems { get; set; }
-        public DbSet<BestSolution> BestSolutions { get; set; }
-
         public ApplicationDbContext()
             : base("MooshakDB", throwIfV1Schema: false)
         {
@@ -36,6 +31,17 @@ namespace BetterThanMooshak.Models
         {
             return new ApplicationDbContext();
         }
-
+        
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<BestSolution> BestSolutions { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseUser> CourseUsers { get; set; }
+        public DbSet<DiscussionComment> DiscussionComments { get; set; }
+        public DbSet<DiscussionTopic> DiscussionTopics { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Problem> Problems { get; set; }
+        public DbSet<ProblemGrade> ProblemGrades { get; set; }
+        public DbSet<Solution> Solutions { get; set; }
+        public DbSet<Testcase> Testcases { get; set; }
     }
 }
