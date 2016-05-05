@@ -276,7 +276,7 @@
     <Content Include="Views\Assignment\Details.cshtml" />
     <Content Include="Views\Error\notFound.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Course\Overview.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,35 +1,47 @@
 ﻿@model BetterThanMooshak.Models.ViewModel.CourseViewModel
 
 @{
-    ViewBag.Title = "Overview";
+    ViewBag.Title = "Index";
 }
 
 <div class="boxTitle">
     <h1>Course Overview</h1>
 </div>
 <div class="boxText">
+    <div class="userActions">
+        <a href="@Url.Action("add", "course")">
+            <i class="fa fa-plus-square"></i>
+            Add Course
+        </a>
+        <a href="@Url.Action("edit", "course")">
+            <i class="fa fa-download"></i>
+            Import Courses
+        </a>
+        <input id="userSearch" type="text" placeholder="Search..." />
+        <i class="fa fa-search"></i>
+    </div>
     <table id="userTable">
         <thead>
             <tr>
                 <td>Name</td>
-                <td>Start date</td>
-                <td>End date</td>
+                <td>Start Date</td>
+                <td>End Date</td>
                 <td>Actions</td>
             </tr>
         </thead>
         <tbody>
             @foreach (var course in Model.courses)
-                        {
+            {
                 <tr>
                     <td>@course.name</td>
                     <td>@course.startDate</td>
                     <td>@course.endDate</td>
                     <td>
                         <span class="edit">
-                            <i class="fa fa-pencil-square" title="Edit"></i>
+                            <i class="fa fa-pencil-square" title="Edit @course.name"></i>
                         </span>
                         <span class="remove">
-                            <i class="fa fa-minus-square" title="Remove"></i>
+                            <i class="fa fa-minus-square" title="Remove @course.name"></i>
                         </span>
                     </td>
                 </tr>
