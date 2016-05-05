@@ -35,6 +35,7 @@ namespace BetterThanMooshak.Models
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<BestSolution> BestSolutions { get; set; }
         public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseUser> CourseUsers { get; set; }
         public DbSet<DiscussionComment> DiscussionComments { get; set; }
         public DbSet<DiscussionTopic> DiscussionTopics { get; set; }
         public DbSet<Notification> Notifications { get; set; }

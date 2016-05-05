@@ -180,6 +180,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Assignment.cs" />
     <Compile Include="Models\Entities\BestSolution.cs" />
+    <Compile Include="Models\Entities\CourseUser.cs" />
     <Compile Include="Models\Entities\DiscussionComment.cs" />
     <Compile Include="Models\Entities\DiscussionTopic.cs" />
     <Compile Include="Models\Entities\Notification.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="Models\ViewModel\UserViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AssignmentService.cs" />
+    <Compile Include="Services\FrontService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Startup.cs" />
