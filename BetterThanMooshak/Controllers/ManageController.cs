@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BetterThanMooshak.Models;
+using BetterThanMooshak.Services;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -15,6 +16,7 @@ namespace BetterThanMooshak.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UserService _userService = new UserService();
 
         public ManageController()
         {
@@ -64,13 +66,16 @@ namespace BetterThanMooshak.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = _userService.GetUserById(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                Name = user.Name,
+                Email = user.Email
             };
             return View(model);
         }

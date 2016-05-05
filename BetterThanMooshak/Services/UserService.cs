@@ -17,6 +17,14 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
+        public ApplicationUser GetUserById(string id)
+        {
+            ApplicationUser appUser = (from user in db.Users
+                                    where user.Id == id
+                                    select user).SingleOrDefault();
+            return appUser;
+        }
+
         public UserViewModel GetAllUsers()
         {
             UserViewModel users = new UserViewModel();

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
 {
-    public class AssignmentsController : Controller
+    public class AssignmentController : Controller
     {
         private AssignmentService service = new AssignmentService();
         // GET: Assignments
