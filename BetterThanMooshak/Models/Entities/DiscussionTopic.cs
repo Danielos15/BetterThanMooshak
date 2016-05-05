@@ -9,6 +9,6 @@ namespace BetterThanMooshak.Models.Entities
     public class DiscussionTopic
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int id { get; }
+        public int id { get; set; }
     }
 }
