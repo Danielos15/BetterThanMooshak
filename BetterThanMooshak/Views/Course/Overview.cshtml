@@ -1,0 +1,39 @@
+﻿@model BetterThanMooshak.Models.ViewModel.CourseViewModel
+
+@{
+    ViewBag.Title = "Overview";
+}
+
+<div class="boxTitle">
+    <h1>Course Overview</h1>
+</div>
+<div class="boxText">
+    <table id="userTable">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Start date</td>
+                <td>End date</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in Model.courses)
+                        {
+                <tr>
+                    <td>@course.name</td>
+                    <td>@course.startDate</td>
+                    <td>@course.endDate</td>
+                    <td>
+                        <span class="edit">
+                            <i class="fa fa-pencil-square" title="Edit"></i>
+                        </span>
+                        <span class="remove">
+                            <i class="fa fa-minus-square" title="Remove"></i>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
