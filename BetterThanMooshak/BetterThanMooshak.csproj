@@ -275,6 +275,9 @@
     <Content Include="Views\Error\notFound.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Course\Overview.cshtml" />
+    <Content Include="Views\User\Add.cshtml" />
+    <Content Include="Views\Shared\UserForm.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

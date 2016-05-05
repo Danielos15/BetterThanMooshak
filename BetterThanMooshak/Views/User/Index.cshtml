@@ -11,7 +11,7 @@
             <i class="fa fa-plus-square"></i>
             Add User
         </a>
-        <a href="@Url.Action("edit", "user")">
+        <a href="@Url.Action("import", "user")">
             <i class="fa fa-download"></i>
             Import Users
         </a>
@@ -35,12 +35,12 @@
                     <td>@user.Email</td>
                     <td>IsActive()</td>
                     <td>
-                        <span class="edit">
+                        <a class="edit" href="@Url.Action("edit", "user")/@user.Id">
                             <i class="fa fa-pencil-square" title="Edit @user.Name"></i>
-                        </span>
-                        <span class="remove">
+                        </a>
+                        <a class="remove" href="">
                             <i class="fa fa-minus-square" title="Remove @user.Name"></i>
-                        </span>
+                        </a>
                     </td>
                 </tr>
             }
