@@ -12,10 +12,16 @@ namespace BetterThanMooshak.Controllers
     {
         private SolutionService service = new SolutionService();
         // GET: Solution
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
-            SolutionViewModel viewModel = service.GetSolutionsByProblemAndUser(1, 1);
+            SolutionViewModel viewModel = service.GetSolutionsByUser();
             return View(viewModel);
-        }
+        }*/
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(CourseAddViewModel)
+
+
     }
 }

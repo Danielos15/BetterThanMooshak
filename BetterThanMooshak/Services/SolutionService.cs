@@ -17,10 +17,16 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public void AddSolution(Solution s)
+        public bool AddSolution(Solution s)
         {
-            db.Solutions.Add(s);
-            db.SaveChanges();
+
+            Solution temp = new Solution { Id = s.Id, userId = s.userId, problemId = s.problemId, program = s.program };
+            db.Solutions.Add(temp);
+            var save = db.SaveChanges();
+            if (save != 0)
+                return true;
+            else
+                return false;
         }
 
         public SolutionViewModel EditSolution(SolutionViewModel s)
@@ -30,7 +36,9 @@ namespace BetterThanMooshak.Services
 
         public SolutionViewModel GetSolutionById(int id)
         {
-            var solution = (from s in db.Solutions where s.Id == id select s).SingleOrDefault();
+            var solution = (from s in db.Solutions
+                            where s.Id == id
+                            select s).SingleOrDefault();
 
             SolutionViewModel result = new SolutionViewModel();
             result.solution = solution;
@@ -40,10 +48,24 @@ namespace BetterThanMooshak.Services
 
         public SolutionViewModel GetSolutionsByProblemAndUser(int pId, int uId)
         {
-            var solution = (from x in db.Solutions where x.Id == pId && x.Id == uId select x).SingleOrDefault();
+            var solution = (from x in db.Solutions
+                            where x.Id == pId && x.Id == uId
+                            select x).ToList();
 
             SolutionViewModel result = new SolutionViewModel();
-            result.solution = solution;
+            result.solutions = solution;
+
+            return result;
+        }
+
+        public SolutionViewModel GetSolutionsByUser(int uId)
+        {
+            var solutions = (from x in db.Solutions
+                             where x.Id == uId
+                             select x).ToList();
+
+            SolutionViewModel result = new SolutionViewModel();
+            result.solutions = solutions;
 
             return result;
         }

@@ -47,6 +47,5 @@ namespace BetterThanMooshak.Services
             db.SaveChanges();
         }
 
-
     }
 }
