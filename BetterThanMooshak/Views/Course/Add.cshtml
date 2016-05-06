@@ -1,0 +1,41 @@
+﻿@model BetterThanMooshak.Models.Entities.Course
+
+@{
+    ViewBag.Title = "Add Course";
+}
+
+<div class="boxTitle">
+    <h1>@ViewBag.Title.</h1>
+</div>
+<div class="boxText">
+    @using (Html.BeginForm("add", "course", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Name..." })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(m => m.startDate, new { @class = "form-control", placeholder = "E-mail..." })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(m => m.endDate, new { @class = "form-control", placeholder = "E-mail..." })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-6">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

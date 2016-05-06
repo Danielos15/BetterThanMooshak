@@ -59,8 +59,12 @@ namespace BetterThanMooshak.Controllers
                 {
                     if (newUser.admin)
                     {
+                        if (!service.IfRoleExists("Admin"))
+                            service.AddRole("Admin");
+
                         UserManager.AddToRole(user.Id, "Admin");
                     }
+
                     return RedirectToAction("index", "user");
                 }
                 AddErrors(result);
@@ -101,7 +105,8 @@ namespace BetterThanMooshak.Controllers
                             service.AddRole("Admin");
 
                         UserManager.AddToRole(user.Id, "Admin");
-                    }else
+                    }
+                    else
                     {
                         if (UserManager.IsInRole(user.Id, "Admin"))
                         UserManager.RemoveFromRole(user.Id, "Admin");
@@ -111,6 +116,24 @@ namespace BetterThanMooshak.Controllers
                 AddErrors(result);
             }
             return View(editUser);
+        }
+
+        public async Task<ActionResult> SendEmailValidation()
+        {
+
+            var users = service.GetAllUsersAsEntity();
+            foreach (var user in users)
+            {
+                if (!(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //TODO: change message content??
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                }
+            }
+
+            return RedirectToAction("index", "user");
         }
 
         [HttpPost]

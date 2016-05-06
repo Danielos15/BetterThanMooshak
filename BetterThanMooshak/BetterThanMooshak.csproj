@@ -173,6 +173,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SolutionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -206,6 +207,7 @@
     <Compile Include="Services\DiscussionService.cs" />
     <Compile Include="Services\FrontService.cs" />
     <Compile Include="Services\ProblemService.cs" />
+    <Compile Include="Services\SolutionService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Startup.cs" />
@@ -283,9 +285,12 @@
     <Content Include="Views\Shared\UserForm.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\Add.cshtml" />
+    <Content Include="Views\User\SendEmailValidation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Solution\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
