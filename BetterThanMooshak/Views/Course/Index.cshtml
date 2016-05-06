@@ -40,9 +40,9 @@
                         <span class="edit">
                             <i class="fa fa-pencil-square" title="Edit @course.name"></i>
                         </span>
-                        <span class="remove">
-                            <i class="fa fa-minus-square" title="Remove @course.name"></i>
-                        </span>
+                        <a class="remove" href="@Url.Action("Remove", new { id = course.id })">
+                            <i class="fa fa-minus-square" title="Remove @course.name" ></i>
+                        </a>
                     </td>
                 </tr>
             }

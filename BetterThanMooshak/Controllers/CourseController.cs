@@ -40,5 +40,17 @@ namespace BetterThanMooshak.Controllers
             return RedirectToAction("index");
         }
 
+        public ActionResult Remove(int? id)
+        {
+            if(!service.RemoveCourseById(id.Value))
+            {
+                ModelState.AddModelError("", "Could not remove this Course!");
+
+                return RedirectToAction("index");
+            }
+
+            return RedirectToAction("index");
+        }
+
     }
 }

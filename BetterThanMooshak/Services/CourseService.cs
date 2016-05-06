@@ -47,5 +47,11 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
+        public bool RemoveCourseById (int id)
+        {
+            db.Courses.Remove(GetCourseById(id).course);
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
     }
 }
