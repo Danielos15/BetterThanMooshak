@@ -1,0 +1,55 @@
+﻿@model BetterThanMooshak.Models.ViewModel.AssignmentViewModel
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add Assignments to @Model.course.name</h2>
+
+<div class="boxText">
+
+    @using (Html.BeginForm("add", "assignment", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(m => m.assignment.name, new { @class = "form-control", placeholder = "Name..." })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(m => m.assignment.startDate, new { @class = "form-control", placeholder = "Name..." })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextBoxFor(m => m.assignment.endDate, new { @class = "form-control", placeholder = "Name..." })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label>% of final grade</label>
+                <input type="number" />
+            </div>
+        </div>        
+        <div class="form-group">
+            <div class="col-md-12">
+                <label>Description</label>
+                @Html.TextAreaFor(m => m.assignment.description, new { @class = "form-control", placeholder = "The assignment description..." })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.HiddenFor(m => m.assignment.courseId)
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+        <div class="col-md-6">
+            <input type="button" value="Cancel" class="btn btn-default" onclick="history.back()" />
+        </div>
+    }
+</div>

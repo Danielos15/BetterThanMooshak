@@ -8,7 +8,7 @@ namespace BetterThanMooshak.Models.ViewModel
 {
     public class AssignmentViewModel
     {
-        public string name { get; set; }
-        public List<Problem> problems { get; set; }
+        public Course course { get; set; }
+        public Assignment assignment { get; set; }
     }
 }

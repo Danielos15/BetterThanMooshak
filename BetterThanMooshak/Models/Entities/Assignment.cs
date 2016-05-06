@@ -16,5 +16,6 @@ namespace BetterThanMooshak.Models.Entities
         public string name { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
+        public string description { get; set; }
     }
 }

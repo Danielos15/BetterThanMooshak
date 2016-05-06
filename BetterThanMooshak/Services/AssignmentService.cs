@@ -17,14 +17,23 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public AssignmentViewModel GetAssignmentsByCourse (int courseId)
+        public AssignmentViewModel Initialize(int? courseId)
         {
-            return null;
+            Course selectedCourse = (from courses in db.Courses
+                             where courses.id == courseId
+                             select courses).SingleOrDefault();
+
+            Assignment newAss = new Assignment() { courseId = selectedCourse.id };
+
+            AssignmentViewModel result = new AssignmentViewModel() { course = selectedCourse, assignment = newAss};
+
+            return result;
         }
 
-        public AssignmentViewModel GetAssignmentById (int? assignmentId)
+        public bool AddAssignmet(Assignment assignment)
         {
-            return null;
+            db.Assignments.Add(assignment);
+            return Convert.ToBoolean( db.SaveChanges() );
         }
     }
 }
