@@ -17,9 +17,10 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public SolutionViewModel AddSolution(SolutionViewModel s)
+        public void AddSolution(Solution s)
         {
-            return null;
+            db.Solutions.Add(s);
+            db.SaveChanges();
         }
 
         public SolutionViewModel EditSolution(SolutionViewModel s)
