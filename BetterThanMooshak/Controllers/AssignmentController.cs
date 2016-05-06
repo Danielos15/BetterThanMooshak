@@ -1,4 +1,5 @@
-﻿using BetterThanMooshak.Services;
+﻿using BetterThanMooshak.Models.ViewModel;
+using BetterThanMooshak.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Details(int id)
         {
             var viewModel = service.GetAssignmentsByCourse(id);
-
             return View(viewModel);
         }
     }

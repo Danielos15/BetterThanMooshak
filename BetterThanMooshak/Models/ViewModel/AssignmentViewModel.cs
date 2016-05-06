@@ -10,5 +10,6 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public string name { get; set; }
         public List<Problem> problems { get; set; }
+        public Assignment assignment { get; set; }
     }
 }

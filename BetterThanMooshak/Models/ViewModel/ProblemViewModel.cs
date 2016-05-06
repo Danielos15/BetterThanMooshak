@@ -9,5 +9,6 @@ namespace BetterThanMooshak.Models.ViewModel
     public class ProblemViewModel
     {
         public List<Problem> problems { get; set; }
+        public Problem problem { get; set; }
     }
 }
