@@ -21,9 +21,7 @@ namespace BetterThanMooshak
     {
         public Task SendAsync(IdentityMessage message)
         {
-
-            SmtpClient client = new SmtpClient();//"smtp.gmail.com", 587);
-            //client.Credentials = new NetworkCredential("betterthanmooshak@gmail.com", "MooshakIsGod123");
+            SmtpClient client = new SmtpClient();
             var mail = new MailMessage("Better Than Mooshak betterthanmooshak@gmail.com", message.Destination);
             mail.IsBodyHtml = true;
             mail.Subject = message.Subject;

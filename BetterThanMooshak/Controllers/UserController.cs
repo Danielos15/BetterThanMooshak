@@ -38,6 +38,11 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Index()
         {
             UsersViewModel viewModel = service.GetAllUsers();
+            if (TempData["message"] != null)
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
+
             return View(viewModel);
         }
 
@@ -47,6 +52,7 @@ namespace BetterThanMooshak.Controllers
             return View();
         }
 
+        // POST: Add User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(UserAddViewModel newUser)
@@ -86,6 +92,7 @@ namespace BetterThanMooshak.Controllers
             return View(model);
         }
 
+        // POST: Edit User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UserEditViewModel editUser)
@@ -118,6 +125,7 @@ namespace BetterThanMooshak.Controllers
             return View(editUser);
         }
 
+        // GET: Send Email Validation
         public async Task<ActionResult> SendEmailValidation()
         {
 
@@ -136,19 +144,50 @@ namespace BetterThanMooshak.Controllers
             return RedirectToAction("index", "user");
         }
 
+        // POST: Remove User
+        public async Task<ActionResult> Remove(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            string message;
+            if (service.CanDeleteUser(user))
+            {
+                var result = UserManager.Delete(user);
+                if (result.Succeeded)
+                {
+                    message = user.Name + " has be deleted from the system";
+                } 
+                else
+                {
+                    message = "An error occured while trying to delete " + user.Name;
+                }
+            } 
+            else
+            {
+                user.Active = false;
+                UserManager.Update(user);
+                message = user.Name + " has be deactivated and can no longer login.";
+            }
+
+            TempData["message"] = message;
+            return RedirectToAction("index", "user");
+        }
+
+        // POST: Activate User
+        public async Task<ActionResult> Activate(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            
+            user.Active = true;
+            UserManager.Update(user);
+            string message = user.Name + " has be activated and can now login.";
+
+            TempData["message"] = message;
+            return RedirectToAction("index", "user");
+        }
+
+
         [HttpPost]
         public ActionResult Import()
-        {
-            return View();
-        }
-
-        public ActionResult Changepassword()
-        {
-            return View();
-        }
-
-        [HttpPost] //TODO: changePassword viewModel to pass inn.
-        public ActionResult Changepassword(UsersViewModel model)
         {
             return View();
         }

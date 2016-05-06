@@ -20,8 +20,6 @@ namespace BetterThanMooshak.Services
 
         public ApplicationUser GetUserById(string id)
         {
-
-            
             ApplicationUser appUser =   (from user in db.Users
                                         where user.Id == id
                                         select user).SingleOrDefault();
@@ -53,10 +51,24 @@ namespace BetterThanMooshak.Services
 
             return !(roles == null);
         }
+
         public void AddRole(string role)
         {
             db.Roles.Add(new IdentityRole(role));
             db.SaveChangesAsync();
+        }
+
+        public bool CanDeleteUser(ApplicationUser user)
+        {
+            var exists = (from x in db.CourseUsers
+                          where x.userId == user.Id
+                          select x).FirstOrDefault();
+            if (exists != null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
