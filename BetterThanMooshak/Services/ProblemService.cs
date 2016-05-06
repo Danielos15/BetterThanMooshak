@@ -1,4 +1,5 @@
 ﻿using BetterThanMooshak.Models;
+using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,10 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public ProblemViewModel AddProblem(ProblemViewModel add)
+        public void AddProblem(Problem add)
         {
-            return null;
+            db.Problems.Add(add);
+            db.SaveChanges();
         }
         public ProblemViewModel EditProblem(ProblemViewModel edit)
         {

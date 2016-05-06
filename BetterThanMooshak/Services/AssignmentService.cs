@@ -40,5 +40,16 @@ namespace BetterThanMooshak.Services
 
             return result;
         }
+
+        public AssignmentViewModel GetAllAssignments()
+        {
+            var assignments = (from a in db.Assignments
+                               select a).ToList();
+
+            AssignmentViewModel result = new AssignmentViewModel();
+            result.assignments = assignments;
+
+            return result;
+        }
     }
 }
