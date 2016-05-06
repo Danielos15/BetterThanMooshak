@@ -27,7 +27,7 @@ namespace BetterThanMooshak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(Course newCourse)
+        public ActionResult Add(CourseAddViewModel newCourse)
         {
             service.Add(newCourse);
             return View();
