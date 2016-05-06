@@ -9,5 +9,7 @@ namespace BetterThanMooshak.Models.ViewModel
     public class SolutionViewModel
     {
         public List<Solution> solutions { get; set; }
+
+        public Solution solution { get; set; }
     }
 }
