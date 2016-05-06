@@ -1,4 +1,5 @@
 ﻿using BetterThanMooshak.Models;
+using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,12 @@ namespace BetterThanMooshak.Services
             return result;
         }
 
+        public void Add(CourseAddViewModel newCourse)
+        {
+            Course temp = new Course() { name = newCourse.name, startDate = newCourse.startDate, endDate = newCourse.endDate };
+            db.Courses.Add(temp);
+            db.SaveChanges();
+        }
 
     }
 }

@@ -38,6 +38,11 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Index()
         {
             UsersViewModel viewModel = service.GetAllUsers();
+            if (TempData["message"] != null)
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
+
             return View(viewModel);
         }
 
@@ -47,6 +52,7 @@ namespace BetterThanMooshak.Controllers
             return View();
         }
 
+        // POST: Add User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(UserAddViewModel newUser)
@@ -59,8 +65,12 @@ namespace BetterThanMooshak.Controllers
                 {
                     if (newUser.admin)
                     {
+                        if (!service.IfRoleExists("Admin"))
+                            service.AddRole("Admin");
+
                         UserManager.AddToRole(user.Id, "Admin");
                     }
+
                     return RedirectToAction("index", "user");
                 }
                 AddErrors(result);
@@ -82,6 +92,7 @@ namespace BetterThanMooshak.Controllers
             return View(model);
         }
 
+        // POST: Edit User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UserEditViewModel editUser)
@@ -101,7 +112,8 @@ namespace BetterThanMooshak.Controllers
                             service.AddRole("Admin");
 
                         UserManager.AddToRole(user.Id, "Admin");
-                    }else
+                    }
+                    else
                     {
                         if (UserManager.IsInRole(user.Id, "Admin"))
                         UserManager.RemoveFromRole(user.Id, "Admin");
@@ -113,19 +125,69 @@ namespace BetterThanMooshak.Controllers
             return View(editUser);
         }
 
+        // GET: Send Email Validation
+        public async Task<ActionResult> SendEmailValidation()
+        {
+
+            var users = service.GetAllUsersAsEntity();
+            foreach (var user in users)
+            {
+                if (!(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //TODO: change message content??
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                }
+            }
+
+            return RedirectToAction("index", "user");
+        }
+
+        // POST: Remove User
+        public async Task<ActionResult> Remove(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            string message;
+            if (service.CanDeleteUser(user))
+            {
+                var result = UserManager.Delete(user);
+                if (result.Succeeded)
+                {
+                    message = user.Name + " has be deleted from the system";
+                } 
+                else
+                {
+                    message = "An error occured while trying to delete " + user.Name;
+                }
+            } 
+            else
+            {
+                user.Active = false;
+                UserManager.Update(user);
+                message = user.Name + " has be deactivated and can no longer login.";
+            }
+
+            TempData["message"] = message;
+            return RedirectToAction("index", "user");
+        }
+
+        // POST: Activate User
+        public async Task<ActionResult> Activate(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            
+            user.Active = true;
+            UserManager.Update(user);
+            string message = user.Name + " has be activated and can now login.";
+
+            TempData["message"] = message;
+            return RedirectToAction("index", "user");
+        }
+
+
         [HttpPost]
         public ActionResult Import()
-        {
-            return View();
-        }
-
-        public ActionResult Changepassword()
-        {
-            return View();
-        }
-
-        [HttpPost] //TODO: changePassword viewModel to pass inn.
-        public ActionResult Changepassword(UsersViewModel model)
         {
             return View();
         }

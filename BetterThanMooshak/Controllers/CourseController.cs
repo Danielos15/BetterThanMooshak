@@ -1,8 +1,10 @@
-﻿using BetterThanMooshak.Models.ViewModel;
+﻿using BetterThanMooshak.Models.Entities;
+using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,6 +18,19 @@ namespace BetterThanMooshak.Controllers
         {
             CourseViewModel viewModel = service.GetAllCourses();
             return View(viewModel);
+        }
+
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(CourseAddViewModel newCourse)
+        {
+            service.Add(newCourse);
+            return View();
         }
 
     }
