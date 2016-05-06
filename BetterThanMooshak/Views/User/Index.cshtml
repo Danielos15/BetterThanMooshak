@@ -22,12 +22,13 @@
         <input id="userSearch" type="text" placeholder="Search..." />
         <i class="fa fa-search"></i>
     </div>
+    @Html.AntiForgeryToken()
     <table id="userTable">
         <thead>
             <tr>
                 <td>Name</td>
                 <td>Email</td>
-                <td>Active</td>
+                <td>Is Active</td>
                 <td>Actions</td>
             </tr>
         </thead>
@@ -37,12 +38,12 @@
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td>IsActive()</td>
+                    <td>@user.Active</td>
                     <td>
                         <a class="edit" href="@Url.Action("edit", "user")/@user.Id">
                             <i class="fa fa-pencil-square" title="Edit @user.Name"></i>
                         </a>
-                        <a class="remove" href="">
+                        <a class="remove" href="@Url.Action("remove", "user")/@user.Id">
                             <i class="fa fa-minus-square" title="Remove @user.Name"></i>
                         </a>
                     </td>

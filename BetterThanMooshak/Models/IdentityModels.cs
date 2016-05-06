@@ -18,6 +18,7 @@ namespace BetterThanMooshak.Models
             return userIdentity;
         }
         public string Name { get; set; }
+        public bool Active { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

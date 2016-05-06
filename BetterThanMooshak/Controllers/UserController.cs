@@ -47,6 +47,7 @@ namespace BetterThanMooshak.Controllers
             return View();
         }
 
+        // POST: Add User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Add(UserAddViewModel newUser)
@@ -86,6 +87,7 @@ namespace BetterThanMooshak.Controllers
             return View(model);
         }
 
+        // POST: Edit User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(UserEditViewModel editUser)
@@ -118,6 +120,7 @@ namespace BetterThanMooshak.Controllers
             return View(editUser);
         }
 
+        // GET: Send Email Validation
         public async Task<ActionResult> SendEmailValidation()
         {
 
@@ -136,19 +139,36 @@ namespace BetterThanMooshak.Controllers
             return RedirectToAction("index", "user");
         }
 
+        // POST: Remove User
+        public async Task<ActionResult> Remove(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            string message;
+            if (service.CanDeleteUser(user))
+            {
+                var result = UserManager.Delete(user);
+                if (result.Succeeded)
+                {
+                    message = user.Name + " has be deleted from the system";
+                } 
+                else
+                {
+                    message = "An error occured while trying to delete " + user.Name;
+                }
+            } 
+            else
+            {
+                user.Active = false;
+                UserManager.Update(user);
+                message = user.Name + " has be deactivated and can no longer login.";
+            }
+
+            return RedirectToAction("index", "user");
+        }
+
+
         [HttpPost]
         public ActionResult Import()
-        {
-            return View();
-        }
-
-        public ActionResult Changepassword()
-        {
-            return View();
-        }
-
-        [HttpPost] //TODO: changePassword viewModel to pass inn.
-        public ActionResult Changepassword(UsersViewModel model)
         {
             return View();
         }
