@@ -28,6 +28,14 @@ namespace BetterThanMooshak.Services
             return appUser;
         }
 
+        public List<ApplicationUser> GetAllUsersAsEntity()
+        {
+            var users = (from user in db.Users
+                           orderby user.Name ascending
+                           select user).ToList();
+            return users;
+        }
+
         public UsersViewModel GetAllUsers()
         {
             UsersViewModel model = new UsersViewModel();
