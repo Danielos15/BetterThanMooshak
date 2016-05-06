@@ -20,7 +20,10 @@ namespace BetterThanMooshak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(CourseAddViewModel)
+        public ActionResult Add(CourseAddViewModel course)
+        {
+            return RedirectToAction("index");
+        }
 
 
     }
