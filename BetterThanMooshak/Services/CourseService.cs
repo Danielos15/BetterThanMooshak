@@ -1,4 +1,5 @@
 ﻿using BetterThanMooshak.Models;
+using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,12 @@ namespace BetterThanMooshak.Services
             result.courses = courses;
 
             return result;
+        }
+
+        public void Add(Course newCourse)
+        {
+            db.Courses.Add(newCourse);
+            db.SaveChanges();
         }
 
 
