@@ -38,6 +38,11 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Index()
         {
             UsersViewModel viewModel = service.GetAllUsers();
+            if (TempData["message"] != null)
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
+
             return View(viewModel);
         }
 
@@ -163,6 +168,20 @@ namespace BetterThanMooshak.Controllers
                 message = user.Name + " has be deactivated and can no longer login.";
             }
 
+            TempData["message"] = message;
+            return RedirectToAction("index", "user");
+        }
+
+        // POST: Activate User
+        public async Task<ActionResult> Activate(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            
+            user.Active = true;
+            UserManager.Update(user);
+            string message = user.Name + " has be activated and can now login.";
+
+            TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
 

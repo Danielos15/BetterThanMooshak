@@ -6,6 +6,15 @@
     <h1>User Overview</h1>
 </div>
 <div class="boxText">
+    @{ if(ViewBag.message != null)
+        {
+            <div class="alert alert-info">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                @ViewBag.message    
+            </div>
+        }
+
+    }
     <div class="userActions">
         <a href="@Url.Action("add", "user")">
             <i class="fa fa-plus-square"></i>
@@ -40,12 +49,23 @@
                     <td>@user.Email</td>
                     <td>@user.Active</td>
                     <td>
-                        <a class="edit" href="@Url.Action("edit", "user")/@user.Id">
+                        <a class="edit" href="@Url.Action("edit", "user", new { id = @user.Id })">
                             <i class="fa fa-pencil-square" title="Edit @user.Name"></i>
                         </a>
-                        <a class="remove" href="@Url.Action("remove", "user")/@user.Id">
-                            <i class="fa fa-minus-square" title="Remove @user.Name"></i>
-                        </a>
+                        @{ if (user.Active)
+                            {
+                                <a class="remove" href="@Url.Action("remove", "user", new { id = user.Id })">
+                                    <i class="fa fa-minus-square" title="Remove @user.Name"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="activate" href="@Url.Action("activate", "user", new { id = user.Id })">
+                                    <i class="fa fa-plug" title="Activate @user.Name"></i>
+                                </a>
+                            }
+                        }
+
                     </td>
                 </tr>
             }
