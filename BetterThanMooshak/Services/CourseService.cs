@@ -40,11 +40,11 @@ namespace BetterThanMooshak.Services
             return result;
         }
 
-        public void Add(CourseAddViewModel newCourse)
+        public bool Add(CourseAddViewModel newCourse)
         {
             Course temp = new Course() { name = newCourse.name, startDate = newCourse.startDate, endDate = newCourse.endDate };
             db.Courses.Add(temp);
-            db.SaveChanges();
+            return Convert.ToBoolean(db.SaveChanges());
         }
 
     }

@@ -30,7 +30,14 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Add(CourseAddViewModel newCourse)
         {
             service.Add(newCourse);
-            return View();
+
+            if(!service.Add(newCourse))
+            {
+                ModelState.AddModelError("", "brah wtf");
+                return View(newCourse);
+            }
+
+            return RedirectToAction("index");
         }
 
     }
