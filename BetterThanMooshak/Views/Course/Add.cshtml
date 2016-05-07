@@ -1,4 +1,4 @@
-﻿@model BetterThanMooshak.Models.Entities.Course
+﻿@model BetterThanMooshak.Models.ViewModel.CourseAddViewModel
 
 @{
     ViewBag.Title = "Add Course";
@@ -20,12 +20,12 @@
 
         <div class="form-group">
             <div class="col-md-12">
-                @Html.TextBoxFor(m => m.startDate, new { @class = "form-control datepicker", placeholder = "start date" })
+                @Html.TextBoxFor(m => m.startDate, new { @class = "form-control datepicker", placeholder = "Start date..." })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                @Html.TextBoxFor(m => m.endDate, new { @class = "form-control datepicker", placeholder = "end date" })
+                @Html.TextBoxFor(m => m.endDate, new { @class = "form-control datepicker", placeholder = "End date...", dataVal = false })
             </div>
         </div>
 
@@ -37,5 +37,5 @@
     }
 </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    /@Scripts.Render("~/bundles/jqueryval")
 }

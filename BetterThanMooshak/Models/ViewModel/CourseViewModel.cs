@@ -23,10 +23,11 @@ namespace BetterThanMooshak.Models.ViewModel
 
         [Required]
         [DataType(DataType.DateTime)]
+        //[DisplayFormat(DataFormatString = "{dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-dd-MM}", ApplyFormatInEditMode = true)]
         public DateTime startDate { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
         public DateTime endDate { get; set; }
     }
 }

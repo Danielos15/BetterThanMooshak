@@ -3,5 +3,9 @@
         $('body').toggleClass('menuOpen');
     });
 
-    $("input.datepicker").datepicker();
+    $("input.datepicker").datetimepicker({
+        format: "DD/M/YYYY HH:mm",
+        calendarWeeks: true,
+        sideBySide: true
+    });
 })

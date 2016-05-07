@@ -29,8 +29,6 @@ namespace BetterThanMooshak.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(CourseAddViewModel newCourse)
         {
-            service.Add(newCourse);
-
             if(!service.Add(newCourse))
             {
                 ModelState.AddModelError("", "brah wtf");
