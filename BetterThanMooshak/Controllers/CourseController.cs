@@ -92,11 +92,9 @@ namespace BetterThanMooshak.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            Course viewModel = service.GetCourseById(id);
-
-            return View(viewModel);
+            return View(service.GetCourseAssignments(id.Value));
         }
     }
 }

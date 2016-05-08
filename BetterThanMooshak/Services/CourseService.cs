@@ -87,5 +87,20 @@ namespace BetterThanMooshak.Services
 
             return allUserCourses;
         }
+
+        public CourseAssignments GetCourseAssignments(int? id)
+        {
+            CourseAssignments viewModel = new CourseAssignments();
+            
+
+            var userAssignments = (from course in db.Courses
+                                  join ass in db.Assignments on course.id equals ass.courseId into result
+                                  from x in result
+                                  select x).ToList();
+
+            viewModel.assignments = userAssignments;
+            viewModel.course = GetCourseById(id.Value);
+            return viewModel;
+        }
     }
 }

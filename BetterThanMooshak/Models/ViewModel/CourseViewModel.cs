@@ -49,4 +49,10 @@ namespace BetterThanMooshak.Models.ViewModel
         [DataType(DataType.DateTime)]
         public DateTime endDate { get; set; }
     }
+
+    public class CourseAssignments
+    {
+        public List<Assignment> assignments { get; set; }
+        public Course course { get; set; }
+    }
 }
