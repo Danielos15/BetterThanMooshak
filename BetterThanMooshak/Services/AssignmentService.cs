@@ -18,13 +18,20 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
+        public Assignment getAssignmentById (int id)
+        {
+            return (from assignments in db.Assignments
+                              where assignments.id == id
+                              select assignments).SingleOrDefault();
+        }
+
         public AssignmentViewModel Initialize(int? courseId)
         {
             Course selectedCourse = (from courses in db.Courses
                              where courses.id == courseId
                              select courses).SingleOrDefault();
 
-            Assignment newAss = new Assignment() { courseId = selectedCourse.id };
+            Assignment newAss = new Assignment() { courseId = selectedCourse.id, startDate = DateTime.Now , endDate = DateTime.Now.AddDays(20) };
 
             AssignmentViewModel result = new AssignmentViewModel() { course = selectedCourse, assignment = newAss};
 
@@ -70,11 +77,23 @@ namespace BetterThanMooshak.Services
             return (all);
         }
 
-        public AssignmentProblems getAssignmentById (int id)
+        public bool Edit(Assignment assignment)
         {
-            var assignment = (from assignments in db.Assignments
-                           where assignments.id == id
-                           select assignments).SingleOrDefault();
+            var item = (from assignments in db.Assignments
+                        where assignments.id == assignment.id
+                        select assignments).SingleOrDefault();
+
+            item.description = assignment.description;
+            item.endDate = assignment.endDate;
+            item.name = assignment.name;
+            item.startDate = assignment.startDate;
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public AssignmentProblems getAssignmentProblems (int id)
+        {
+            var assignment = getAssignmentById(id);
 
             var assignmentProblems = (from problems in db.Problems
                             where problems.assignmentId == assignment.id

@@ -42,12 +42,31 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Details(int? id)
         {
             if (service.verifyUser(id.Value))
-                return View(service.getAssignmentById(id.Value));
+                return View(service.getAssignmentProblems(id.Value));
             else
             {
                 ModelState.AddModelError("", "User not authorized");
                 return RedirectToAction("index", "home");
             }
         }
+
+        public ActionResult Edit (int? id)
+        {
+            return View(service.getAssignmentById(id.Value));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Assignment assignment)
+        {
+            if (!service.Edit(assignment))
+            {
+                ModelState.AddModelError("", "Could not edit this Assignment!");
+                return View(assignment);
+            }
+
+            return RedirectToAction("index");
+        }
+
     }
 }
