@@ -16,7 +16,7 @@ namespace BetterThanMooshak.Controllers
         // GET: Assignments
         public ActionResult Index()
         {
-            return View();
+            return View(service.getAll());
         }
 
         public ActionResult Add(int? id)
@@ -29,15 +29,6 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Add(AssignmentViewModel newAss)
         {
             var assignment = newAss.assignment;
-            /*
-            Assignment assignment = new Assignment()
-            {
-                name = newAss.assignment.name,
-                description = newAss.assignment.description,
-                courseId = newAss.assignment.courseId,
-                startDate = newAss.assignment.startDate,
-                endDate = newAss.assignment.endDate
-            };*/
 
             if(!service.AddAssignmet(assignment))
             {
@@ -46,6 +37,17 @@ namespace BetterThanMooshak.Controllers
             }
 
             return RedirectToAction("index", "course");
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (service.verifyUser(id.Value))
+                return View(service.getAssignmentById(id.Value));
+            else
+            {
+                ModelState.AddModelError("", "User not authorized");
+                return RedirectToAction("index", "home");
+            }
         }
     }
 }
