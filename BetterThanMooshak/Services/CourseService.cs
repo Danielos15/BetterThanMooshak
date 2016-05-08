@@ -95,12 +95,20 @@ namespace BetterThanMooshak.Services
 
             var userAssignments = (from course in db.Courses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
+                                  where course.id == id
                                   from x in result
                                   select x).ToList();
 
             viewModel.assignments = userAssignments;
             viewModel.course = GetCourseById(id.Value);
             return viewModel;
+        }
+
+        public void SearchCourse(string searchString)
+        {
+            var searchCourse = (from c in db.Courses
+                                where c.name.Contains(searchString)
+                                select c).ToList();
         }
     }
 }
