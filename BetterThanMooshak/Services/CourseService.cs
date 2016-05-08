@@ -56,14 +56,14 @@ namespace BetterThanMooshak.Services
         }
         public bool Edit(CourseEditViewModel editCourse)
         {
-            string query = "UPDATE Courses SET name ='" + editCourse.name + "', startDate='" + editCourse.startDate + "', endDate='" + editCourse.endDate
-                            + "' WHERE id='" + editCourse.id + "'";
+            var item = (from course in db.Courses
+                        where course.id == editCourse.id
+                        select course).SingleOrDefault();
 
+            item.name = editCourse.name;
+            item.startDate = editCourse.startDate;
+            item.endDate = editCourse.endDate;
 
-            var temp = db.Courses.SqlQuery(query);
-
-            //Course temp = new Course() {id = editCourse.id, name = editCourse.name, startDate = editCourse.startDate, endDate = editCourse.endDate };
-           // db.Courses.Add(temp);
             return Convert.ToBoolean(db.SaveChanges());
         }
 
