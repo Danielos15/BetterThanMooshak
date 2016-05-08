@@ -78,5 +78,11 @@ namespace BetterThanMooshak.Controllers
             return RedirectToAction("index");
 
         }
+
+        public ActionResult Enrole()
+        {
+
+            return View();
+        }
     }
 }
