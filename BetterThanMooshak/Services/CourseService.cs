@@ -3,6 +3,7 @@ using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -52,6 +53,29 @@ namespace BetterThanMooshak.Services
             db.Courses.Remove(GetCourseById(id).course);
 
             return Convert.ToBoolean(db.SaveChanges());
+        }
+        public bool Edit(CourseEditViewModel editCourse)
+        {
+            string query = "UPDATE Courses SET name ='" + editCourse.name + "', startDate='" + editCourse.startDate + "', endDate='" + editCourse.endDate
+                            + "' WHERE id='" + editCourse.id + "'";
+
+
+            var temp = db.Courses.SqlQuery(query);
+
+            //Course temp = new Course() {id = editCourse.id, name = editCourse.name, startDate = editCourse.startDate, endDate = editCourse.endDate };
+           // db.Courses.Add(temp);
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public CourseViewModel GetCoursesByUserId(string id)
+        {
+            /*
+            var userId = Convert.ToInt32(id);
+
+            var coursesByUserId = (from c in db.Courses
+                                   where c.id == userId
+                                   select )*/
+            return null;
         }
     }
 }

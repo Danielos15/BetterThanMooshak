@@ -293,7 +293,6 @@
     <Content Include="Views\Assignment\Details.cshtml" />
     <Content Include="Views\Error\notFound.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Course\Overview.cshtml" />
     <Content Include="Views\User\Add.cshtml" />
     <Content Include="Views\Shared\UserForm.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
@@ -301,6 +300,7 @@
     <Content Include="Views\Assignment\Add.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\User\SendEmailValidation.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

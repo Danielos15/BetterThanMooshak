@@ -37,9 +37,10 @@
                     <td>@course.startDate</td>
                     <td>@course.endDate</td>
                     <td>
-                        <span class="edit">
+                        <a class="edit" href="@Url.Action("Edit", new { id = course.id })">
                             <i class="fa fa-pencil-square" title="Edit @course.name"></i>
-                        </span>
+                        </a>
+
                         <a class="remove" href="@Url.Action("Remove", new { id = course.id })">
                             <i class="fa fa-minus-square" title="Remove @course.name" ></i>
                         </a>

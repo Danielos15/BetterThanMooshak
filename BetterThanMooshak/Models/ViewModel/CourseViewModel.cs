@@ -30,4 +30,23 @@ namespace BetterThanMooshak.Models.ViewModel
         [Required]
         public DateTime endDate { get; set; }
     }
+
+    public class CourseEditViewModel
+    {
+        public int id { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Name")]
+        [StringLength(100, ErrorMessage = "Please enter valid course name", MinimumLength = 2)]
+        public string name { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
+        public DateTime startDate { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
+        public DateTime endDate { get; set; }
+    }
 }

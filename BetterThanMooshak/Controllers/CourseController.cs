@@ -1,4 +1,5 @@
-﻿using BetterThanMooshak.Models.Entities;
+﻿using BetterThanMooshak.Models;
+using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using System;
@@ -13,6 +14,7 @@ namespace BetterThanMooshak.Controllers
     public class CourseController : Controller
     {
         private CourseService service = new CourseService();
+        
         // GET: Course
         public ActionResult Index()
         {
@@ -31,7 +33,7 @@ namespace BetterThanMooshak.Controllers
         {
             if(!service.Add(newCourse))
             {
-                ModelState.AddModelError("", "brah wtf");
+                ModelState.AddModelError("", "Could not add this Course!");
                 return View(newCourse);
             }
 
@@ -50,5 +52,31 @@ namespace BetterThanMooshak.Controllers
             return RedirectToAction("index");
         }
 
+        public ActionResult Edit(int id)
+        {
+            CourseViewModel user = service.GetCourseById(id);
+            CourseEditViewModel model = new CourseEditViewModel
+            {
+                id = user.course.id,
+                name = user.course.name,
+                startDate = user.course.startDate,
+                endDate = user.course.endDate
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(CourseEditViewModel editCourse)
+        {
+            if (!service.Edit(editCourse))
+            {
+                ModelState.AddModelError("", "Could not add this Course!");
+                return View(editCourse);
+            }
+
+            return RedirectToAction("index");
+
+        }
     }
 }
