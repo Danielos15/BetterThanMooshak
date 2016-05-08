@@ -6,6 +6,8 @@
 <h2>@Model.assignment.name - Course name <!--TODO--></h2>
 <p>Description : @Model.assignment.description </p>
 
+<a href="@Url.Action("add", "problem", new { id = Model.assignment.id })">Add problem to @Model.assignment.name</a>
+
 <div class="jumbotron">
     @foreach(var x in Model.problems)
     {

@@ -23,30 +23,48 @@ namespace BetterThanMooshak.Services
                     where p.Id == problemId
                     select p).SingleOrDefault();
         }
-        public IQueryable<Problem> getAll()
+
+        internal bool verifyUser(int value)
         {
             var currentUser = HttpContext.Current.User.Identity.GetUserId();
-            /*
-            var appUser = (from user in db.Users
-                           where user.Id == currentUser
-                           select user).SingleOrDefault();
-            
-            var userCourses = from courseusers in db.CourseUsers
-                              join courses in db.Courses on courseusers.courseId equals courses.id into result
-                              where courseusers.userId == appUser.Id
-                              from x in result
-                              select x;
 
-            var assignments = from course in userCourses
-                         join ass in db.Assignments on course.id equals ass.courseId into result
-                         from x in result
-                         select x;
+            var problem = (from problems in getAllProblems()
+                           where problems.Id == value
+                           select problems).SingleOrDefault();
 
-            var problems = from a in assignments
-                           join p in db.Problems on a.id equals p.assignmentId into result
-                           from x in result
-                           select x;
-                           */
+            if (problem == null)
+                return false;
+            else
+                return true;
+        }
+
+        public ProblemViewModel Initialize(int? id)
+        {
+            var assignment = (from assignments in db.Assignments
+                              where assignments.id == id.Value
+                              select assignments).SingleOrDefault();
+
+            var problem = new Problem { assignmentId = assignment.id };
+
+            var result = new ProblemViewModel { assignment = assignment, problem = problem };
+
+            return result;
+        }
+
+        public bool Edit(Problem problem)
+        {
+            var p = GetProblemById(problem.Id);
+
+            p.assignmentId = problem.assignmentId;
+            p.maxAttempts = problem.maxAttempts;
+            p.name = problem.name;
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public IQueryable<Problem> getAllProblems()
+        {
+            var currentUser = HttpContext.Current.User.Identity.GetUserId();
 
             var problems = from cu in db.CourseUsers
                            join c in db.Courses on cu.courseId equals c.id into userCourses
@@ -60,30 +78,17 @@ namespace BetterThanMooshak.Services
             
             return problems;
         }
-        public void AddProblem(Problem add)
+        public bool AddProblem(Problem add)
         {
             db.Problems.Add(add);
-            db.SaveChanges();
-        }
-        public ProblemViewModel EditProblem(ProblemViewModel edit)
-        {
-            return null;
+
+            return Convert.ToBoolean(db.SaveChanges());
         }
         public IQueryable<Problem> GetProblemsByAssignment(int assignmentId)
         {
             return (from p in db.Problems
                            where p.Id == assignmentId
                            select p).AsQueryable();
-        }
-
-        public ProblemViewModel AddTestcase(TestcaseViewModel addTest)
-        {
-            return null;
-        }
-
-        public ProblemViewModel EditTestcase(TestcaseViewModel editTest)
-        {
-            return null;
         }
     }
 }
