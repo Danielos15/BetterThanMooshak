@@ -1,0 +1,25 @@
+﻿@model BetterThanMooshak.Models.ViewModel.CourseViewModel
+
+@{
+    ViewBag.Title = "User Courses";
+}
+
+<div class="col-md-6" id="Courses">
+    <h1>@ViewBag.Title</h1>
+    <div class="jumbotron">
+        <table class="table-bordered">
+            <tbody>
+                @foreach (var x in Model.courses)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("details", "course", new { id = x.id})">
+                                @x.name
+                            </a>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

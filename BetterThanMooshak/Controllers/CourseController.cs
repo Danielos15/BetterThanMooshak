@@ -54,13 +54,13 @@ namespace BetterThanMooshak.Controllers
 
         public ActionResult Edit(int id)
         {
-            CourseViewModel user = service.GetCourseById(id);
+            Course user = service.GetCourseById(id);
             CourseEditViewModel model = new CourseEditViewModel
             {
-                id = user.course.id,
-                name = user.course.name,
-                startDate = user.course.startDate,
-                endDate = user.course.endDate
+                id = user.id,
+                name = user.name,
+                startDate = user.startDate,
+                endDate = user.endDate
             };
             return View(model);
         }
@@ -83,6 +83,20 @@ namespace BetterThanMooshak.Controllers
         {
 
             return View();
+        }
+
+        public ActionResult UserCourses()
+        {
+            CourseViewModel viewModel = service.GetCoursesByUserId();
+
+            return View(viewModel);
+        }
+
+        public ActionResult Details(int id)
+        {
+            Course viewModel = service.GetCourseById(id);
+
+            return View(viewModel);
         }
     }
 }

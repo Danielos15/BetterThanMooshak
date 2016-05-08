@@ -301,6 +301,8 @@
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\User\SendEmailValidation.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
+    <Content Include="Views\Course\UserCourses.cshtml" />
+    <Content Include="Views\Course\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
