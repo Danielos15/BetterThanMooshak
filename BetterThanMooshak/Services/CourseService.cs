@@ -31,15 +31,12 @@ namespace BetterThanMooshak.Services
             return result;
         }
 
-        public CourseViewModel GetAllCourses()
+        public IQueryable<Course> GetAllCourses()
         {
-            var courses = (from c in db.Courses
-                           select c).ToList();
+            var courses = from c in db.Courses
+                           select c;
 
-            CourseViewModel result = new CourseViewModel();
-            result.courses = courses;
-
-            return result;
+            return courses;
         }
 
         public bool Add(CourseAddViewModel newCourse)
@@ -68,24 +65,49 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public CourseViewModel GetCoursesByUserId()
+        public UserCoursesViewModel GetUserCourses()
         {
             var currentUser = HttpContext.Current.User.Identity.GetUserId();
 
-            var appUser = (from user in db.Users
-                           where user.Id == currentUser
-                           select user).SingleOrDefault();
-
-            var userCourses = (from courseusers in db.CourseUsers
+            var newCourses = (from courseusers in db.CourseUsers
                               join courses in db.Courses on courseusers.courseId equals courses.id into result
-                              where courseusers.userId == appUser.Id
+                              where courseusers.userId == currentUser
                               from x in result
+                              where x.endDate > DateTime.Now
                               select x).ToList();
 
-            CourseViewModel allUserCourses = new CourseViewModel();
-            allUserCourses.courses = userCourses;
+            var newCoursesRoles = (from courses in newCourses
+                                   join roles in db.CourseUsers on courses.id equals roles.courseId into result
+                                   from x in result
+                                   select x).ToList();
 
-            return allUserCourses;
+            List<CourseWithRoles> activeCourses = new List<CourseWithRoles> { };
+
+            for (int i = 0; i < newCourses.Count; i++)
+            {
+                activeCourses.Add(new CourseWithRoles { course = newCourses.ElementAt(i), courseUser = newCoursesRoles.ElementAt(i) });
+            }
+
+            var oldCourses = (from courseusers in db.CourseUsers
+                              join courses in db.Courses on courseusers.courseId equals courses.id into result
+                              where courseusers.userId == currentUser
+                              from x in result
+                              where x.endDate < DateTime.Now
+                              select x).ToList();
+
+            var oldCoursesRoles = (from courses in oldCourses
+                                   join roles in db.CourseUsers on courses.id equals roles.courseId into result
+                                   from x in result
+                                   select x).ToList();
+
+            List<CourseWithRoles> inactiveCourses = new List<CourseWithRoles> { };
+
+            for (int i = 0; i < oldCourses.Count; i++)
+            {
+                inactiveCourses.Add(new CourseWithRoles { course = oldCourses.ElementAt(i), courseUser = oldCoursesRoles.ElementAt(i) });
+            }
+            
+            return new UserCoursesViewModel { activeCourses = activeCourses, inactiveCourses = inactiveCourses };
         }
 
         public CourseAssignments GetCourseAssignments(int? id)

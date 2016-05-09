@@ -7,12 +7,6 @@ using System.Web;
 
 namespace BetterThanMooshak.Models.ViewModel
 {
-    public class CourseViewModel
-    {
-        public List<Course> courses { get; set; }
-        public Course course { get; set; }
-    }
-
     public class CourseAddViewModel
     {
         [Required]
@@ -71,5 +65,15 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public List<Assignment> assignments { get; set; }
         public Course course { get; set; }
+    }
+    public class UserCoursesViewModel
+    {
+        public List<CourseWithRoles> activeCourses { get; set; }
+        public List<CourseWithRoles> inactiveCourses { get; set; }
+    }
+    public class CourseWithRoles
+    {
+        public Course course { get; set; }
+        public CourseUser courseUser { get; set; }
     }
 }

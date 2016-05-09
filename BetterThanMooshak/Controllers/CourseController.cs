@@ -19,8 +19,7 @@ namespace BetterThanMooshak.Controllers
         // GET: Course
         public ActionResult Index()
         {
-            CourseViewModel viewModel = service.GetAllCourses();
-            return View(viewModel);
+            return View(service.GetAllCourses());
         }
 
         public ActionResult Add()
@@ -139,9 +138,7 @@ namespace BetterThanMooshak.Controllers
 
         public ActionResult UserCourses()
         {
-            CourseViewModel viewModel = service.GetCoursesByUserId();
-
-            return View(viewModel);
+            return View(service.GetUserCourses());
         }
 
         public ActionResult Details(int? id)

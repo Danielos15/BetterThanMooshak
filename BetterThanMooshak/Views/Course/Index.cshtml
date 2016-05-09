@@ -1,4 +1,4 @@
-﻿@model BetterThanMooshak.Models.ViewModel.CourseViewModel
+﻿@model IQueryable<BetterThanMooshak.Models.Entities.Course>
 
 @{
     ViewBag.Title = "Course Overview";
@@ -31,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var course in Model.courses)
+            @foreach (var course in Model)
             {
                 <tr class="searching">
                     <td>@course.name</td>

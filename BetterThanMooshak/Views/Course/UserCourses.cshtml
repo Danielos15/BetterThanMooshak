@@ -1,26 +1,132 @@
-﻿@model BetterThanMooshak.Models.ViewModel.CourseViewModel
+﻿@model BetterThanMooshak.Models.ViewModel.UserCoursesViewModel
 
 @{
     ViewBag.Title = "User Courses";
 }
 
-<div class="col-md-6" id="Courses">
-    <h1>@ViewBag.Title</h1>
-    <div>
+<h2>Course Overview</h2>
+
+<div class="jqtabs">
+
+    <ul>
+        <li><a href="#view1">Active Courses</a></li>
+        <li><a href="#view2">Inactive Courses</a></li>
+    </ul>
+
+    <div id="view1">
         <table class="table-bordered table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>
+                        Role
+                    </th>
+                </tr>
+            </thead>
             <tbody>
-                @foreach (var x in Model.courses)
+                @foreach (var x in Model.activeCourses)
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("details", "course", new { id = x.id})">
-                                @x.name
+                            <a href="@Url.Action("details", "course", new { id = x.course.id})">
+                                @x.course.name
                             </a>
+                        </td>
+                        <td>
+                            @x.course.startDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @x.course.endDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @if (x.courseUser.role == 1)
+                            {
+                                <p>Teacher</p>
+                            }
+                            else if (x.courseUser.role == 2)
+                            {
+                                <p>TA</p>
+                            }
+                            else if (x.courseUser.role == 3)
+                            {
+                                <p>Student</p>
+                            }
+                            else
+                            {
+                                <p>Unassigned</p>
+                            }
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    <div id="view2">
+        <table class="table-bordered table table-striped table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Start Date
+                    </th>
+                    <th>
+                        End Date
+                    </th>
+                    <th>
+                        Role
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model.inactiveCourses)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("details", "course", new { id = x.course.id})">
+                                @x.course.name
+                            </a>
+                        </td>
+                        <td>
+                            @x.course.startDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @x.course.endDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @if (x.courseUser.role == 1)
+                            {
+                                <p>Teacher</p>
+                            }
+                            else if (x.courseUser.role == 2)
+                            {
+                                <p>TA</p>
+                            }
+                            else if (x.courseUser.role == 3)
+                            {
+                                <p>Student</p>
+                            }
+                            else
+                            {
+                                <p>Unassigned</p>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
 </div>
 
