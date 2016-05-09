@@ -3,19 +3,47 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class=" ="panel-title">@ViewBag.title</h2>
+    </div>
 
-<h2>@ViewBag.title</h2>
+    <div class="panel-body">
+        <h3>This is the course @Model.course.name</h3><br />
 
-<a href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment to @Model.course.name</a><br />
+        <p>The course id is @Model.course.id.</p><br />
+        <p>This course starts on: @Model.course.startDate.</p><br />
+        <p>The course ends on: @Model.course.endDate.</p><br />
 
-<p>This is the course @Model.course.name</p><br />
-<p>it's id is @Model.course.id</p><br />
-<p>is start date is: @Model.course.startDate</p><br />
-<p>andn it's end date is: @Model.course.endDate</p>
-@foreach(var x in Model.assignments)
-{
-    <a href="@Url.Action("details", "assignment", new { id = x.id})">@x.name</a><br />
-}
+        <a href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment to @Model.course.name</a><br />
+    </div>
+</div>
 
+<table class="table-bordered table table-striped table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                End date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model.assignments)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("details", "assignment", new { id = x.id})">@x.name</a>
+                </td>
+                <td>
+                    @x.endDate
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+      
 
 
