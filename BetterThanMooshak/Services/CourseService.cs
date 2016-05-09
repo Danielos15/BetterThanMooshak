@@ -91,15 +91,25 @@ namespace BetterThanMooshak.Services
         public CourseAssignments GetCourseAssignments(int? id)
         {
             CourseAssignments viewModel = new CourseAssignments();
-            
 
-            var userAssignments = (from course in db.Courses
+            var currDate = DateTime.Now;
+
+            var newAssignments = (from course in db.Courses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   where course.id == id
                                   from x in result
+                                  where x.endDate > currDate
                                   select x).ToList();
 
-            viewModel.assignments = userAssignments;
+            var oldAssignments = (from course in db.Courses
+                                  join ass in db.Assignments on course.id equals ass.courseId into result
+                                  where course.id == id
+                                  from x in result
+                                  where x.endDate < currDate
+                                  select x).ToList();
+
+            viewModel.newAssignments = newAssignments;
+            viewModel.oldAssignments = oldAssignments;
             viewModel.course = GetCourseById(id.Value);
             return viewModel;
         }
