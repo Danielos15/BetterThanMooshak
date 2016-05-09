@@ -32,11 +32,22 @@ site.enrole = {
         $('form#enroleForm #roles').val(json);
     }
 }
+site.testcase = {
+    add: function () {
+       return false;
+    },
+    submit: function () {
 
+    }
+}
 $(function () {
 
     $('form#enroleForm').submit(function() {
         site.enrole.submit();
+    });
+
+    $('#addTestcaseModal .save').click(function () {
+        site.testcase.add();
     });
 
     $('#mainmenuToggle').click(function () {
