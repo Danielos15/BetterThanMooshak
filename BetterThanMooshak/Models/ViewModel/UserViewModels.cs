@@ -11,6 +11,25 @@ namespace BetterThanMooshak.Models.ViewModel
         public List<ApplicationUser> users { get; set; }
     }
 
+    public class UserIndexSingleViewModel
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string email { get; set; }
+        public bool emailComfirmed { get; set; }
+        public bool active { get; set; }
+        public bool removable { get; set; }
+
+        UserIndexSingleViewModel(ApplicationUser user)
+        {
+            id = user.Id;
+            name = user.Name;
+            email = user.Email;
+            emailComfirmed = user.EmailConfirmed;
+            active = user.Active;
+        }
+    }
+
     public class UserAddViewModel
     {
         [Required]

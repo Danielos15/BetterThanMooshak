@@ -16,29 +16,31 @@
 
     }
     <div class="userActions">
-        <a href="@Url.Action("add", "user")">
+        <a href="@Url.Action("add", "user")" class="btn btn-default">
             <i class="fa fa-plus-square"></i>
             Add User
         </a>
-        <a href="@Url.Action("import", "user")">
+        <a href="@Url.Action("import", "user")" class="btn btn-default">
             <i class="fa fa-download"></i>
             Import Users
         </a>
-        <a href="@Url.Action("sendemailvalidation", "user")">
+        <a href="@Url.Action("sendemailvalidation", "user")" class="btn btn-default">
             <i class="fa fa-envelope"></i>
             Send Verification
         </a>
-        <input id="userSearch" type="text" placeholder="Search..." />
-        <i class="fa fa-search"></i>
+        <div class="form-search">
+            <input id="userSearch" type="text" placeholder="Search..." class="form-control" />
+        </div>
     </div>
     @Html.AntiForgeryToken()
-    <table id="userTable">
+    <table id="userTable" class="table table-responsive table-hover">
         <thead>
             <tr>
-                <td>Name</td>
-                <td>Email</td>
-                <td>Is Active</td>
-                <td>Actions</td>
+                <td><h4>Name</h4></td>
+                <td><h4>Email</h4></td>
+                <td class="text-center"><h4>Confirmed</h4></td>
+                <td class="text-center"><h4>Active</h4></td>
+                <td class="text-center"><h4>Actions</h4></td>
             </tr>
         </thead>
         <tbody>
@@ -47,12 +49,42 @@
                 <tr>
                     <td>@user.Name</td>
                     <td>@user.Email</td>
-                    <td>@user.Active</td>
-                    <td>
+                    <td class="text-center">
+                    @{ if (user.EmailConfirmed)
+                        {
+                            <a class="activate active" href="@Url.Action("emailconfirm", "user", new { id = user.Id })" >
+                                <i class="fa fa-check-square" title="@user.Name has confirmed the Email"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="deactivate active" href="@Url.Action("emailconfirm", "user", new { id = user.Id })" >
+                                <i class="fa fa-square" title="@user.Name has not confirmed the Email"></i>
+                            </a>
+                        }
+
+                    }
+                    </td>
+                    <td class="text-center">
+                    @{ if (user.Active)
+                        {
+                            <a class="remove" href="@Url.Action("active", "user", new { id = user.Id })">
+                                <i class="fa fa-toggle-on" title="Deactivate @user.Name"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="activate" href="@Url.Action("active", "user", new { id = user.Id })">
+                                <i class="fa fa-toggle-off" title="Activate @user.Name"></i>
+                            </a>
+                        }
+                    }
+                    </td>
+                    <td class="text-center">
                         <a class="edit" href="@Url.Action("edit", "user", new { id = @user.Id })">
                             <i class="fa fa-pencil-square" title="Edit @user.Name"></i>
                         </a>
-                        @{ if (user.Active)
+                        @{ if (user.Removable())
                             {
                                 <a class="remove" href="@Url.Action("remove", "user", new { id = user.Id })">
                                     <i class="fa fa-minus-square" title="Remove @user.Name"></i>
@@ -60,12 +92,11 @@
                             }
                             else
                             {
-                                <a class="activate" href="@Url.Action("activate", "user", new { id = user.Id })">
-                                    <i class="fa fa-plug" title="Activate @user.Name"></i>
-                                </a>
+                                <span class="remove">
+                                    <i class="fa fa-minus-square" title="Can not remove @user.Name, user already in a Course"></i>
+                                </span>
                             }
                         }
-
                     </td>
                 </tr>
             }
