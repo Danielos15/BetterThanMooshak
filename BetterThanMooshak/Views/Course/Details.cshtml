@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Details";
 }
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">@Model.course.name</h2>
+    </div>
+</div>
 
 <h2>@ViewBag.title</h2>
 
@@ -16,6 +21,70 @@
 {
     <a href="@Url.Action("details", "assignment", new { id = x.id})">@x.name</a><br />
 }
+<div>
+    <div id="view1">
+        <div>
+            <table class="table-bordered table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Due Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.assignments)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("details", "assignment", new { id = x.id})">
+                                    @x.name
+                                </a>
+                            </td>
+                            <td>
+                                @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="view2">
+        <div>
+            <table class="table-bordered table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Due Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.assignments)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("details", "assignment", new { id = x.id})">
+                                    @x.name
+                                </a>
+                            </td>
+                            <td>
+                                @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 
