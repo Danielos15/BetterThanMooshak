@@ -6,46 +6,49 @@
 <h1>Hello @Model.user.Name</h1>
 
 <div class="col-md-6" id="Assignments">
-    <h2>Open Assignments</h2>
-    <div class="jumbotron">
-        <table class="table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Course
-                    </th>
-                    <th>
-                        Due Date
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var x in Model.assignments)
-                {
+    <a href="@Url.Action("index", "assignments")">
+        <h2>Open Assignments</h2>
+    </a>
+        <div>
+            <table class="table-bordered table table-striped table-hover table-responsive">
+                <thead>
                     <tr>
-                        <td>
-                            @x.name
-                        </td>
-                        <td>
-                            Name of course<!--TODO-->
-                        </td>
-                        <td>
-                            @x.endDate
-                        </td>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Course
+                        </th>
+                        <th>
+                            Due Date
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.assignments)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("details", "assignment", new { id = x.id})">
+                                    @x.name
+                            </td>
+                            <td>
+                                Name of course<!--TODO-->
+                            </td>
+                            <td>
+                                @x.endDate
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
 </div>
 
 <div class="col-md-6" id="Notifications">
     <h2>Notifications</h2>
-    <div class="jumbotron">
+    <div>
         <table>
             <tbody>
                 @foreach (var x in Model.notifications)
@@ -68,8 +71,8 @@
     <a href="@Url.Action("usercourses", "course")">
         <h2>Active Courses</h2>
     </a>
-        <div class="jumbotron">
-            <table class="table-bordered">
+        <div>
+            <table class="table-bordered table table-striped table-hover table-responsive">
                 <tbody>
                     @foreach (var x in Model.courses)
                     {
@@ -88,8 +91,8 @@
 
 <div class="col-md-6" id="Grades">
     <h2>Recent Grades</h2>
-    <div class="jumbotron">
-        <table>
+    <div>
+        <table class="table-bordered table table-striped table-hover table-responsive">
             <thead>
                 <tr>
                     <th>
