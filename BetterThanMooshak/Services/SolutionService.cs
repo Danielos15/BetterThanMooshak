@@ -1,6 +1,7 @@
 ﻿using BetterThanMooshak.Models;
 using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,9 +77,13 @@ namespace BetterThanMooshak.Services
                                 join c in db.Courses on cu.courseId equals c.id into userCourses
                                 where cu.userId == currentUser
                                 from course in userCourses
-                                join s in db.Solutions on course.id equals s.courseId into solutions
+                                join a in db.Assignments on course.id equals a.courseId into assignments
+                                from ass in assignments
+                                join p in db.Problems on ass.id equals p.assignmentId into problems
+                                from prob in problems
+                                join s in db.Solutions on prob.Id equals s.problemId into solutions
                                 from x in solutions
-                                select x);
+                                select x).AsQueryable();
 
             return allSolutions;
         }
