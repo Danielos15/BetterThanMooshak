@@ -98,11 +98,55 @@ namespace BetterThanMooshak.Services
 
             return Convert.ToBoolean(db.SaveChanges());
         }
-        public IQueryable<Problem> GetProblemsByAssignment(int assignmentId)
+        public ProblemDetailsViewModel getDetails(int value)
         {
-            return (from p in db.Problems
-                           where p.id == assignmentId
-                           select p).AsQueryable();
+            var currentUser = HttpContext.Current.User.Identity.GetUserId();
+
+            var problem = GetProblemById(value);
+
+            var assignment = (from problems in db.Problems
+                              join assignments in db.Assignments on problems.assignmentId equals assignments.id into a
+                              where problems.id == value
+                              from ass in a
+                              select ass).SingleOrDefault();
+
+            var course = (from a in db.Assignments
+                          join c in db.Courses on a.courseId equals c.id into courses
+                          where a.id == assignment.id
+                          from co in courses
+                          select co).SingleOrDefault();
+
+            var currSolution = new Solution { problemId = problem.id, userId = currentUser };
+
+            var testcases = (from t in db.Testcases
+                             where t.problemId == problem.id
+                             select t).AsQueryable();
+
+            var submissions = (from s in db.Solutions
+                               where s.userId == currentUser && s.problemId == problem.id
+                               select s).AsQueryable();
+
+            IQueryable<string> hints = null; //TODO
+
+            var discussions = from d in db.DiscussionTopics
+                              select d;
+
+            var answer = new Solution { program = "This is an answer to this problem", problemId = problem.id };
+
+            var viewModel = new ProblemDetailsViewModel()
+            {
+                course = course.name,
+                assignment = assignment.name,
+                problem = problem,
+                currSolution = currSolution,
+                testcases = testcases,
+                submissions = submissions,
+                hints = hints,
+                discussions = discussions,
+                answer = answer
+            };
+
+            return viewModel;
         }
     }
 }

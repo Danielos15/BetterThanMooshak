@@ -21,7 +21,7 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Details (int? id)
         {
             if(service.verifyUser(id.Value))
-                return View(service.GetProblemById(id.Value));
+                return View(service.getDetails(id.Value));
             else
             {
                 ModelState.AddModelError("", "Insufficient permissions");

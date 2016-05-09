@@ -29,14 +29,16 @@
                     {
                         <tr>
                             <td>
-                                <a href="@Url.Action("details", "assignment", new { id = x.id})">
-                                    @x.name </a>
+                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
+                                    @x.assignment.name </a>
                             </td>
                             <td>
-                                Name of course<!--TODO-->
+                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
+                                    @x.course.name
+                                </a>
                             </td>
                             <td>
-                                @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
+                                @x.assignment.endDate.ToShortDateString() @x.assignment.endDate.ToShortTimeString()
                             </td>
                         </tr>
                     }

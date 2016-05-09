@@ -2,6 +2,8 @@
 using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using Microsoft.AspNet.Identity;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
@@ -31,11 +33,29 @@ namespace BetterThanMooshak.Services
                               orderby x.name ascending
                               select x;
 
-            var userAssignments = (from course in db.Courses
+            var assignments = (from course in db.Courses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
+                                  where x.endDate > DateTime.Now
                                   orderby x.endDate ascending
-                                  select x).Take(5);
+                                  select x).Take(5).ToList();
+
+            var assignmentCourses = (from a in assignments
+                                     join c in db.Courses on a.courseId equals c.id into courses
+                                     from x in courses
+                                     select x).ToList();
+
+            var userAssignments = new List<AssignmentViewModel> { };
+
+            for (int i = 0; i < assignments.Count; i++)
+            {
+                userAssignments.Add(
+                    new AssignmentViewModel
+                    {
+                        assignment = assignments.ElementAt(i),
+                        course = assignmentCourses.ElementAt(i)
+                    });
+            }
 
             var userNotifications = from courses in userCourses
                                     join notifications in db.Notifications on courses.id equals notifications.courseId into result
@@ -46,7 +66,14 @@ namespace BetterThanMooshak.Services
                              where grades.userId == appUser.Id
                              select grades;
 
-            FrontViewModel front = new FrontViewModel() { user = appUser, courses = userCourses, assignments = userAssignments, notifications = userNotifications, recentGrades = userGrades };
+            FrontViewModel front = new FrontViewModel()
+            {
+                user = appUser,
+                courses = userCourses,
+                assignments = userAssignments,
+                notifications = userNotifications,
+                recentGrades = userGrades
+            };
 
             //COURSE USERCOURSE ASSIGNMENT - JOIN
             //COURSE USERCOURSE - JOIN
