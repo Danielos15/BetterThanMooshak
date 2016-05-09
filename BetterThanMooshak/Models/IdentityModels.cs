@@ -18,12 +18,21 @@ namespace BetterThanMooshak.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        private static UserService test = null;
+        private static UserService Test()
+        {
+            if (test == null)
+            {
+                test = new UserService();
+            }
+            return test;
+        }
         public string Name { get; set; }
         public bool Active { get; set; }
         public bool Removable()
         {
-            UserService service = new UserService();
-            return service.CanDeleteUser(this);
+            return Test().CanDeleteUser(this);
         }
     }
 
