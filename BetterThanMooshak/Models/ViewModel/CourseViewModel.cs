@@ -54,7 +54,7 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public int courseId { get; set; }
         public string courseName { get; set; }
-        public List<ApplicationUser> avalibleUsers { get; set; }
+        public List<ApplicationUser> availableUsers { get; set; }
         public List<ApplicationUser> teachers { get; set; }
         public List<ApplicationUser> assistants { get; set; }
         public List<ApplicationUser> students { get; set; }

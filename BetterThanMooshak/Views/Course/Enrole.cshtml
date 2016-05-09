@@ -24,7 +24,7 @@
             <div class="all users col-md-3">
                 <h3>Avalible Users</h3>
                 <ol data-draggable="target">
-                    @foreach (var user in Model.avalibleUsers)
+                    @foreach (var user in Model.availableUsers)
                     {
                         <li data-draggable="item" id="@user.Id" >@user.Email</li>
                     }
