@@ -50,6 +50,25 @@ $(function () {
     });
 });
 
+$(function () {
+
+    function contains(searchInput, text)
+    {
+        if (searchInput.indexOf(text) != -1)
+            return true;
+    }
+
+    $("#userSearch").keyup(function () {
+        var searchText = $("#userSearch").val().toLowerCase()
+        $(".searching").each(function () {
+            if (!contains($(this).text().toLowerCase(), searchText))
+                $(this).hide();
+            else
+                $(this).show();
+        })
+    })
+});
+
 
 
 $(function () {
