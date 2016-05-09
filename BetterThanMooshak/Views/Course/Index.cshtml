@@ -18,7 +18,7 @@
             Import Courses
         </a>
         <div class="form-search">
-            <input id="userSearch" type="text" placeholder="Search..." class="form-control" />
+            <input id="userSearch" type="text" placeholder="Search..." class="form-control searchingField" />
         </div>
     </div>
     <table id="courseTable" class="table table-responsive table-hover">
@@ -33,7 +33,7 @@
         <tbody>
             @foreach (var course in Model.courses)
             {
-                <tr>
+                <tr class="searching">
                     <td>@course.name</td>
                     <td>@course.startDate</td>
                     <td>@course.endDate</td>
