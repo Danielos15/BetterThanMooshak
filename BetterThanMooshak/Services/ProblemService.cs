@@ -20,7 +20,7 @@ namespace BetterThanMooshak.Services
         public Problem GetProblemById(int problemId)
         {
             return (from p in db.Problems
-                    where p.Id == problemId
+                    where p.id == problemId
                     select p).SingleOrDefault();
         }
 
@@ -29,7 +29,7 @@ namespace BetterThanMooshak.Services
             var currentUser = HttpContext.Current.User.Identity.GetUserId();
 
             var problem = (from problems in getAllProblems()
-                           where problems.Id == value
+                           where problems.id == value
                            select problems).SingleOrDefault();
 
             if (problem == null)
@@ -38,22 +38,32 @@ namespace BetterThanMooshak.Services
                 return true;
         }
 
-        public ProblemViewModel Initialize(int? id)
+        public ProblemAddViewModel Initialize(int? id)
         {
-            var assignment = (from assignments in db.Assignments
-                              where assignments.id == id.Value
-                              select assignments).SingleOrDefault();
+            if (id != null)
+            {
+                var assignment = (from assignments in db.Assignments
+                                  where assignments.id == id.Value
+                                  select assignments).SingleOrDefault();
+                var course = (from x in db.Courses
+                              where x.id == assignment.courseId
+                              select x).SingleOrDefault();
 
-            var problem = new Problem { assignmentId = assignment.id };
-
-            var result = new ProblemViewModel { assignment = assignment, problem = problem };
-
-            return result;
+                ProblemAddViewModel model = new ProblemAddViewModel()
+                {
+                    assignmentId = assignment.id,
+                    assignmentName = assignment.name,
+                    courseName = course.name,
+                };
+                return model;
+            }
+            
+            return null;
         }
 
         public bool Edit(Problem problem)
         {
-            var p = GetProblemById(problem.Id);
+            var p = GetProblemById(problem.id);
 
             p.assignmentId = problem.assignmentId;
             p.maxAttempts = problem.maxAttempts;
@@ -87,7 +97,7 @@ namespace BetterThanMooshak.Services
         public IQueryable<Problem> GetProblemsByAssignment(int assignmentId)
         {
             return (from p in db.Problems
-                           where p.Id == assignmentId
+                           where p.id == assignmentId
                            select p).AsQueryable();
         }
     }
