@@ -31,17 +31,4 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public List<Testcase> cases { get; set; }
     }
-
-    public class ProblemDetailsViewModel
-    {
-        public string course { get; set; }
-        public string assignment { get; set; }
-        public Problem problem { get; set; }
-        public Solution currSolution { get; set; }
-        public IQueryable<Testcase> testcases { get; set; }
-        public IQueryable<Solution> submissions { get; set; }
-        public IQueryable<string> hints { get; set; }
-        public IQueryable<DiscussionTopic> discussions { get; set; }
-        public Solution answer { get; set; }
-    }
 }

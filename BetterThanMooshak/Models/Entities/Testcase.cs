@@ -14,6 +14,6 @@ namespace BetterThanMooshak.Models.Entities
         public string input { get; set; }
         public string output { get; set; }
         public int score { get; set; }
-        public bool visible { get; set; }
+        public bool visable { get; set; }
     }
 }
