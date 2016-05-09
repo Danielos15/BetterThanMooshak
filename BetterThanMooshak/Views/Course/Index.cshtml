@@ -5,7 +5,7 @@
 }
 
 <div class="boxTitle">
-    <h1>@ViewBag.Title.</h1>
+    <h1>@ViewBag.Title</h1>
 </div>
 <div class="boxText">
     <div class="courseActions">
@@ -34,7 +34,8 @@
             @foreach (var course in Model)
             {
                 <tr class="searching">
-                    <td>@course.name</td>
+                    <td>
+                        <a href="@Url.Action("details","course", new { id = course.id })">@course.name</a></td>
                     <td>@course.startDate</td>
                     <td>@course.endDate</td>
                     <td class="text-center" >

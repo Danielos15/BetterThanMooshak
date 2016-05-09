@@ -13,58 +13,54 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane fade in active" id="active">
-            <div>
-                <table class="table-bordered table table-striped table-hover table-responsive">
-                    <thead>
+            <table class="table-bordered table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.newAssignments)
+                    {
                         <tr>
-                            <th>Name</th>
-                            <th>Course</th>
-                            <th>Due Date</th>
+                            <td>
+                                <a href="@Url.Action("details", "assignment", new { id = @x.id })"> @x.name </a>
+                            </td>
+                            <td>
+                                Name of course<!--TODO-->
+                            </td>
+                            <td>
+                                @x.endDate
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var x in Model.newAssignments)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("details", "assignment", new { id = @x.id })"> @x.name </a>
-                                </td>
-                                <td>
-                                    Name of course<!--TODO-->
-                                </td>
-                                <td>
-                                    @x.endDate
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
         <div class="tab-pane fade" id="inactive">
-            <div>
-                <table class="table-bordered table table-striped table-responsive table-hover">
-                    <thead>
+            <table class="table-bordered table table-striped table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.oldAssignments)
+                    {
                         <tr>
-                            <th>Name</th>
-                            <th>Course</th>
-                            <th>Due Date</th>
+                            <td>
+                                <a href="@Url.Action("details", "assignment", new { id = @x.id })"> @x.name </a>
+                            </td>
+                            <td>Name of course<!--TODO--></td>
+                            <td>@x.endDate</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var x in Model.oldAssignments)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("details", "assignment", new { id = @x.id })"> @x.name </a>
-                                </td>
-                                <td>Name of course<!--TODO--></td>
-                                <td>@x.endDate</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
