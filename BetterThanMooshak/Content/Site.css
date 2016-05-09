@@ -234,7 +234,7 @@ footer {
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: rgb(195,195,195);
 }
-#link
+a
 {
     color: #000;
 }
