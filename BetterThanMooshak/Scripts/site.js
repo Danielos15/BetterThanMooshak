@@ -58,7 +58,8 @@ $(function () {
             return true;
     }
 
-    $(".searchingField").keyup(function () {
+
+    $(".searchingFilter").keyup(function () {
         var searchText = $("#userSearch").val().toLowerCase()
         $(".searching").each(function () {
             if (!contains($(this).text().toLowerCase(), searchText))

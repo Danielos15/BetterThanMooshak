@@ -231,3 +231,6 @@ footer {
     border: 1.5px solid rgb(221,221,221);
 
 }*/
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: rgb(195,195,195);
+}

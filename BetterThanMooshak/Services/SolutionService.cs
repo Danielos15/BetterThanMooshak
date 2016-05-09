@@ -81,7 +81,7 @@ namespace BetterThanMooshak.Services
                                 from ass in assignments
                                 join p in db.Problems on ass.id equals p.assignmentId into problems
                                 from prob in problems
-                                join s in db.Solutions on prob.Id equals s.problemId into solutions
+                                join s in db.Solutions on prob.id equals s.problemId into solutions
                                 from x in solutions
                                 select x).AsQueryable();
 
