@@ -29,7 +29,7 @@
             Send Verification
         </a>
         <div class="form-search">
-            <input id="userSearch" type="text" placeholder="Search..." class="form-control" />
+            <input id="userSearch" type="text" placeholder="Search..." class="form-control searchingFilter" />
         </div>
     </div>
     @Html.AntiForgeryToken()
@@ -46,7 +46,7 @@
         <tbody>
             @foreach (var user in Model.users)
             {
-                <tr>
+                <tr class="searching">
                     <td>@user.Name</td>
                     <td>@user.Email</td>
                     <td class="text-center">
