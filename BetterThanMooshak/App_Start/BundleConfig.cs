@@ -9,7 +9,7 @@ namespace BetterThanMooshak
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js").Include(
+                        "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery-ui.min.js",
                         "~/Scripts/moment.min.js",
                         "~/Scripts/bootstrap-datetimepicker.min.js"));

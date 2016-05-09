@@ -11,7 +11,7 @@
 <div class="jumbotron">
     @foreach(var x in Model.problems)
     {
-        <h3><a href="#">@x.name</a> - Score: <i>yourscore</i>/10 - Handins: <i>yourattempts</i>/@x.maxAttempts <!--TODO--></h3>
+         <p><a href="@Url.Action("details", "problem", new { id = @x.Id })">@x.name</a> - Score: <i>yourscore</i>/10 - Handins: <i>yourattempts</i>/@x.maxAttempts <!--TODO--></p>
 
         <p>Lorem ipsum problem text!</p>
     }

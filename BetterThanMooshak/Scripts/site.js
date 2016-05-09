@@ -48,6 +48,7 @@ $(function () {
         calendarWeeks: true,
         sideBySide: true
     });
+    $('.jqtabs').tabs();
 });
 
 
@@ -566,3 +567,4 @@ $(function () {
     }, false);
 
 });
+
