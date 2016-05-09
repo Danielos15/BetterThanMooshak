@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using BetterThanMooshak.Models.Entities;
+using BetterThanMooshak.Services;
 
 namespace BetterThanMooshak.Models
 {
@@ -19,6 +20,11 @@ namespace BetterThanMooshak.Models
         }
         public string Name { get; set; }
         public bool Active { get; set; }
+        public bool Removable()
+        {
+            UserService service = new UserService();
+            return service.CanDeleteUser(this);
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

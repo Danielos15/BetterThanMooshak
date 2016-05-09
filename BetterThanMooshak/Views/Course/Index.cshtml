@@ -8,38 +8,36 @@
     <h1>@ViewBag.Title.</h1>
 </div>
 <div class="boxText">
-    <div class="userActions">
-        <a href="@Url.Action("add", "course")">
+    <div class="courseActions">
+        <a href="@Url.Action("add", "course")" class="btn btn-default">
             <i class="fa fa-plus-square"></i>
             Add Course
         </a>
-        <a href="@Url.Action("edit", "course")">
+        <a href="@Url.Action("edit", "course")" class="btn btn-default">
             <i class="fa fa-download"></i>
             Import Courses
         </a>
-
-        <input id="userSearch" type="text" placeholder="Search..." />
-        <a href="@Url.Action("search", "course")">
-            <i class="fa fa-search"></i>
-        </a>
+        <div class="form-search">
+            <input id="userSearch" type="text" placeholder="Search..." class="form-control searchingFilter" />
+        </div>
     </div>
-    <table id="userTable">
+    <table id="courseTable" class="table-bordered table table-striped table-responsive table-hover">
         <thead>
             <tr>
-                <td>Name</td>
-                <td>Start Date</td>
-                <td>End Date</td>
-                <td>Actions</td>
+                <td><h4>Name</h4></td>
+                <td><h4>Start Date</h4></td>
+                <td><h4>End Date</h4></td>
+                <td class="text-center"><h4>Actions</h4></td>
             </tr>
         </thead>
         <tbody>
             @foreach (var course in Model.courses)
             {
-                <tr>
+                <tr class="searching">
                     <td>@course.name</td>
                     <td>@course.startDate</td>
                     <td>@course.endDate</td>
-                    <td>
+                    <td class="text-center" >
                         <a class="edit" href="@Url.Action("edit", new { id = course.id })">
                             <i class="fa fa-pencil-square" title="Edit @course.name"></i>
                         </a>

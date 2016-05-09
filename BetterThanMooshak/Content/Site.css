@@ -8,6 +8,30 @@
         flex: 1;
     }
 
+    body .fa {
+        font-size: 18px;
+    }
+
+    body .form-search
+    {
+        display: inline-block;
+        position: relative;
+    }
+    body .form-search input {
+        padding-right: 30px;
+    }
+
+    body .form-search:after {
+        font-family: "FontAwesome";
+        content: "\f002";
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 4px;
+        top: 4px;
+        font-size: 18px;
+        cursor: pointer;
+    }
 header.navbar {
     height: 70px;
     padding-top: 15px;
@@ -107,7 +131,8 @@ footer {
 
 /* Login Form */
 
-#loginForm {
+#loginForm
+{
     max-width: 340px;
     margin: 0 auto;
     text-align: center;
@@ -118,11 +143,13 @@ footer {
     background: #ddd;
 
 }
-    #loginForm input {
+    #loginForm input
+    {
         width: 100%;
         max-width: 100%;
     }
-    #loginForm .checkbox input {
+    #loginForm .checkbox input
+    {
         width: initial;
         margin-left: 0;
     }
@@ -191,4 +218,19 @@ footer {
 {
     background:#8ad;
     color:#fff;
+}
+
+/* Front page */
+#Assignments
+{
+  border: 1.5px solid rgb(221,221,221);
+}
+
+/*#Notifications
+{
+    border: 1.5px solid rgb(221,221,221);
+
+}*/
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: rgb(195,195,195);
 }

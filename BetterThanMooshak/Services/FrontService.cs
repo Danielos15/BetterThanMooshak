@@ -30,10 +30,11 @@ namespace BetterThanMooshak.Services
                               from x in result
                               select x;
 
-            var userAssignments = from course in db.Courses
+            var userAssignments = (from course in db.Courses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
-                                  select x;
+                                  orderby x.endDate ascending
+                                  select x).Take(5);
 
             var userNotifications = from courses in userCourses
                                     join notifications in db.Notifications on courses.id equals notifications.courseId into result

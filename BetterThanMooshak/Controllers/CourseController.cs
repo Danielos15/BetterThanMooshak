@@ -88,7 +88,7 @@ namespace BetterThanMooshak.Controllers
                 CourseUserEnroleViewModel model = new CourseUserEnroleViewModel()
                 {
                     courseId = id.Value,
-                    avalibleUsers = service.GetAvalibleUsersForCourse(coursId),
+                    availableUsers = service.GetAvalibleUsersForCourse(coursId),
                     teachers = service.GetTeachersForCourse(coursId),
                     assistants = service.GetAssistantsForCourse(coursId),
                     students = service.GetStudentsForCourse(coursId)

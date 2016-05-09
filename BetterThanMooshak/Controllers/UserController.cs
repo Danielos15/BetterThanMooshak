@@ -59,7 +59,7 @@ namespace BetterThanMooshak.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = newUser.email, Email = newUser.email, Name = newUser.name };
+                ApplicationUser user = new ApplicationUser { UserName = newUser.email, Email = newUser.email, Name = newUser.name, Active = true };
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -148,7 +148,7 @@ namespace BetterThanMooshak.Controllers
         public async Task<ActionResult> Remove(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
-            string message;
+            string message ="";
             if (service.CanDeleteUser(user))
             {
                 var result = UserManager.Delete(user);
@@ -161,25 +161,29 @@ namespace BetterThanMooshak.Controllers
                     message = "An error occured while trying to delete " + user.Name;
                 }
             } 
-            else
-            {
-                user.Active = false;
-                UserManager.Update(user);
-                message = user.Name + " has be deactivated and can no longer login.";
-            }
 
             TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
 
         // POST: Activate User
-        public async Task<ActionResult> Activate(string id)
+        public async Task<ActionResult> Active(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
+            string message;
+            if (user.Active)
+            {
+                user.Active = false;
+                UserManager.Update(user);
+                message = user.Name + " has be deactivated and can no longer login.";
+            } 
+            else
+            {
+                user.Active = true;
+                UserManager.Update(user);
+                message = user.Name + " has be activated and can now login.";
+            }
             
-            user.Active = true;
-            UserManager.Update(user);
-            string message = user.Name + " has be activated and can now login.";
 
             TempData["message"] = message;
             return RedirectToAction("index", "user");
@@ -190,6 +194,28 @@ namespace BetterThanMooshak.Controllers
         public ActionResult Import()
         {
             return View();
+        }
+
+        public async Task<ActionResult> EmailConfirm(string id)
+        {
+            ApplicationUser user = await UserManager.FindByIdAsync(id);
+            string message;
+            if (user.EmailConfirmed)
+            {
+                user.EmailConfirmed = false;
+                UserManager.Update(user);
+                message = user.Name + "'s Email confirmation disabled";
+            }
+            else
+            {
+                user.EmailConfirmed = true;
+                UserManager.Update(user);
+                message = user.Name + "'s Email has been confirmed";
+            }
+
+
+            TempData["message"] = message;
+            return RedirectToAction("index", "user");
         }
 
         private void AddErrors(IdentityResult result)
