@@ -9,7 +9,7 @@
     </div>
     <div class="boxText">
         <div class="form-search">
-            <input id="userSearch" type="text" placeholder="Search available users" class="form-control searchingField" />
+            <input id="userSearch" type="text" placeholder="Search available users" class="form-control searchingFilter" />
         </div>
         @using (Html.BeginForm("enrole", "course", new { id = Model.courseId}, FormMethod.Post, new { @class = "form-horizontal", @id = "enroleForm" , role = "form" }))
         {
