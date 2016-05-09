@@ -131,7 +131,8 @@ footer {
 
 /* Login Form */
 
-#loginForm {
+#loginForm
+{
     max-width: 340px;
     margin: 0 auto;
     text-align: center;
@@ -142,11 +143,13 @@ footer {
     background: #ddd;
 
 }
-    #loginForm input {
+    #loginForm input
+    {
         width: 100%;
         max-width: 100%;
     }
-    #loginForm .checkbox input {
+    #loginForm .checkbox input
+    {
         width: initial;
         margin-left: 0;
     }
@@ -216,3 +219,15 @@ footer {
     background:#8ad;
     color:#fff;
 }
+
+/* Front page */
+#Assignments
+{
+  border: 1.5px solid rgb(221,221,221);
+}
+
+/*#Notifications
+{
+    border: 1.5px solid rgb(221,221,221);
+
+}*/
