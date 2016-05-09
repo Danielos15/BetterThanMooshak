@@ -65,24 +65,25 @@
 </div>
 
 <div class="col-md-6" id="Courses">
-    <h2>Active Courses</h2>
-    <div class="jumbotron">
-        <table class="table-bordered">
-            <tbody>
-                @foreach (var x in Model.courses)
-                {
-                    <tr>
-                        <td>
-                            @x.name
-                        </td>
-                        <td>
-                            <a href="#">More</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    <a href="@Url.Action("usercourses", "course")">
+        <h2>Active Courses</h2>
+    </a>
+        <div class="jumbotron">
+            <table class="table-bordered">
+                <tbody>
+                    @foreach (var x in Model.courses)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("details", "course", new { id = x.id})">
+                                    @x.name
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 </div>
 
 <div class="col-md-6" id="Grades">

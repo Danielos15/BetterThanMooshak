@@ -1,6 +1,7 @@
 ﻿using BetterThanMooshak.Models;
 using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,47 +17,78 @@ namespace BetterThanMooshak.Services
         {
             db = new ApplicationDbContext();
         }
+        public Problem GetProblemById(int problemId)
+        {
+            return (from p in db.Problems
+                    where p.Id == problemId
+                    select p).SingleOrDefault();
+        }
 
-        public void AddProblem(Problem add)
+        internal bool verifyUser(int value)
+        {
+            var currentUser = HttpContext.Current.User.Identity.GetUserId();
+
+            var problem = (from problems in getAllProblems()
+                           where problems.Id == value
+                           select problems).SingleOrDefault();
+
+            if (problem == null)
+                return false;
+            else
+                return true;
+        }
+
+        public ProblemViewModel Initialize(int? id)
+        {
+            var assignment = (from assignments in db.Assignments
+                              where assignments.id == id.Value
+                              select assignments).SingleOrDefault();
+
+            var problem = new Problem { assignmentId = assignment.id };
+
+            var result = new ProblemViewModel { assignment = assignment, problem = problem };
+
+            return result;
+        }
+
+        public bool Edit(Problem problem)
+        {
+            var p = GetProblemById(problem.Id);
+
+            p.assignmentId = problem.assignmentId;
+            p.maxAttempts = problem.maxAttempts;
+            p.name = problem.name;
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public IQueryable<Problem> getAllProblems()
+        {
+            var currentUser = HttpContext.Current.User.Identity.GetUserId();
+
+            var problems = from cu in db.CourseUsers
+                           join c in db.Courses on cu.courseId equals c.id into userCourses
+                           where cu.userId == currentUser
+                           from course in userCourses
+                           join a in db.Assignments on course.id equals a.courseId into assignments
+                           from ass in assignments
+                           join p in db.Problems on ass.id equals p.assignmentId into result
+                           from x in result
+                           select x;
+            
+            return problems;
+        }
+        public bool AddProblem(Problem add)
         {
             db.Problems.Add(add);
-            db.SaveChanges();
-        }
-        public ProblemViewModel EditProblem(ProblemViewModel edit)
-        {
-            return null;
-        }
-        public ProblemViewModel GetProblemById(int problemId)
-        {
-            var problem = (from p in db.Problems
-                           where p.Id == problemId
-                           select p).SingleOrDefault();
 
-            ProblemViewModel result = new ProblemViewModel();
-            result.problem = problem;
-
-            return result;
+            return Convert.ToBoolean(db.SaveChanges());
         }
-        public ProblemViewModel GetProblemsByAssignment(int assignmentId)
+        public IQueryable<Problem> GetProblemsByAssignment(int assignmentId)
         {
-            var problem = (from p in db.Problems
+            return (from p in db.Problems
                            where p.Id == assignmentId
-                           select p).ToList();
-
-            ProblemViewModel result = new ProblemViewModel();
-            result.problems = problem;
-
-            return result;
-        }
-
-        public ProblemViewModel AddTestcase(TestcaseViewModel addTest)
-        {
-            return null;
-        }
-
-        public ProblemViewModel EditTestcase(TestcaseViewModel editTest)
-        {
-            return null;
+                           select p).AsQueryable();
         }
     }
 }

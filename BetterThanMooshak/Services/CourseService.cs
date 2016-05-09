@@ -1,6 +1,7 @@
 ﻿using BetterThanMooshak.Models;
 using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,14 +19,14 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public CourseViewModel GetCourseById(int id)
+        public Course GetCourseById(int id)
         {
             var course = (from c in db.Courses
                           where c.id == id
                           select c).SingleOrDefault();
 
-            CourseViewModel result = new CourseViewModel();
-            result.course = course;
+            Course result = new Course();
+            result = course;
 
             return result;
         }
@@ -50,7 +51,7 @@ namespace BetterThanMooshak.Services
 
         public bool RemoveCourseById (int id)
         {
-            db.Courses.Remove(GetCourseById(id).course);
+            db.Courses.Remove(GetCourseById(id));
 
             return Convert.ToBoolean(db.SaveChanges());
         }
@@ -67,15 +68,47 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public CourseViewModel GetCoursesByUserId(string id)
+        public CourseViewModel GetCoursesByUserId()
         {
-            /*
-            var userId = Convert.ToInt32(id);
+            var currentUser = HttpContext.Current.User.Identity.GetUserId();
 
-            var coursesByUserId = (from c in db.Courses
-                                   where c.id == userId
-                                   select )*/
-            return null;
+            var appUser = (from user in db.Users
+                           where user.Id == currentUser
+                           select user).SingleOrDefault();
+
+            var userCourses = (from courseusers in db.CourseUsers
+                              join courses in db.Courses on courseusers.courseId equals courses.id into result
+                              where courseusers.userId == appUser.Id
+                              from x in result
+                              select x).ToList();
+
+            CourseViewModel allUserCourses = new CourseViewModel();
+            allUserCourses.courses = userCourses;
+
+            return allUserCourses;
+        }
+
+        public CourseAssignments GetCourseAssignments(int? id)
+        {
+            CourseAssignments viewModel = new CourseAssignments();
+            
+
+            var userAssignments = (from course in db.Courses
+                                  join ass in db.Assignments on course.id equals ass.courseId into result
+                                  where course.id == id
+                                  from x in result
+                                  select x).ToList();
+
+            viewModel.assignments = userAssignments;
+            viewModel.course = GetCourseById(id.Value);
+            return viewModel;
+        }
+
+        public void SearchCourse(string searchString)
+        {
+            var searchCourse = (from c in db.Courses
+                                where c.name.Contains(searchString)
+                                select c).ToList();
         }
 
         //Get current User Roles

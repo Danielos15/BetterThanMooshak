@@ -1,9 +1,82 @@
-﻿
+﻿@model BetterThanMooshak.Models.ViewModel.AssignmentIndexViewModel
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
-@Html.ActionLink("Click Swag", "add", "Assignment")/1
+<div class="col-md-6" id="Active">
+    <h2>Active Assignments</h2>
+    <div class="jumbotron">
+        <table class="table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Course
+                    </th>
+                    <th>
+                        Due Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model.newAssignments)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("details", "assignment", new { id = @x.id })"> @x.name </a>
+                        </td>
+                        <td>
+                            Name of course<!--TODO-->
+                        </td>
+                        <td>
+                            @x.endDate
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
+</div>
+
+<div class="col-md-6" id="Inactive">
+    <h2>Closed Assignments</h2>
+    <div class="jumbotron">
+        <table class="table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Course
+                    </th>
+                    <th>
+                        Due Date
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model.oldAssignments)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("details", "assignment", new { id = @x.id })"> @x.name </a>
+                        </td>
+                        <td>
+                            Name of course<!--TODO-->
+                        </td>
+                        <td>
+                            @x.endDate
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

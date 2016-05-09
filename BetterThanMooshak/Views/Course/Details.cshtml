@@ -1,0 +1,21 @@
+﻿@model BetterThanMooshak.Models.ViewModel.CourseAssignments
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.title</h2>
+
+<a href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment to @Model.course.name</a><br />
+
+<p>This is the course @Model.course.name</p><br />
+<p>it's id is @Model.course.id</p><br />
+<p>is start date is: @Model.course.startDate</p><br />
+<p>andn it's end date is: @Model.course.endDate</p>
+@foreach(var x in Model.assignments)
+{
+    <a href="@Url.Action("details", "assignment", new { id = x.id})">@x.name</a><br />
+}
+
+
+

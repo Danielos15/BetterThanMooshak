@@ -1,26 +1,18 @@
-﻿@model BetterThanMooshak.Models.ViewModel.AssignmentViewModel
+﻿@model BetterThanMooshak.Models.ViewModel.AssignmentProblems
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.assignment.name - Course name <!--TODO--></h2>
+<p>Description : @Model.assignment.description </p>
+
+<a href="@Url.Action("add", "problem", new { id = Model.assignment.id })">Add problem to @Model.assignment.name</a>
 
 <div class="jumbotron">
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    @Model.name
-                </td>
-            </tr>
-            @foreach(var x in Model.problems)
-            {
-                <tr>
-                    <td>
-                        @x.name
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach(var x in Model.problems)
+    {
+        <h3><a href="#">@x.name</a> - Score: <i>yourscore</i>/10 - Handins: <i>yourattempts</i>/@x.maxAttempts <!--TODO--></h3>
+
+        <p>Lorem ipsum problem text!</p>
+    }
 </div>

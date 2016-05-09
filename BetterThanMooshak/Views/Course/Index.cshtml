@@ -1,11 +1,11 @@
 ﻿@model BetterThanMooshak.Models.ViewModel.CourseViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Course Overview";
 }
 
 <div class="boxTitle">
-    <h1>Course Overview</h1>
+    <h1>@ViewBag.Title.</h1>
 </div>
 <div class="boxText">
     <div class="userActions">
@@ -17,8 +17,11 @@
             <i class="fa fa-download"></i>
             Import Courses
         </a>
+
         <input id="userSearch" type="text" placeholder="Search..." />
-        <i class="fa fa-search"></i>
+        <a href="@Url.Action("search", "course")">
+            <i class="fa fa-search"></i>
+        </a>
     </div>
     <table id="userTable">
         <thead>
