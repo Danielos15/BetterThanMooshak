@@ -95,11 +95,20 @@ namespace BetterThanMooshak.Services
         {
             var assignment = getAssignmentById(id);
 
+            var currentCourse = (from course in db.Courses
+                                 where course.id == assignment.courseId
+                                 select course).SingleOrDefault();
+
             var assignmentProblems = (from problems in db.Problems
                             where problems.assignmentId == assignment.id
                             select problems).AsQueryable();
 
-            var result = new AssignmentProblems() { assignment = assignment, problems = assignmentProblems };
+            var result = new AssignmentProblems()
+            {
+                course = currentCourse,
+                assignment = assignment,
+                problems = assignmentProblems
+            };
 
             return result;
         }

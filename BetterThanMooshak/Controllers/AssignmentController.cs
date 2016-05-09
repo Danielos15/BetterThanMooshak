@@ -41,13 +41,16 @@ namespace BetterThanMooshak.Controllers
 
         public ActionResult Details(int? id)
         {
-            if (service.verifyUser(id.Value))
-                return View(service.getAssignmentProblems(id.Value));
-            else
-            {
-                ModelState.AddModelError("", "User not authorized");
-                return RedirectToAction("index", "home");
+            if(id != null) { 
+                if (service.verifyUser(id.Value))
+                    return View(service.getAssignmentProblems(id.Value));
+                else
+                {
+                    ModelState.AddModelError("", "User not authorized");
+                    return RedirectToAction("index", "home");
+                }
             }
+            return RedirectToAction("notfound", "error");
         }
 
         public ActionResult Edit (int? id)

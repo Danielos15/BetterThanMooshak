@@ -32,6 +32,9 @@
         font-size: 18px;
         cursor: pointer;
     }
+    body .label {
+        font-size: 100%
+    }
 header.navbar {
     height: 70px;
     padding-top: 15px;

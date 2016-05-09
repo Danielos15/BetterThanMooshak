@@ -20,6 +20,7 @@ namespace BetterThanMooshak.Models.ViewModel
 
     public class AssignmentProblems
     {
+        public Course course { get; set; }
         public Assignment assignment { get; set; }
         public IQueryable<Problem> problems { get; set; }
     }

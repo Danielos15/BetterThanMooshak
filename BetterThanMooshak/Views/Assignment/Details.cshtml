@@ -3,15 +3,33 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Model.assignment.name - Course name <!--TODO--></h2>
-<h3>Description : @Model.assignment.description </h3>
+<div class="boxTitle">
+    <h1>@Model.assignment.name - @Model.course.name</h1>
+</div>
+<div class="boxText">
+    @{ if (Model.assignment .description != null && Model.assignment.description.Length > 0)
+        {
+            <h3>@Model.assignment.description </h3>
+        }
+    }
+    <a class="btn btn-default" href="@Url.Action("add", "problem", new { id = Model.assignment.id })">Add problem</a>
 
-<a href="@Url.Action("add", "problem", new { id = Model.assignment.id })">Add problem to @Model.assignment.name</a>
-
-<div class="jumbotron">
     @foreach (var x in Model.problems)
     {
-        <p><a href="@Url.Action("details", "problem", new { id = @x.id })">@x.name</a> - Score: <i>yourscore</i>/10 - Handins: <i>yourattempts</i>/@x.maxAttempts <!--TODO--></p>
-        <p>Lorem ipsum problem text!</p>
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <h3 class="panel-title" style="display:inline-block">@x.name</h3>
+            <div class="info pull-right" style="display:inline-block">
+                <span class="label label-primary" title="Remaining Attempts">2 / @x.maxAttempts</span>
+                <span class="label label-default" title="Percent of Assignment">@x.percentOfGrade %</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            @x.description
+        </div>
+        <div class="panel-footer clearfix">
+            <a class="btn btn-default pull-right" href="@Url.Action("details", "problem", new { id = x.id})">Solve</a>
+        </div>
+    </div>
     }
 </div>

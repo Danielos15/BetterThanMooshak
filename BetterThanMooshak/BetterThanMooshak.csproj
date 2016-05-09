@@ -212,7 +212,6 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Utility\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
