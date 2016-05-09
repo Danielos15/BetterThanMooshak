@@ -1,0 +1,65 @@
+﻿@model BetterThanMooshak.Models.ViewModel.CourseUserEnroleViewModel
+@{
+    ViewBag.Title = "Enrole";
+}
+
+<div id="courseEnrole">
+    <div class="boxTitle">
+        <h2>Enrole</h2>
+    </div>
+    <div class="boxText">
+        @using (Html.BeginForm("enrole", "course", new { id = Model.courseId}, FormMethod.Post, new { @class = "form-horizontal", @id = "enroleForm" , role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.courseId, new { @class = "form-control"})
+            <input type="hidden" id="roles" name="roles"/>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+
+            @*All users*@
+            <div class="all users col-md-3">
+                <h3>Avalible Users</h3>
+                <ol data-draggable="target">
+                    @foreach (var user in Model.avalibleUsers)
+                    {
+                        <li data-draggable="item" id="@user.Id" >@user.Email</li>
+                    }
+                </ol>
+            </div>
+            @*Teachers in this Course*@
+            <div class="teachers users col-md-3">
+                <h3>Teachers</h3>
+                <ol data-draggable="target">
+                    @foreach (var user in Model.teachers)
+                    {
+                        <li data-draggable="item" id="@user.Id">@user.Email</li>
+                    }
+                </ol>
+            </div>
+            @*Teacher's Assistant's In this Course*@
+            <div class="tas users col-md-3">
+                <h3>Teachers Assistant's</h3>
+                <ol data-draggable="target">
+                    @foreach (var user in Model.assistants)
+                    {
+                        <li data-draggable="item" id="@user.Id" >@user.Email</li>
+                    }
+                </ol>
+            </div>
+            @*Student's in the course*@
+            <div class="students users col-md-3">
+                <h3>Students</h3>
+                <ol data-draggable="target">
+                    @foreach (var user in Model.students)
+                    {
+                        <li data-draggable="item" id="@user.Id">@user.Email</li>
+                    }
+                </ol>
+            </div>
+        }
+    </div>
+</div>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -79,10 +80,61 @@ namespace BetterThanMooshak.Controllers
 
         }
 
-        public ActionResult Enrole()
+        public ActionResult Enrole(int? id)
         {
+            if (id != null)
+            {
+                int coursId = id.Value;
+                CourseUserEnroleViewModel model = new CourseUserEnroleViewModel()
+                {
+                    courseId = id.Value,
+                    avalibleUsers = service.GetAvalibleUsersForCourse(coursId),
+                    teachers = service.GetTeachersForCourse(coursId),
+                    assistants = service.GetAssistantsForCourse(coursId),
+                    students = service.GetStudentsForCourse(coursId)
+                };
+                return View(model);
+            }
+            return RedirectToAction("notfound","error");
+        }
 
-            return View();
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Enrole(FormCollection form)
+        {
+            int courseId;
+            
+            if(int.TryParse(form["courseId"], out courseId))
+            {
+                var roles = form["roles"];
+                if (roles != null)
+                {
+                    JavaScriptSerializer js = new JavaScriptSerializer();
+                    CourseUserEnroleSaveViewModel enroles = js.Deserialize<CourseUserEnroleSaveViewModel>(roles);
+
+                    service.RemoveAllFromCourse(courseId);
+
+                    foreach (var teacher in enroles.teachers)
+                    {
+                        service.AddTeacherToCourse(teacher, courseId);
+                    }
+
+                    foreach (var assistant in enroles.assistants)
+                    {
+                        service.AddAssistantToCourse(assistant, courseId);
+                    }
+
+                    foreach (var student in enroles.students)
+                    {
+                        service.AddStudentToCourse(student, courseId);
+                    }
+                }
+            }
+            
+            
+
+
+            return RedirectToAction("index", "course");
         }
     }
 }
