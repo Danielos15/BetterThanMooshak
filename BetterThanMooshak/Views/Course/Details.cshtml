@@ -1,7 +1,7 @@
 ﻿@model BetterThanMooshak.Models.ViewModel.CourseAssignments
 
 @{
-    ViewBag.Title = "Assignments";
+    ViewBag.Title = "Details";
 }
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -9,18 +9,19 @@
     </div>
 </div>
 
-<h2>@ViewBag.title for @Model.course.name</h2>
+<h2>@ViewBag.title</h2>
 
 <a href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment to @Model.course.name</a><br />
 
-<div class="jqtabs">
-
-    <ul>
-        <li><a href="#view1">Open Assignments</a></li>
-        <li><a href="#view2">Closed Assignments</a></li>
-
-    </ul>
-
+<p>This is the course @Model.course.name</p><br />
+<p>it's id is @Model.course.id</p><br />
+<p>is start date is: @Model.course.startDate</p><br />
+<p>andn it's end date is: @Model.course.endDate</p>
+@foreach(var x in Model.assignments)
+{
+    <a href="@Url.Action("details", "assignment", new { id = x.id})">@x.name</a><br />
+}
+<div>
     <div id="view1">
         <div>
             <table class="table-bordered table table-striped table-hover table-responsive">
@@ -35,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var x in Model.newAssignments)
+                    @foreach (var x in Model.assignments)
                     {
                         <tr>
                             <td>
@@ -66,7 +67,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var x in Model.oldAssignments)
+                    @foreach (var x in Model.assignments)
                     {
                         <tr>
                             <td>
@@ -84,5 +85,6 @@
         </div>
     </div>
 </div>
+
 
 

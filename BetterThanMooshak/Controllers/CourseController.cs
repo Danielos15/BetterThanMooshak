@@ -149,5 +149,9 @@ namespace BetterThanMooshak.Controllers
             return View(service.GetCourseAssignments(id.Value));
         }
 
+        public ActionResult Search(string searchString)
+        {
+            return View();
+        }
     }
 }
