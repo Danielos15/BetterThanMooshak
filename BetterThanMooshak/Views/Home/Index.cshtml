@@ -5,23 +5,18 @@
 
 <h1>Hello @Model.user.Name</h1>
 
-<div class="col-md-6" id="Assignments">
-    <a href="@Url.Action("index", "assignment")">
-        <h2>Open Assignments</h2>
-    </a>
+<div class="row">
+    <div class="col-md-6" id="Assignments">
+        <a href="@Url.Action("index", "assignment")">
+            <h2>Open Assignments</h2>
+        </a>
         <div>
             <table class="table-bordered table table-striped table-hover table-responsive">
                 <thead>
                     <tr>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Course
-                        </th>
-                        <th>
-                            Due Date
-                        </th>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Due Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +25,8 @@
                         <tr>
                             <td>
                                 <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
-                                    @x.assignment.name </a>
+                                    @x.assignment.name
+                                </a>
                             </td>
                             <td>
                                 <a href="@Url.Action("details", "course", new { id = x.course.id})">
@@ -45,34 +41,30 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
-</div>
-
-<div class="col-md-6" id="Notifications">
-    <h2>Notifications</h2>
-    <div>
-        <table class="table table-bordered">
-            <tbody>
-                @foreach (var x in Model.notifications)
-                {
-                    <tr>
-                        <td>
-                            @x.title
-                        </td>
-                        <td>
-                            Name of assignment <!--TODO-->
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+    <div class="col-md-6" id="Notifications">
+        <h2>Notifications</h2>
+        <div>
+            <table class="table table-responsive">
+                <tbody>
+                    @foreach (var x in Model.notifications)
+                    {
+                        <tr>
+                            <td>@x.title</td>
+                            <td>Name of assignment <!--TODO--></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
-<div class="col-md-6" id="Courses">
-    <a href="@Url.Action("usercourses", "course")">
-        <h2>Active Courses</h2>
-    </a>
+<div class="row">
+    <div class="col-md-6" id="Courses">
+        <a href="@Url.Action("usercourses", "course")">
+            <h2>Active Courses</h2>
+        </a>
         <div>
             <table class="table-bordered table table-striped table-hover table-responsive">
                 <tbody>
@@ -89,42 +81,36 @@
                 </tbody>
             </table>
         </div>
-</div>
-
-<div class="col-md-6" id="Grades">
-    <h2>Recent Grades</h2>
-    <div>
-        <table class="table-bordered table table-striped table-hover table-responsive">
-            <thead>
-                <tr>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Course
-                    </th>
-                    <th>
-                        Grade
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var x in Model.recentGrades)
-                {
-                    <tr>
-                        <td>
-                            Assignment name <!--TODO-->
-                        </td>
-                        <td>
-                            Course name <!--TODO-->
-                        </td>
-                        <td>
-                            @x.grade
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
     </div>
 
+    <div class="col-md-6" id="Grades">
+        <h2>Recent Grades</h2>
+        <div>
+            <table class="table-bordered table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.recentGrades)
+                    {
+                        <tr>
+                            <td>
+                                Assignment name <!--TODO-->
+                            </td>
+                            <td>
+                                Course name <!--TODO-->
+                            </td>
+                            <td>
+                                @x.grade
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

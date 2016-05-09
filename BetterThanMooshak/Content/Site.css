@@ -42,6 +42,21 @@ header.navbar .menu {
     position: relative
 }
 
+.boxTitle {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 36px;
+}
+.boxTitle h1 {
+    margin-bottom: 16px;
+    font-family: "Roboto",sans-serif;
+    font-weight:700
+
+}
+
+.boxText {
+
+}
+
 #mainmenuToggle {
     position: absolute;
     z-index: 10;
@@ -223,7 +238,7 @@ footer {
 /* Front page */
 #Assignments
 {
-  border: 1.5px solid rgb(221,221,221);
+  /*border: 1.5px solid rgb(221,221,221);*/
 }
 
 /*#Notifications
