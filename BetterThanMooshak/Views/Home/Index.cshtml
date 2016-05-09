@@ -6,7 +6,7 @@
 <h1>Hello @Model.user.Name</h1>
 
 <div class="col-md-6" id="Assignments">
-    <a href="@Url.Action("index", "assignment")">
+    <a id="link" href="@Url.Action("index", "assignment")">
         <h2>Open Assignments</h2>
     </a>
         <div>
@@ -29,7 +29,7 @@
                     {
                         <tr>
                             <td>
-                                <a href="@Url.Action("details", "assignment", new { id = x.id})">
+                                <a id="link" href="@Url.Action("details", "assignment", new { id = x.id})">
                                     @x.name
                             </td>
                             <td>
@@ -68,7 +68,7 @@
 </div>
 
 <div class="col-md-6" id="Courses">
-    <a href="@Url.Action("usercourses", "course")">
+    <a id="link" href="@Url.Action("usercourses", "course")">
         <h2>Active Courses</h2>
     </a>
         <div>
@@ -78,7 +78,7 @@
                     {
                         <tr>
                             <td>
-                                <a href="@Url.Action("details", "course", new { id = x.id})">
+                                <a id="link" href="@Url.Action("details", "course", new { id = x.id})">
                                     @x.name
                                 </a>
                             </td>
