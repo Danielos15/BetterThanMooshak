@@ -1,0 +1,26 @@
+﻿@model BetterThanMooshak.Models.ViewModel.DiscussionTopicViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">@Model.userName Wrote:</h2>
+        <h3>@Model.title</h3>
+    </div>
+    <div class="panel-body clearfix">
+        @Model.message
+        <div class="btn-group pull-right" role="group">
+            <a class="btn btn-default">
+                <i class="fa fa-commenting"></i> Add Comment
+            </a>
+            <a class="btn btn-default" data-toggle="collapse" href="#comments-@Model.topicId">
+                <i class="fa fa-comments-o"></i> Comments
+            </a>
+        </div>
+    </div>
+    <div id="comments-@Model.topicId" class="panel-footer panel-collapse collapse">
+        @{ foreach (var comment in Model.comments)
+            {
+                @Html.Partial("_ProblemDiscussionComment", comment)
+            }
+        }
+    </div>
+</div>
