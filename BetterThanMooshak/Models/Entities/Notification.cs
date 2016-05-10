@@ -9,8 +9,8 @@ namespace BetterThanMooshak.Models.Entities
     public class Notification
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public int courseId { get; set; }
+        public int id { get; set; }
+        public int assignmentId { get; set; }
         public DateTime date { get; set; }
         public string title { get; set; }
 

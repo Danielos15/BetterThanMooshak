@@ -8,10 +8,21 @@ namespace BetterThanMooshak.Models.ViewModel
 {
     public class HomeViewModel
     {
-        public ApplicationUser user { get; set; }
+        public string userName { get; set; }
         public List<AssignmentViewModel> assignments { get; set; }
-        public IQueryable<Notification> notifications { get; set; }
+        public List<HomeNotification> notifications { get; set; }
         public IQueryable<Course> courses { get; set; }
-        public IQueryable<ProblemGrade> recentGrades { get; set; }
+        public List<HomeGrade> grades { get; set; }
+    }
+    public class HomeNotification
+    {
+        public Notification notification { get; set; }
+        public Assignment assignment { get; set; }
+    }
+    public class HomeGrade
+    {
+        public Grade grade { get; set; }
+        public Assignment assignment { get; set; }
+        public Course course { get; set; }
     }
 }
