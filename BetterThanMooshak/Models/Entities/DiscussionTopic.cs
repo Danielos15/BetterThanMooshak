@@ -10,5 +10,9 @@ namespace BetterThanMooshak.Models.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
+        public int problemId { get; set; }
+        public string title { get; set; }
+        public string message { get; set; }
+        public string userId { get; set; }
     }
 }

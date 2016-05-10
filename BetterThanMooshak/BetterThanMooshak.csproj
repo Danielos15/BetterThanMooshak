@@ -651,6 +651,10 @@
     <Content Include="Views\Problem\AddTestcase.cshtml" />
     <Content Include="Views\Problem\_ProblemInputOutput.cshtml" />
     <Content Include="Views\Problem\_SolutionAceEditor.cshtml" />
+    <Content Include="Views\Problem\_ProblemHints.cshtml" />
+    <Content Include="Views\Problem\_ProblemSubmission.cshtml" />
+    <Content Include="Views\Problem\_ProblemDiscussions.cshtml" />
+    <Content Include="Views\Problem\_ProblemDiscussionComment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,10 +1,6 @@
 ﻿using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
@@ -23,10 +19,13 @@ namespace BetterThanMooshak.Controllers
             if (id != null)
             {
                 if (service.verifyUser(id.Value))
-                    return View(service.getDetails(id.Value));
+                {
+                    ProblemDetailsViewModel model = service.getDetails(id.Value);
+                    return View(model);
+                }
                 else
                 {
-                    return RedirectToAction("index", "home");
+                    return RedirectToAction("unauthorizederror", "error");
                 }
             }
             return RedirectToAction("notfound", "error");

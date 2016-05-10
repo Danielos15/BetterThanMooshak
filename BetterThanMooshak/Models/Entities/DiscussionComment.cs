@@ -12,5 +12,6 @@ namespace BetterThanMooshak.Models.Entities
         public int id { get; set; }
         public int discussionTopicId { get; set; }
         public string message { get; set; }
+        public string userId { get; set; }
     }
 }
