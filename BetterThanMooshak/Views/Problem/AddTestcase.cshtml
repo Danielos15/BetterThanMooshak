@@ -13,11 +13,14 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-6">
+        <div class="form-group text-center">
+            <div class="col-md-5">
                 @Html.TextAreaFor(m => m.input, new { @class = "form-control", placeholder = "Input...", rows = 10})
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2 input-arrow">
+                <i class="fa fa-arrow-right fa-3x center-block"></i>
+            </div>
+            <div class="col-md-5">
                 @Html.TextAreaFor(m => m.output, new { @class = "form-control", placeholder = "Output...", rows = 10 })
             </div>
         </div>
