@@ -9,7 +9,10 @@
 </div>
 
 <div class="boxText">
-    <a class="btn btn-default" href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment</a>
+    @if (Model.role.role == 3)
+    {
+        <a class="btn btn-default" href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment</a>
+    }
 
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#view1">Open Assignments</a></li>
