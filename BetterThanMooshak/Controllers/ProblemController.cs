@@ -20,13 +20,16 @@ namespace BetterThanMooshak.Controllers
 
         public ActionResult Details (int? id)
         {
-            if(service.verifyUser(id.Value))
-                return View(service.getDetails(id.Value));
-            else
+            if (id != null)
             {
-                ModelState.AddModelError("", "Insufficient permissions");
-                return RedirectToAction("index", "home");
+                if (service.verifyUser(id.Value))
+                    return View(service.getDetails(id.Value));
+                else
+                {
+                    return RedirectToAction("index", "home");
+                }
             }
+            return RedirectToAction("notfound", "error");
         }
         public ActionResult Add(int? id)
         {
@@ -35,17 +38,27 @@ namespace BetterThanMooshak.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(ProblemViewModel newProb)
+        public ActionResult Add(int? id, ProblemAddViewModel model)
         {
-            var problem = newProb.problem;
-
-            if (!service.AddProblem(problem))
+            if (id != null)
             {
-                ModelState.AddModelError("", "The Problem could not be added to the database");
-                return View(newProb);
-            }
+                Problem problem = new Problem()
+                {
+                    assignmentId = id.Value,
+                    name = model.name,
+                    maxAttempts = model.maxAttempts,
+                    description = model.description,
+                    percentOfGrade = model.percentOfGrade
+                };
 
-            return RedirectToAction("details", "assignment", newProb.assignment.id);
+                if (!service.AddProblem(problem))
+                {
+                    ModelState.AddModelError("", "The Problem could not be added to the database");
+                    return View(model);
+                }
+                return RedirectToAction("details", "assignment", new { id = id.Value});
+            }
+            return RedirectToAction("notfound", "error");
         }
         public ActionResult Edit (int? id)
         {

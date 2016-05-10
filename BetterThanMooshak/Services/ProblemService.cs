@@ -45,19 +45,16 @@ namespace BetterThanMooshak.Services
                 var assignment = (from assignments in db.Assignments
                                   where assignments.id == id.Value
                                   select assignments).SingleOrDefault();
+
                 var course = (from x in db.Courses
                               where x.id == assignment.courseId
                               select x).SingleOrDefault();
-                var test = new ProblemTestCasesViewModel()
-                {
-                    cases = new List<Testcase>()
-                };
+
                 ProblemAddViewModel model = new ProblemAddViewModel()
                 {
                     assignmentId = assignment.id,
                     assignmentName = assignment.name,
                     courseName = course.name,
-                    testcases = test
                 };
                 return model;
             }

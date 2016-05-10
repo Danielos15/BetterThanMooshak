@@ -21,15 +21,6 @@ namespace BetterThanMooshak.Models.ViewModel
         public int maxAttempts { get; set; }
         public int percentOfGrade { get; set; }
         public string description { get; set; }
-
-        //Json string of testcases
-        // Save for each obj in array
-        public ProblemTestCasesViewModel testcases { get; set; }
-    }
-
-    public class ProblemTestCasesViewModel
-    {
-        public List<Testcase> cases { get; set; }
     }
 
     public class ProblemDetailsViewModel
