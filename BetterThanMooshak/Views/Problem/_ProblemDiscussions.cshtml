@@ -7,14 +7,23 @@
     </div>
     <div class="panel-body clearfix">
         @Model.message
-        <div class="btn-group pull-right" role="group">
-            <a class="btn btn-default">
-                <i class="fa fa-commenting"></i> Add Comment
+        <div class="btn-group pull-right top30" role="group">
+            <a class="btn btn-default" data-toggle="collapse" href="#addComment-@Model.topicId">
+                <i class="fa fa-comment" ></i> Add Comment
             </a>
             <a class="btn btn-default" data-toggle="collapse" href="#comments-@Model.topicId">
-                <i class="fa fa-comments-o"></i> Comments
+                <i class="fa fa-comments"></i> Comments
             </a>
         </div>
+    </div>
+    <div id="addComment-@Model.topicId" class="panel-footer panel-collapse collapse clearfix">
+        <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control" rows="5" id="comment"></textarea>
+        </div>
+        <button class="btn btn-default pull-right">
+            <i class="fa fa-commenting"></i> Post Comment
+        </button>
     </div>
     <div id="comments-@Model.topicId" class="panel-footer panel-collapse collapse">
         @{ foreach (var comment in Model.comments)

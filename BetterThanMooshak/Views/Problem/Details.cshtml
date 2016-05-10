@@ -64,7 +64,11 @@
 
         @*Discussion Tab*@
         <div class="tab-pane fade" id="discussion">
-            
+            <div class="bottom20 clearfix">
+                <a class="btn btn-default pull-right">
+                    <i class="fa fa-plus-square"></i> New Topic
+                </a>
+            </div>
                 @foreach (var discussion in Model.discussions.topics)
                 {
                     @Html.Partial("_ProblemDiscussions", discussion)
