@@ -56,7 +56,7 @@ namespace BetterThanMooshak.Models
         public DbSet<DiscussionTopic> DiscussionTopics { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Problem> Problems { get; set; }
-        public DbSet<ProblemGrade> ProblemGrades { get; set; }
+        public DbSet<Grade> Grades { get; set; }
         public DbSet<Solution> Solutions { get; set; }
         public DbSet<Testcase> Testcases { get; set; }
     }

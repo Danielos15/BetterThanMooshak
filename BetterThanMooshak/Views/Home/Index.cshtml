@@ -3,7 +3,7 @@
     ViewBag.Title = "Home Page";
 }
 
-<h1>Hello @Model.user.Name</h1>
+<h1>Hello @Model.userName</h1>
 
 <div class="row">
     <div class="col-md-6" id="Assignments">
@@ -51,8 +51,8 @@
                     @foreach (var x in Model.notifications)
                     {
                         <tr>
-                            <td>@x.title</td>
-                            <td>Name of assignment <!--TODO--></td>
+                            <td>@x.notification.title</td>
+                            <td>@x.assignment.name</td>
                         </tr>
                     }
                 </tbody>
@@ -76,6 +76,9 @@
                                     @x.name
                                 </a>
                             </td>
+                            <td>
+                                <p>@x.endDate.ToShortDateString()</p>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -95,17 +98,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var x in Model.recentGrades)
+                    @foreach (var x in Model.grades)
                     {
                         <tr>
                             <td>
-                                Assignment name <!--TODO-->
+                                @x.assignment.name
                             </td>
                             <td>
-                                Course name <!--TODO-->
+                                @x.course.name
                             </td>
                             <td>
-                                @x.grade
+                                @x.grade.grade
                             </td>
                         </tr>
                     }

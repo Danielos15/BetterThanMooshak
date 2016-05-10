@@ -187,7 +187,7 @@
     <Compile Include="Models\Entities\DiscussionTopic.cs" />
     <Compile Include="Models\Entities\Notification.cs" />
     <Compile Include="Models\Entities\Problem.cs" />
-    <Compile Include="Models\Entities\ProblemGrade.cs" />
+    <Compile Include="Models\Entities\Grade.cs" />
     <Compile Include="Models\Entities\Solution.cs" />
     <Compile Include="Models\Entities\Testcase.cs" />
     <Compile Include="Models\IdentityModels.cs" />
