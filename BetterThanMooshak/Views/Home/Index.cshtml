@@ -11,7 +11,7 @@
             <h2>Open Assignments</h2>
         </a>
         <div>
-            <table class="table-bordered table table-striped table-hover table-responsive">
+            <table class="table table-hover table-responsive">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -47,12 +47,23 @@
         <h2>Notifications</h2>
         <div>
             <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Message</th>
+                        <th>Assignment</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var x in Model.notifications)
                     {
                         <tr>
                             <td>@x.notification.title</td>
-                            <td>@x.assignment.name</td>
+                            <td>
+                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
+                                    @x.assignment.name
+                                </a>
+                            <td>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -66,7 +77,13 @@
             <h2>Active Courses</h2>
         </a>
         <div>
-            <table class="table-bordered table table-striped table-hover table-responsive">
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>End date</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach (var x in Model.courses)
                     {
@@ -89,7 +106,7 @@
     <div class="col-md-6" id="Grades">
         <h2>Recent Grades</h2>
         <div>
-            <table class="table-bordered table table-striped table-hover table-responsive">
+            <table class="table table-hover table-responsive">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -102,10 +119,14 @@
                     {
                         <tr>
                             <td>
-                                @x.assignment.name
+                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
+                                    @x.assignment.name
+                                </a>
                             </td>
                             <td>
-                                @x.course.name
+                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
+                                    @x.course.name
+                                </a>
                             </td>
                             <td>
                                 @x.grade.grade

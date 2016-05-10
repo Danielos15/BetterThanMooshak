@@ -21,28 +21,26 @@ namespace BetterThanMooshak.Services
 
         public Course GetCourseById(int id)
         {
-            var course = (from c in db.Courses
-                          where c.id == id
-                          select c).SingleOrDefault();
-
-            Course result = new Course();
-            result = course;
-
-            return result;
+            return      (from c in db.Courses
+                        where c.id == id
+                        select c).SingleOrDefault();
         }
 
         public IQueryable<Course> GetAllCourses()
         {
-            var courses = from c in db.Courses
-                          select c;
-
-            return courses;
+            return      from c in db.Courses
+                        select c;
         }
 
         public bool Add(CourseAddViewModel newCourse)
         {
-            Course temp = new Course() { name = newCourse.name, startDate = newCourse.startDate, endDate = newCourse.endDate };
-            db.Courses.Add(temp);
+            db.Courses.Add(new Course()
+            {
+                name = newCourse.name,
+                startDate = newCourse.startDate,
+                endDate = newCourse.endDate
+            });
+
             return Convert.ToBoolean(db.SaveChanges());
         }
 
@@ -52,15 +50,31 @@ namespace BetterThanMooshak.Services
 
             return Convert.ToBoolean(db.SaveChanges());
         }
+
+        public CourseEditViewModel GetCourseEditViewModel(int value)
+        {
+            Course course = GetCourseById(value);
+
+            CourseEditViewModel viewModel = new CourseEditViewModel
+            {
+                id = course.id,
+                name = course.name,
+                startDate = course.startDate,
+                endDate = course.endDate
+            };
+
+            return viewModel;
+        }
+
         public bool Edit(CourseEditViewModel editCourse)
         {
             var item = (from course in db.Courses
                         where course.id == editCourse.id
                         select course).SingleOrDefault();
 
-            item.name = editCourse.name;
-            item.startDate = editCourse.startDate;
-            item.endDate = editCourse.endDate;
+            item.name =         editCourse.name;
+            item.startDate =    editCourse.startDate;
+            item.endDate =      editCourse.endDate;
 
             return Convert.ToBoolean(db.SaveChanges());
         }
@@ -86,7 +100,10 @@ namespace BetterThanMooshak.Services
 
             for (int i = 0; i < newCourses.Count; i++)
             {
-                activeCourses.Add(new CourseWithRoles { course = newCourses.ElementAt(i), courseUser = newCoursesRoles.ElementAt(i) });
+                activeCourses.Add(new CourseWithRoles {
+                    course = newCourses.ElementAt(i),
+                    courseUser = newCoursesRoles.ElementAt(i)
+                });
             }
 
             var oldCourses = (from courseusers in db.CourseUsers
@@ -105,7 +122,10 @@ namespace BetterThanMooshak.Services
 
             for (int i = 0; i < oldCourses.Count; i++)
             {
-                inactiveCourses.Add(new CourseWithRoles { course = oldCourses.ElementAt(i), courseUser = oldCoursesRoles.ElementAt(i) });
+                inactiveCourses.Add(new CourseWithRoles {
+                    course = oldCourses.ElementAt(i),
+                    courseUser = oldCoursesRoles.ElementAt(i)
+                });
             }
             
             return new UserCoursesViewModel { activeCourses = activeCourses, inactiveCourses = inactiveCourses };
@@ -127,75 +147,90 @@ namespace BetterThanMooshak.Services
                                  where x.endDate < DateTime.Now
                                  select x;
 
-            var viewModel = new CourseAssignments { course = GetCourseById(id.Value), newAssignments = newAssignments, oldAssignments = oldAssignments };
+            var viewModel = new CourseAssignments {
+                course = GetCourseById(id.Value),
+                newAssignments = newAssignments,
+                oldAssignments = oldAssignments
+            };
 
             return viewModel;
         }
 
-        public void SearchCourse(string searchString)
+        #region Functions for getting the Enrole viewModel
+        public IQueryable<ApplicationUser> GetAvalibleUsersForCourse(int courseId)
         {
-            var searchCourse = (from c in db.Courses
-                                where c.name.Contains(searchString)
-                                select c).ToList();
-        }
-
-        //Get current User Roles
-        public List<ApplicationUser> GetAvalibleUsersForCourse(int courseId)
-        {
-            var usersInCourse = (from link in db.CourseUsers
+            var usersInCourse = from link in db.CourseUsers
                                  join users in db.Users on link.userId equals users.Id into result
                                  where link.courseId == courseId
                                  from user in result
-                                 select user).ToList();
+                                 select user;
 
-            var allUsers = (from users in db.Users
-                            select users).ToList();
+            var allUsers = from users in db.Users
+                            select users;
 
-            var usersNotInCourse = allUsers.Except(usersInCourse).ToList();
+            var usersNotInCourse = allUsers.Except(usersInCourse);
 
 
             return usersNotInCourse;
         }
-        public List<ApplicationUser> GetTeachersForCourse(int courseId)
+        public IQueryable<ApplicationUser> GetTeachersForCourse(int courseId)
         {
-            var teachers = (from link in db.CourseUsers
+            var teachers = from link in db.CourseUsers
                             join users in db.Users on link.userId equals users.Id into result
                             where link.courseId == courseId
                             && link.role == 3
                             from user in result
-                            select user).ToList();
+                            select user;
 
             return teachers;
         }
-        public List<ApplicationUser> GetAssistantsForCourse(int courseId)
+        public IQueryable<ApplicationUser> GetAssistantsForCourse(int courseId)
         {
-            var assistants = (from link in db.CourseUsers
+            var assistants = from link in db.CourseUsers
                               join users in db.Users on link.userId equals users.Id into result
                               where link.courseId == courseId
                               && link.role == 2
                               from user in result
-                              select user).ToList();
+                              select user;
 
             return assistants;
         }
-        public List<ApplicationUser> GetStudentsForCourse(int courseId)
+        public IQueryable<ApplicationUser> GetStudentsForCourse(int courseId)
         {
-            var students =   (from link in db.CourseUsers
+            var students =   from link in db.CourseUsers
                               join users in db.Users on link.userId equals users.Id into result
                               where link.courseId == courseId
                               && link.role == 1
                               from user in result
-                              select user).ToList();
+                              select user;
 
             return students;
         }
+        public CourseUserEnroleViewModel GetEnroleViewModel(int value)
+        {
+            Course course = GetCourseById(value);
+
+            CourseUserEnroleViewModel model = new CourseUserEnroleViewModel()
+            {
+                courseId = course.id,
+                courseName = course.name,
+                availableUsers = GetAvalibleUsersForCourse(value),
+                teachers = GetTeachersForCourse(value),
+                assistants = GetAssistantsForCourse(value),
+                students = GetStudentsForCourse(value)
+            };
+
+            return model;
+        }
+        #endregion
 
         //Save new User Roles
         public bool RemoveAllFromCourse(int courseId)
         {
-            List<CourseUser> courses = (from link in db.CourseUsers
-                                        where link.courseId == courseId
-                                        select link).ToList();
+            IQueryable<CourseUser> courses = from link in db.CourseUsers
+                                             where link.courseId == courseId
+                                             select link;
+
             if (courses != null)
             {
                 foreach (CourseUser link in courses)
@@ -204,8 +239,11 @@ namespace BetterThanMooshak.Services
                 }
                 return Convert.ToBoolean(db.SaveChanges());
             }
+
             return false;
         }
+
+        #region Functions for adding users to course
         public bool AddTeacherToCourse(string userId, int courseId)
         {
             CourseUser link = new CourseUser()
@@ -239,5 +277,6 @@ namespace BetterThanMooshak.Services
             db.CourseUsers.Add(link);
             return Convert.ToBoolean(db.SaveChanges()); ;
         }
+        #endregion
     }
 }

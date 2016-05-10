@@ -69,6 +69,7 @@ namespace BetterThanMooshak.Services
             p.assignmentId = problem.assignmentId;
             p.maxAttempts = problem.maxAttempts;
             p.name = problem.name;
+            p.description = problem.description;
 
             return Convert.ToBoolean(db.SaveChanges());
         }
@@ -156,7 +157,7 @@ namespace BetterThanMooshak.Services
             var viewModel = new ProblemDetailsViewModel()
             {
                 course = course.name,
-                assignment = assignment.name,
+                assignment = assignment,
                 problem = problem,
                 currSolution = currSolution,
                 testcases = testcases,
