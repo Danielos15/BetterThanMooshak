@@ -12,6 +12,7 @@ namespace BetterThanMooshak.Services
     public class AssignmentService
     {
         private ApplicationDbContext db;
+        private string currentUser = HttpContext.Current.User.Identity.GetUserId();
 
         public AssignmentService()
         {
@@ -94,11 +95,16 @@ namespace BetterThanMooshak.Services
 
         public AssignmentProblems getAssignmentProblems (int id)
         {
+
             var assignment = getAssignmentById(id);
 
             var currentCourse = (from course in db.Courses
                                  where course.id == assignment.courseId
                                  select course).SingleOrDefault();
+
+            var courseRole = (from role in db.CourseUsers
+                              where currentCourse.id == role.courseId && role.userId == currentUser
+                              select role).SingleOrDefault();
 
             var assignmentProblems = (from problems in db.Problems
                             where problems.assignmentId == assignment.id
@@ -106,6 +112,7 @@ namespace BetterThanMooshak.Services
 
             var result = new AssignmentProblems()
             {
+                courseUser = courseRole,
                 course = currentCourse,
                 assignment = assignment,
                 problems = assignmentProblems
