@@ -2,21 +2,25 @@
 using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
+using BetterThanMooshak.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Script.Serialization;
+
 
 namespace BetterThanMooshak.Controllers
 {
     public class CourseController : Controller
     {
         private CourseService service = new CourseService();
-        
+
         // GET: Course
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(service.GetAllCourses());

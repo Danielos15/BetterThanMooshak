@@ -13,10 +13,11 @@ using Microsoft.Owin.Security;
 using System.Globalization;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BetterThanMooshak.Utilities;
 
 namespace BetterThanMooshak.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [CustomAuthorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private UserService service = new UserService();        
@@ -35,6 +36,7 @@ namespace BetterThanMooshak.Controllers
         }
 
         // GET: User
+        
         public ActionResult Index()
         {
             UsersViewModel viewModel = service.GetAllUsers();

@@ -19,5 +19,10 @@ namespace BetterThanMooshak.Controllers
         {
             return View();
         }
+
+        public ActionResult UnauthorizedError()
+        {
+            return View();
+        }
     }
 }
