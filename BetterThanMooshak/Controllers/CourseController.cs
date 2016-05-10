@@ -19,13 +19,18 @@ namespace BetterThanMooshak.Controllers
     {
         private CourseService service = new CourseService();
 
-        // GET: Course
+        #region Index view
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            return View(service.GetAllCourses());
-        }
+            IQueryable<Course> viewModel = service.GetAllCourses();
 
+            return View(viewModel);
+        }
+        #endregion
+
+        #region Add view
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Add()
         {
             return View();
@@ -43,7 +48,10 @@ namespace BetterThanMooshak.Controllers
 
             return RedirectToAction("index");
         }
+        #endregion
 
+        #region Remove view
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Remove(int? id)
         {
             if(!service.RemoveCourseById(id.Value))
@@ -55,18 +63,15 @@ namespace BetterThanMooshak.Controllers
 
             return RedirectToAction("index");
         }
+        #endregion
 
-        public ActionResult Edit(int id)
+        #region Edit view
+        [CustomAuthorize(Roles = "Admin")]
+        public ActionResult Edit(int? id)
         {
-            Course user = service.GetCourseById(id);
-            CourseEditViewModel model = new CourseEditViewModel
-            {
-                id = user.id,
-                name = user.name,
-                startDate = user.startDate,
-                endDate = user.endDate
-            };
-            return View(model);
+            CourseEditViewModel viewModel = service.GetCourseEditViewModel(id.Value);
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -82,22 +87,19 @@ namespace BetterThanMooshak.Controllers
             return RedirectToAction("index");
 
         }
+        #endregion
 
+        #region Enrole view
+        [CustomAuthorize(Roles = "Admin")]
         public ActionResult Enrole(int? id)
         {
             if (id != null)
             {
-                int coursId = id.Value;
-                CourseUserEnroleViewModel model = new CourseUserEnroleViewModel()
-                {
-                    courseId = id.Value,
-                    availableUsers = service.GetAvalibleUsersForCourse(coursId),
-                    teachers = service.GetTeachersForCourse(coursId),
-                    assistants = service.GetAssistantsForCourse(coursId),
-                    students = service.GetStudentsForCourse(coursId)
-                };
-                return View(model);
+                CourseUserEnroleViewModel viewModel = service.GetEnroleViewModel(id.Value);
+
+                return View(viewModel);
             }
+
             return RedirectToAction("notfound","error");
         }
 
@@ -110,6 +112,7 @@ namespace BetterThanMooshak.Controllers
             if(int.TryParse(form["courseId"], out courseId))
             {
                 var roles = form["roles"];
+
                 if (roles != null)
                 {
                     JavaScriptSerializer js = new JavaScriptSerializer();
@@ -134,25 +137,26 @@ namespace BetterThanMooshak.Controllers
                 }
             }
             
-            
-
-
             return RedirectToAction("index", "course");
         }
+        #endregion
 
+        #region Usercourses view
         public ActionResult UserCourses()
         {
-            return View(service.GetUserCourses());
-        }
+            UserCoursesViewModel viewModel = service.GetUserCourses();
 
+            return View(viewModel);
+        }
+        #endregion
+
+        #region Details view
         public ActionResult Details(int? id)
         {
-            return View(service.GetCourseAssignments(id.Value));
-        }
+            CourseAssignments viewModel = service.GetCourseAssignments(id.Value);
 
-        public ActionResult Search(string searchString)
-        {
-            return View();
+            return View(viewModel);
         }
+        #endregion
     }
 }
