@@ -1,6 +1,7 @@
 ﻿using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
+using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
@@ -106,6 +107,38 @@ namespace BetterThanMooshak.Controllers
                     return View(model);
                 }
                 return View(model);
+            }
+            return RedirectToAction("notfound", "error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult AddTopic(int? id, DisscussionAddTopicViewModel model)
+        {
+            if (id != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    service.AddTopic(model, id.Value, User.Identity.GetUserId());
+                    return RedirectToAction("details", "problem", new { id = id.Value });
+                }
+            }
+            return RedirectToAction("notfound", "error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult AddComment(int? id, int? problemId, DisscussionAddCommentViewModel model)
+        {
+            if (id != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    service.AddComment(model, id.Value, User.Identity.GetUserId());
+                    return RedirectToAction("details", "problem", new { id = problemId.Value });
+                }
             }
             return RedirectToAction("notfound", "error");
         }

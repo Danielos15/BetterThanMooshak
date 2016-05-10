@@ -653,7 +653,7 @@
     <Content Include="Views\Problem\_SolutionAceEditor.cshtml" />
     <Content Include="Views\Problem\_ProblemHints.cshtml" />
     <Content Include="Views\Problem\_ProblemSubmission.cshtml" />
-    <Content Include="Views\Problem\_ProblemDiscussions.cshtml" />
+    <Content Include="Views\Problem\_ProblemDiscussion.cshtml" />
     <Content Include="Views\Problem\_ProblemDiscussionComment.cshtml" />
     <Content Include="Views\Problem\_ProblemDiscussionAddTopicForm.cshtml" />
   </ItemGroup>

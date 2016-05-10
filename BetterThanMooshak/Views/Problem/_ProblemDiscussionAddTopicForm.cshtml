@@ -4,18 +4,24 @@
     </a>
 </div>
 
-<div id="addTopic" class="panel panel-default panel-collapse collapse">
-    <div class="panel-heading">
-        <div class="form-group bottom0">
-            <input type="text" class="form-control" rows="5" id="comment" placeholder="Topic Title..."></input>
+@using (Html.BeginForm("addTopic", "problem", new { id = Model }, FormMethod.Post, new { @class = "", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div id="addTopic" class="panel panel-default panel-collapse collapse">
+        <div class="panel-heading">
+            <div class="form-group bottom0">
+                <input type="text" name="title" class="form-control" rows="5" id="comment" placeholder="Topic Title..."></input>
+            </div>
+        </div>
+        <div class="panel-body clearfix">
+            <div class="form-group">
+                <textarea name="message" class="form-control" rows="5" id="comment" placeholder="Topic Content..."></textarea>
+            </div>
+            <button class="btn btn-default pull-right">
+                <i class="fa fa-commenting"></i> Post Topic
+            </button>
         </div>
     </div>
-    <div class="panel-body clearfix">
-        <div class="form-group">
-            <textarea class="form-control" rows="5" id="comment" placeholder="Topic Content..."></textarea>
-        </div>
-        <button class="btn btn-default pull-right">
-            <i class="fa fa-commenting"></i> Post Topic
-        </button>
-    </div>
-</div>
+}

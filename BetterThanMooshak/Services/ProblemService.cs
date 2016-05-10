@@ -138,6 +138,7 @@ namespace BetterThanMooshak.Services
             {
                 DiscussionTopicViewModel topicModel = new DiscussionTopicViewModel()
                 {
+                    problemId = problem.id,
                     topicId = topic.id,
                     title = topic.title,
                     message = topic.message,
@@ -180,6 +181,31 @@ namespace BetterThanMooshak.Services
                 visible = model.visible
             };
             db.Testcases.Add(testcase);
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public bool AddTopic(DisscussionAddTopicViewModel model, int problemId, string userId)
+        {
+            DiscussionTopic topic = new DiscussionTopic()
+            {
+                title = model.title,
+                message = model.message,
+                userId = userId,
+                problemId = problemId
+            };
+            db.DiscussionTopics.Add(topic);
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public bool AddComment(DisscussionAddCommentViewModel model, int topicId, string userId)
+        {
+            DiscussionComment comment = new DiscussionComment()
+            {
+                message = model.message,
+                userId = userId,
+                discussionTopicId = topicId
+            };
+            db.DiscussionComments.Add(comment);
             return Convert.ToBoolean(db.SaveChanges());
         }
     }

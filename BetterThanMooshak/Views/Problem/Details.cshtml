@@ -64,7 +64,7 @@
 
         @*Discussion Tab*@
         <div class="tab-pane fade" id="discussion">
-            @Html.Partial("_ProblemDiscussionAddTopicForm")
+            @Html.Partial("_ProblemDiscussionAddTopicForm", Model.problem.id)
 
             @foreach (var discussion in Model.discussions.topics)
             {

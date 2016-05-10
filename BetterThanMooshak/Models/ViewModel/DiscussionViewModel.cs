@@ -12,10 +12,22 @@ namespace BetterThanMooshak.Models.ViewModel
 
     public class DiscussionTopicViewModel
     {
+        public int problemId { get; set; }
         public int topicId { get; set; }
         public string title { get; set; }
         public string message { get; set; }
         public string userName { get; set; }
         public IQueryable<DiscussionComment> comments { get; set; }
+    }
+
+    public class DisscussionAddTopicViewModel
+    {
+        public string title { get; set; }
+        public string message { get; set; }
+    }
+
+    public class DisscussionAddCommentViewModel
+    {
+        public string message { get; set; }
     }
 }

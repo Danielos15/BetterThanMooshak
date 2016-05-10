@@ -3,10 +3,12 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h2 class="panel-title">@Model.userName Wrote:</h2>
-        <h3>@Model.title</h3>
+        <h3>
+            <span style="white-space: pre-line">@Model.title</span>
+        </h3>
     </div>
     <div class="panel-body clearfix">
-        @Model.message
+        <span style="white-space: pre-line">@Model.message</span>
         <div class="btn-group pull-right top30" role="group">
             <a class="btn btn-default" data-toggle="collapse" href="#addComment-@Model.topicId">
                 <i class="fa fa-comment" ></i> Add Comment
@@ -16,15 +18,20 @@
             </a>
         </div>
     </div>
-    <div id="addComment-@Model.topicId" class="panel-footer panel-collapse collapse clearfix">
-        <div class="form-group">
-            <label for="comment">Comment:</label>
-            <textarea class="form-control" rows="5" id="comment"></textarea>
+    @using (Html.BeginForm("addcomment", "problem", new { id = Model.topicId, problemId = Model.problemId }, FormMethod.Post, new { @class = "", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div id="addComment-@Model.topicId" class="panel-footer panel-collapse collapse clearfix">
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" rows="5" id="comment" name="message"></textarea>
+            </div>
+            <button class="btn btn-default pull-right">
+                <i class="fa fa-commenting"></i> Post Comment
+            </button>
         </div>
-        <button class="btn btn-default pull-right">
-            <i class="fa fa-commenting"></i> Post Comment
-        </button>
-    </div>
+    }
     <div id="comments-@Model.topicId" class="panel-footer panel-collapse collapse">
         @{ foreach (var comment in Model.comments)
             {
