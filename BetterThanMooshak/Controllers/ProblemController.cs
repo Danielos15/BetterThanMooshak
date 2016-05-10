@@ -76,5 +76,39 @@ namespace BetterThanMooshak.Controllers
 
             return RedirectToAction("index");
         }
+
+        public ActionResult AddTestcase (int? id)
+        {
+            if (id != null)
+            {
+                TestcaseAddViewModel model = new TestcaseAddViewModel()
+                {
+                    problemId = id.Value
+                };
+                return View(model);
+            }
+            return RedirectToAction("notfound", "error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTestcase(int? id, TestcaseAddViewModel model)
+        {
+            if (id != null)
+            {
+                model.problemId = id.Value;
+                if (ModelState.IsValid)
+                {
+                    if (service.AddTestcase(model))
+                    {
+                        return RedirectToAction("details", "problem", new { id = id.Value });
+                    }
+                    ModelState.AddModelError("", "Unable to save to database, try again");
+                    return View(model);
+                }
+                return View(model);
+            }
+            return RedirectToAction("notfound", "error");
+        }
     }
 }

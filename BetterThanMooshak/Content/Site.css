@@ -35,6 +35,9 @@
     body .label {
         font-size: 100%
     }
+    .input-arrow {
+        padding-top: 90px;
+    }
 header.navbar {
     height: 70px;
     padding-top: 15px;
@@ -57,7 +60,12 @@ header.navbar .menu {
 }
 
 .boxText {
+    margin-bottom:40px
+}
 
+/* TABS */
+.nav-tabs {
+    margin: 30px 0;
 }
 
 #mainmenuToggle {
@@ -126,7 +134,7 @@ header.navbar .menu {
 input,
 select,
 textarea {
-    max-width: 280px;
+   /*max-width: 280px;*/
 }
 
 

@@ -1,0 +1,44 @@
+﻿@model BetterThanMooshak.Models.ViewModel.TestcaseAddViewModel
+@{
+    ViewBag.Title = "Add Testcase";
+}
+
+<div class="boxTitle">
+    <h1>Add Testcase to</h1>
+</div>
+
+<div class="boxText">
+
+    @using (Html.BeginForm("addtestcase", "problem", new { id = Model.problemId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group text-center">
+            <div class="col-md-5">
+                @Html.TextAreaFor(m => m.input, new { @class = "form-control", placeholder = "Input...", rows = 10})
+            </div>
+            <div class="col-md-2 input-arrow">
+                <i class="fa fa-arrow-right fa-3x center-block"></i>
+            </div>
+            <div class="col-md-5">
+                @Html.TextAreaFor(m => m.output, new { @class = "form-control", placeholder = "Output...", rows = 10 })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.score)
+                @Html.TextBoxFor(m => m.score, new { @class = "form-control", type = "number" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.visible)
+                @Html.CheckBoxFor(m => m.visible, new { @class = "form-checkbox" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+        <div class="col-md-6">
+            <input type="button" value="Cancel" class="btn btn-default" onclick="history.back()" />
+        </div>
+    }
+</div>

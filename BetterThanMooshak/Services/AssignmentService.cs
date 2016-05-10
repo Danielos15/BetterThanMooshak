@@ -64,6 +64,7 @@ namespace BetterThanMooshak.Services
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
                                   where x.endDate > currDate
+                                  orderby x.endDate ascending
                                   select x;
 
             var oldAss = from course in userCourses

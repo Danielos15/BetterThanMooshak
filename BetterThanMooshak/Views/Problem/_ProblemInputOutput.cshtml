@@ -1,0 +1,18 @@
+﻿@model BetterThanMooshak.Models.Entities.Testcase
+<div class="row text-center">
+    <div class="col-md-5">
+        <p>Input</p>
+        <div id="testcase{@Model.Id}input">
+            <textarea class="form-control" readonly style="resize:none;" cols="40" rows="6">@Model.input</textarea>
+        </div>
+    </div>
+    <div class="col-md-2 input-arrow">
+        <i class="fa fa-arrow-right fa-3x center-block"></i>
+    </div>
+    <div class="col-md-5">
+        <p>Output</p>
+        <div id="testcase{@Model.Id}output">
+            <textarea class="form-control" readonly style="resize:none" cols="40" rows="6">@Model.input</textarea>
+        </div>
+    </div>
+</div>
