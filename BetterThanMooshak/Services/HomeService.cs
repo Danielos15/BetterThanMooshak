@@ -1,5 +1,4 @@
 ﻿using BetterThanMooshak.Models;
-using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using Microsoft.AspNet.Identity;
 using System;
@@ -9,16 +8,16 @@ using System.Web;
 
 namespace BetterThanMooshak.Services
 {
-    public class FrontService
+    public class HomeService
     {
         private ApplicationDbContext db;
 
-        public FrontService()
+        public HomeService()
         {
             db = new ApplicationDbContext();
         }
 
-        public FrontViewModel getAll()
+        public HomeViewModel getAll()
         {
             var currentUser = HttpContext.Current.User.Identity.GetUserId();
 
@@ -66,7 +65,7 @@ namespace BetterThanMooshak.Services
                              where grades.userId == appUser.Id
                              select grades;
 
-            FrontViewModel front = new FrontViewModel()
+            HomeViewModel front = new HomeViewModel()
             {
                 user = appUser,
                 courses = userCourses,
@@ -74,10 +73,7 @@ namespace BetterThanMooshak.Services
                 notifications = userNotifications,
                 recentGrades = userGrades
             };
-
-            //COURSE USERCOURSE ASSIGNMENT - JOIN
-            //COURSE USERCOURSE - JOIN
-
+            
             return front;
         }
     }
