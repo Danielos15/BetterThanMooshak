@@ -12,9 +12,13 @@
     </div>
     <ul class="dropdown">
         <li>@User.Identity.Name</li>
-        <li>@Html.ActionLink("Course Overview", "index", "course", routeValues: null, htmlAttributes: new { title = "Admin Course Overview" })</li>
-        <li>@Html.ActionLink("User Overview", "index", "user", routeValues: null, htmlAttributes: new { title = "Admin User Overview" })</li>
-        <li></li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li>@Html.ActionLink("Course Overview", "index", "course", routeValues: null, htmlAttributes: new { title = "Admin Course Overview" })</li>
+            <li>@Html.ActionLink("User Overview", "index", "user", routeValues: null, htmlAttributes: new { title = "Admin User Overview" })</li>
+            <li></li>
+        }
+
         <li>@Html.ActionLink("Home", "index", "home", routeValues: null, htmlAttributes: new { title = "Home" })</li>
         <li>@Html.ActionLink("Courses", "usercourses", "course", routeValues: null, htmlAttributes: new { title = "Home" })</li>
         <li>@Html.ActionLink("Assignments", "index", "assignment", routeValues: null, htmlAttributes: new { title = "Home" })</li>
