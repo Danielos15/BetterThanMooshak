@@ -48,10 +48,10 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public int courseId { get; set; }
         public string courseName { get; set; }
-        public List<ApplicationUser> availableUsers { get; set; }
-        public List<ApplicationUser> teachers { get; set; }
-        public List<ApplicationUser> assistants { get; set; }
-        public List<ApplicationUser> students { get; set; }
+        public IQueryable<ApplicationUser> availableUsers { get; set; }
+        public IQueryable<ApplicationUser> teachers { get; set; }
+        public IQueryable<ApplicationUser> assistants { get; set; }
+        public IQueryable<ApplicationUser> students { get; set; }
     }
 
     public class CourseUserEnroleSaveViewModel
