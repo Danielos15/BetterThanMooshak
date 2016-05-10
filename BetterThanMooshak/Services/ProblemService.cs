@@ -69,6 +69,7 @@ namespace BetterThanMooshak.Services
             p.assignmentId = problem.assignmentId;
             p.maxAttempts = problem.maxAttempts;
             p.name = problem.name;
+            p.description = problem.description;
 
             return Convert.ToBoolean(db.SaveChanges());
         }

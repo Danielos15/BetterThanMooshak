@@ -208,9 +208,12 @@ namespace BetterThanMooshak.Services
         }
         public CourseUserEnroleViewModel GetEnroleViewModel(int value)
         {
+            Course course = GetCourseById(value);
+
             CourseUserEnroleViewModel model = new CourseUserEnroleViewModel()
             {
-                courseId = value,
+                courseId = course.id,
+                courseName = course.name,
                 availableUsers = GetAvalibleUsersForCourse(value),
                 teachers = GetTeachersForCourse(value),
                 assistants = GetAssistantsForCourse(value),
