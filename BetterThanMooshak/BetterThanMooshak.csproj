@@ -311,6 +311,7 @@
     <Content Include="Views\Problem\Details.cshtml" />
     <Content Include="Views\Problem\Edit.cshtml" />
     <Content Include="Views\Problem\Add.cshtml" />
+    <Content Include="Views\Problem\AddTestcase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -7,8 +7,8 @@
     <h1>@Model.problem.name</h1>
 </div>
 <div class="boxText">
-    <p>
-        Score: <i>user score</i>/
+    <a class="btn btn-default pull-right" href="@Url.Action("addtestcase","problem", new { id = Model.problem.id})">Add Testcase</a>
+    <p>Score: <i>user score</i>/
         @{
             var total = 0;
             foreach (var x in Model.testcases)
@@ -26,21 +26,20 @@
         </span>
     </div>
 
-    <div class="jqtabs">
-
-        <ul>
-            <li><a href="#view1">Solution</a></li>
-            <li><a href="#view2">Input / Output</a></li>
-            <li><a href="#view3">Submissions</a></li>
-            <li><a href="#view4">Hints</a></li>
-            <li><a href="#view5">Discussion</a></li>
-            <li><a href="#view6">Answer</a></li>
-        </ul>
-
-        <div id="view1">
+    
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#view1">Solution</a></li>
+        <li><a data-toggle="tab" href="#view2">Input / Output</a></li>
+        <li><a data-toggle="tab" href="#view3">Submissions</a></li>
+        <li><a data-toggle="tab" href="#view4">Hints</a></li>
+        <li><a data-toggle="tab" href="#view5">Discussion</a></li>
+        <li><a href="#view6">Answer</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="view1">
             <p>@Model.currSolution.program</p>
         </div>
-        <div id="view2">
+        <div class="tab-pane fade" id="view2">
             @foreach (var x in Model.testcases)
             {
                 <p>Input</p>
@@ -53,22 +52,14 @@
                 </div>
             }
         </div>
-        <div id="view3">
+        <div class="tab-pane fade" id="view3">
             <table>
                 <thead>
                     <tr>
-                        <th>
-                            Nr
-                        </th>
-                        <th>
-                            Date
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                        <th>
-                            Score
-                        </th>
+                        <th>Nr</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Score</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,7 +75,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="view4">
+        <div class="tab-pane fade" id="view4">
             <h3>hint title</h3>
             <p>hint body</p>
             <!--
@@ -95,7 +86,7 @@
                     }*@
                 -->
         </div>
-        <div id="view5">
+        <div class="tab-pane fade" id="view5">
             <h3>Discussion title</h3>
             <p>discussion body</p>
             <button>Answer</button>
@@ -110,7 +101,7 @@
                     }*@
                 -->
         </div>
-        <div id="view6">
+        <div class="tab-pane fade" id="view6">
             @Model.answer.program
         </div>
 

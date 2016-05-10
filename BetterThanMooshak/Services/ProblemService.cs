@@ -145,5 +145,18 @@ namespace BetterThanMooshak.Services
 
             return viewModel;
         }
+        public bool AddTestcase(TestcaseAddViewModel model)
+        {
+            Testcase testcase = new Testcase()
+            {
+                input = model.input,
+                output = model.output,
+                problemId = model.problemId,
+                score = model.score,
+                visible = model.visible
+            };
+            db.Testcases.Add(testcase);
+            return Convert.ToBoolean(db.SaveChanges());
+        }
     }
 }
