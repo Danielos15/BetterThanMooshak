@@ -134,7 +134,7 @@ namespace BetterThanMooshak.Services
             var viewModel = new ProblemDetailsViewModel()
             {
                 course = course.name,
-                assignment = assignment.name,
+                assignment = assignment,
                 problem = problem,
                 currSolution = currSolution,
                 testcases = testcases,

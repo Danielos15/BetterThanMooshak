@@ -4,7 +4,7 @@
 }
 
 <div class="boxTitle">
-    <h1>@Model.assignment.name - @Model.course.name</h1>
+    <h1>@Model.assignment.name - <a href="@Url.Action("details", "course", new { id = Model.course.id })"> @Model.course.name </a></h1>
 </div>
 <div class="boxText">
     @{ if (Model.assignment .description != null && Model.assignment.description.Length > 0)
