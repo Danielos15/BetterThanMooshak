@@ -74,7 +74,7 @@ namespace BetterThanMooshak.Controllers
                 return View(problem);
             }
 
-            return RedirectToAction("index");
+            return RedirectToAction("details", "assignment", new { id = problem.assignmentId});
         }
 
         public ActionResult AddTestcase (int? id)
