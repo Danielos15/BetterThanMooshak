@@ -2,14 +2,17 @@
 @{
     ViewBag.Title = "Problems";
 }
+<div class="boxTitle">
+    <h1>Active problems</h1>
+</div>
+<div class="boxText">
 
-<h2>Active problems</h2>
-
-@foreach(var x in Model)
-{
-    <h3>@x.name</h3>
-    <p>Max attempts: @x.maxAttempts</p>
-    <a class="edit" href="@Url.Action("edit", "problem", new { id = @x.Id })">
-        <i class="fa fa-pencil-square" title="Edit @x.name"></i>
-    </a>
-}
+    @foreach (var x in Model)
+    {
+        <h3>@x.name</h3>
+        <p>Max attempts: @x.maxAttempts</p>
+        <a class="edit" href="@Url.Action("edit", "problem", new { id = x.id })">
+            <i class="fa fa-pencil-square" title="Edit @x.name"></i>
+        </a>
+    }
+</div>

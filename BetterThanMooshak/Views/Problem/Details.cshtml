@@ -3,110 +3,116 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@Model.problem.name</h2>
-<p>
-    Score: <i>user score</i>/
-    @{
-        var total = 0;
-        foreach (var x in Model.testcases)
-        {
-            total += 2;
+<div class="boxTitle">
+    <h1>@Model.problem.name</h1>
+</div>
+<div class="boxText">
+    <p>
+        Score: <i>user score</i>/
+        @{
+            var total = 0;
+            foreach (var x in Model.testcases)
+            {
+                total += 2;
+            }
         }
-    }
-    @total
-</p>
-<p>Handins: <i>user handins</i> / @Model.problem.maxAttempts</p>
+        @total
+    </p>
+    <p>Handins: <i>user handins</i> / @Model.problem.maxAttempts</p>
 
-<p>Lorem ipsum Problem descriptum</p>
-<p>Lorem ipsum Problem descriptum</p>
-<p>Lorem ipsum Problem descriptum</p>
-
-<div class="jqtabs">
-
-    <ul>
-        <li><a href="#view1">Solution</a></li>
-        <li><a href="#view2">Input / Output</a></li>
-        <li><a href="#view3">Submissions</a></li>
-        <li><a href="#view4">Hints</a></li>
-        <li><a href="#view5">Discussion</a></li>
-        <li><a href="#view6">Answer</a></li>
-    </ul>
-
-    <div id="view1">
-        <p>@Model.currSolution.program</p>
+    <div class="desc">
+        <span style="white-space: pre-line">
+            @Model.problem.description
+        </span>
     </div>
-    <div id="view2">
-        @foreach (var x in Model.testcases)
-        {
-            <p>Input</p>
-            <div id="testcase{@x.Id}input">
-                <p>@x.input</p>
-            </div>
-            <p>Output</p>
-            <div id="testcase{@x.Id}output">
-                <p>@x.output</p>
-            </div>
-        }
-    </div>
-    <div id="view3">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        Nr
-                    </th>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Status
-                    </th>
-                    <th>
-                        Score
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var x in Model.submissions)
-                {
+
+    <div class="jqtabs">
+
+        <ul>
+            <li><a href="#view1">Solution</a></li>
+            <li><a href="#view2">Input / Output</a></li>
+            <li><a href="#view3">Submissions</a></li>
+            <li><a href="#view4">Hints</a></li>
+            <li><a href="#view5">Discussion</a></li>
+            <li><a href="#view6">Answer</a></li>
+        </ul>
+
+        <div id="view1">
+            <p>@Model.currSolution.program</p>
+        </div>
+        <div id="view2">
+            @foreach (var x in Model.testcases)
+            {
+                <p>Input</p>
+                <div id="testcase{@x.Id}input">
+                    <p>@x.input</p>
+                </div>
+                <p>Output</p>
+                <div id="testcase{@x.Id}output">
+                    <p>@x.output</p>
+                </div>
+            }
+        </div>
+        <div id="view3">
+            <table>
+                <thead>
                     <tr>
-                        <td>@x.Id</td>
-                        <td>Date submitted <!--ToDo!--></td>
-                        <td>submission status <!--ToDo!--></td>
-                        <td>submission score <!--ToDo!--></td>
+                        <th>
+                            Nr
+                        </th>
+                        <th>
+                            Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Score
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div id="view4">
-        <h3>hint title</h3>
-        <p>hint body</p>
-        <!--
-                @*foreach (var x in Model.hints)
-                {
-                    <h3>hint title</h3>
-                    <p>hint body</p>
-                }*@
-            -->
-    </div>
-    <div id="view5">
-        <h3>Discussion title</h3>
-        <p>discussion body</p>
-        <button>Answer</button>
-        <button>View comments</button>
-        <!--
-                @*foreach (var x in Model.discussions)
-                {
-                    <h3>Discussion title</h3>
-                    <p>discussion body</p>
-                    <button>Answer</button>
-                    <button>View comments</button>
-                }*@
-            -->
-    </div>
-    <div id="view6">
-        @Model.answer.program
-    </div>
+                </thead>
+                <tbody>
+                    @foreach (var x in Model.submissions)
+                    {
+                        <tr>
+                            <td>@x.Id</td>
+                            <td>Date submitted <!--ToDo!--></td>
+                            <td>submission status <!--ToDo!--></td>
+                            <td>submission score <!--ToDo!--></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="view4">
+            <h3>hint title</h3>
+            <p>hint body</p>
+            <!--
+                    @*foreach (var x in Model.hints)
+                    {
+                        <h3>hint title</h3>
+                        <p>hint body</p>
+                    }*@
+                -->
+        </div>
+        <div id="view5">
+            <h3>Discussion title</h3>
+            <p>discussion body</p>
+            <button>Answer</button>
+            <button>View comments</button>
+            <!--
+                    @*foreach (var x in Model.discussions)
+                    {
+                        <h3>Discussion title</h3>
+                        <p>discussion body</p>
+                        <button>Answer</button>
+                        <button>View comments</button>
+                    }*@
+                -->
+        </div>
+        <div id="view6">
+            @Model.answer.program
+        </div>
 
+    </div>
 </div>
