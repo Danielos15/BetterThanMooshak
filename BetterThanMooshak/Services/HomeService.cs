@@ -51,12 +51,13 @@ namespace BetterThanMooshak.Services
         }
         private IQueryable<Course> getCourses()
         {
-            var userCourses = from courseusers in db.CourseUsers
-                              join courses in db.Courses on courseusers.courseId equals courses.id into result
-                              where courseusers.userId == currentUser
+            var userCourses = (from cu in db.CourseUsers
+                              join c in db.Courses on cu.courseId equals c.id into result
+                              where cu.userId == currentUser
                               from x in result
-                              orderby x.name ascending
-                              select x;
+                              where x.endDate > DateTime.Now
+                              orderby x.endDate
+                              select x).Take(5);
 
             return userCourses;
         }
