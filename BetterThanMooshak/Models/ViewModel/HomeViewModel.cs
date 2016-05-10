@@ -6,7 +6,7 @@ using System.Web;
 
 namespace BetterThanMooshak.Models.ViewModel
 {
-    public class FrontViewModel
+    public class HomeViewModel
     {
         public ApplicationUser user { get; set; }
         public List<AssignmentViewModel> assignments { get; set; }

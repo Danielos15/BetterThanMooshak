@@ -34,7 +34,7 @@ namespace BetterThanMooshak.Services
         public IQueryable<Course> GetAllCourses()
         {
             var courses = from c in db.Courses
-                           select c;
+                          select c;
 
             return courses;
         }
@@ -74,6 +74,7 @@ namespace BetterThanMooshak.Services
                               where courseusers.userId == currentUser
                               from x in result
                               where x.endDate > DateTime.Now
+                              orderby x.endDate ascending
                               select x).ToList();
 
             var newCoursesRoles = (from courses in newCourses
