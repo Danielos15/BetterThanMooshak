@@ -1,0 +1,81 @@
+TODO:
+
+-- User Overview --
+Import Users
+Css action buttons
+Buttons to group
+Fix add/edit form (use same form)
+search form, remoive pointer from spyglass
+
+-- Course Overview --
+Import Courses
+Css action buttons
+Buttons to group
+Fix remove, not active is course has users
+Fix add/edit form (use same form)
+search form, remoive pointer from spyglass
+
+-- Frontpage --
+Make sure everybox is working.
+
+-- Courses --
+Whole box clicable?
+
+-- Assignments --
+Whole box clicable?
+
+-- Course Detail --
+Open Assignments, last column days til due date ?
+Closed Assignments, last column show grade?
+If teacher or TA, last column grade/view solutions?
+if teacher , last column edit Assignment
+
+-- Add Assignment --
+Fix form
+remove % of final grade
+
+-- Assignment Detail --
+Fix add problem button 
+Fix description
+fix Score
+buttons to group
+
+-- Edit Problem --
+Fix form - not the correct one.
+
+-- Problem Details --
+Fix Score
+fix handins
+
+ => Solution Tab
+ Add upload *Multi file*
+ Add Submit problem
+ *Add more files*
+ 
+ => Input / Output
+ Fix Arrow
+ Make sure hidden do not come.
+ 
+ => Submissions
+ Show all submissions
+ show Datetime, score, status, in reverse order, latest first.
+ 
+ => Hints
+ Add hints, similar to discussions, but only teacher and only 1 item, no sub.
+ 
+ => Answer
+ Add answer
+ 
+-- Problem Details Teacher/TA's --
+
+ => Submissions
+ Similar to student but all users *  is it needed?
+ 
+ => Hints 
+ Same as Students, just add Add/edit/remove
+ 
+ => Discussion
+ Same as student, different color if comment is Teacher or TA?
+ 
+ => Answer
+ Similar to Solution from Student, allow to post the code.

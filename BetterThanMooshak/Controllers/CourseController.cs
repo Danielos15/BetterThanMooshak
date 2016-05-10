@@ -80,7 +80,7 @@ namespace BetterThanMooshak.Controllers
         {
             if (!service.Edit(editCourse))
             {
-                ModelState.AddModelError("", "Could not add this Course!");
+                ModelState.AddModelError("", "No changes have been made");
                 return View(editCourse);
             }
 
