@@ -63,6 +63,7 @@
                                     @x.assignment.name
                                 </a>
                             <td>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -118,10 +119,14 @@
                     {
                         <tr>
                             <td>
-                                @x.assignment.name
+                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
+                                    @x.assignment.name
+                                </a>
                             </td>
                             <td>
-                                @x.course.name
+                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
+                                    @x.course.name
+                                </a>
                             </td>
                             <td>
                                 @x.grade.grade
