@@ -1,3 +1,25 @@
-﻿<div>
-    Hello there
+﻿
+<div class="clearfix">
+    <div class="pull-right ">
+        <a class="btn btn-default" href="#">Upload files</a>
+        <a class="btn btn-default" href="#">Add file</a>
+        <a class="btn btn-default" href="#">Submit Solution</a>
+    </div>
 </div>
+
+<textarea id="editor"></textarea>
+
+<script src="@Url.Content("~/Scripts/ace/ace.js")" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setOptions({
+        minLines: 20,
+        maxLines: 30,
+        showPrintMargin: false,
+        fontSize: 18,
+        animatedScroll: true,
+        theme: "ace/theme/xcode"
+    });
+    editor.getSession().setMode("ace/mode/c_cpp");
+    
+</script>

@@ -125,8 +125,31 @@ namespace BetterThanMooshak.Services
 
             IQueryable<string> hints = null; //TODO
 
-            var discussions = from d in db.DiscussionTopics
-                              select d;
+            var topics = (from d in db.DiscussionTopics
+                          where d.problemId == problem.id
+                          select d).ToList();
+
+            DiscussionViewModel discussions = new DiscussionViewModel() {
+                problemId = problem.id,
+                topics = new List<DiscussionTopicViewModel>()
+            };
+            foreach (var topic in topics)
+            {
+                DiscussionTopicViewModel topicModel = new DiscussionTopicViewModel()
+                {
+                    topicId = topic.id,
+                    title = topic.title,
+                    message = topic.message,
+                    userName = (from user in db.Users
+                                where user.Id == topic.userId
+                                select user.Name).SingleOrDefault(),
+
+                    comments = from comment in db.DiscussionComments
+                               where comment.discussionTopicId == topic.id
+                               select comment
+                };
+                discussions.topics.Add(topicModel);
+            }
 
             var answer = new Solution { program = "This is an answer to this problem", problemId = problem.id };
 
