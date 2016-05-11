@@ -1,9 +1,5 @@
 ﻿using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
@@ -11,18 +7,24 @@ namespace BetterThanMooshak.Controllers
     public class SolutionController : Controller
     {
         private SolutionService service = new SolutionService();
-       
+
+        #region Submit Action - Solution for a problem
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(CourseAddViewModel course)
+        public ActionResult Submit(int? id, SolutionPostViewModel model)
         {
-            return RedirectToAction("index");
+            if (id != null)
+            {
+
+            }
+            return View("404");
         }
 
         public ActionResult Index()
         {
             return View(service.getAllSolutions());
         }
+        #endregion
 
     }
 }
