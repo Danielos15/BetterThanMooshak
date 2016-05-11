@@ -379,3 +379,7 @@ a
 {
     color: #000;
 }
+
+.clickable-row {
+    cursor: pointer;
+}

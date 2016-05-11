@@ -37,8 +37,8 @@ namespace BetterThanMooshak.Models.ViewModel
 
     public class AssignmentIndexViewModel
     {
-        public IQueryable<Assignment> oldAssignments;
-        public IQueryable<Assignment> newAssignments;
+        public List<AssignmentViewModel> oldAssignments;
+        public List<AssignmentViewModel> newAssignments;
     }
 
     public class AssignmentProblems
