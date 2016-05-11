@@ -62,19 +62,27 @@ namespace BetterThanMooshak.Controllers
         }
         public ActionResult Edit (int? id)
         {
-            return View(service.GetProblemById(id.Value));
+            ProblemAddViewModel viewModel = service.GetProblemEditViewModel(id.Value);
+
+            return View(viewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Problem problem)
+        public ActionResult Edit(int? id, ProblemAddViewModel problem)
         {
-            if (!service.Edit(problem))
+            if(id != null)
             {
-                ModelState.AddModelError("", "Could not edit this Assignment!");
-                return View(problem);
+                if (!service.Edit(id.Value, ref problem))
+                {
+                    ModelState.AddModelError("", "Could not edit this Assignment!");
+                    return View(problem);
+                }
+
+                return RedirectToAction("details", "assignment", new { id = problem.assignmentId });
             }
 
-            return RedirectToAction("details", "assignment", new { id = problem.assignmentId});
+            return View("404");
+
         }
 
         public ActionResult AddTestcase (int? id)

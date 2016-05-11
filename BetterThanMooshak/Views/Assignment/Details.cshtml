@@ -36,7 +36,10 @@
     {
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <h3 class="panel-title" style="display:inline-block">@x.name</h3>
+            <a href="@Url.Action("details", "problem", new { id = x.id})">
+                <h3 class="panel-title" style="display:inline-block">@x.name</h3>
+            </a>
+            
             <div class="info pull-right" style="display:inline-block">
                 <span class="label label-primary" title="Remaining Attempts">2 / @x.maxAttempts</span>
                 <span class="label label-default" title="Percent of Assignment">@x.percentOfGrade %</span>

@@ -10,7 +10,6 @@ Import Courses
 Make sure everybox is working.
 
 -- Course Detail --
-Open Assignments, last column days til due date ?
 Closed Assignments, last column show grade?
 If teacher or TA, last column grade/view solutions?
 if teacher , last column edit Assignment
