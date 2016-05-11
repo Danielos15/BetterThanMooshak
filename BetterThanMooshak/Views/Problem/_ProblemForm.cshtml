@@ -3,31 +3,37 @@
 @Html.AntiForgeryToken()
 @Html.ValidationSummary("", new { @class = "text-danger" })
 <div class="form-group">
-    <div class="col-md-12">
+    <div class="col-sm-5">
         @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Name..." })
     </div>
 </div>
 <div class="form-group">
-    <div class="col-md-12">
-        @Html.LabelFor(m => m.maxAttempts)
-        @Html.TextBoxFor(m => m.maxAttempts, new { @class = "form-control", placeholder = "Amount of attempts...", type = "number" })
+    <div class="col-sm-5">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Percent of Grade: </span>
+            @Html.TextBoxFor(m => m.maxAttempts, new { @class = "form-control", placeholder = "Amount of attempts...", type = "number" })
+        </div>
     </div>
 </div>
 <div class="form-group">
-    <div class="col-md-12">
-        @Html.LabelFor(m => m.percentOfGrade)
-        @Html.TextBoxFor(m => m.percentOfGrade, new { @class = "form-control", placeholder = "Percent of Grade...", type = "number" })
+    <div class="col-sm-5">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Percent of Grade: </span>
+            @Html.TextBoxFor(m => m.percentOfGrade, new { @class = "form-control", placeholder = "Percent of Grade...", type = "number" })
+        </div>
     </div>
 </div>
 <div class="form-group">
-    <div class="col-md-12">
+    <div class="col-sm-5">
         @Html.TextAreaFor(m => m.description, new { @class = "form-control", placeholder = "Description...", rows = 6 })
     </div>
 </div>
-<div class="col-md-6">
-    <input type="submit" value="Save" class="btn btn-default" />
-</div>
-<div class="col-md-6">
-    <input type="button" value="Cancel" class="btn btn-default" onclick="history.back()" />
+<div class="form-group">
+    <div class="col-sm-5">
+        <div class="btn-group pull-right">
+            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="button" value="Cancel" class="btn btn-default" onclick="history.back()" />
+        </div>
+    </div>
 </div>
 
