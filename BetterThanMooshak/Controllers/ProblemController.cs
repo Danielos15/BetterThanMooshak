@@ -33,7 +33,9 @@ namespace BetterThanMooshak.Controllers
         }
         public ActionResult Add(int? id)
         {
-            return View(service.Initialize(id));
+            ProblemAddViewModel model = service.Initialize(id.Value);
+
+            return View(model);
         }
 
         [HttpPost]
