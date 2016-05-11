@@ -8,49 +8,60 @@
 </div>
 <div class="boxText">
     @{
+        if (Model.assignment.endDate > DateTime.Now)
+        {
+            <h4>
+                Time remaining:
+                @{
+                    var days = (Model.assignment.endDate - DateTime.Now).Days;
+                    var hours = (Model.assignment.endDate - DateTime.Now.AddDays(-days)).Hours;
+                    var minutes = (Model.assignment.endDate - DateTime.Now.AddDays(-days).AddHours(-hours)).Minutes;
+                }
+                @days Days, @hours Hours, @minutes Minutes
+            </h4>
+        }
         if (Model.assignment.description != null && Model.assignment.description.Length > 0)
         {
-            <h3>@Model.assignment.description </h3>
-
-            if (Model.assignment.endDate > DateTime.Now)
-             {
-                 <h4>
-                     Time remaining:
-                     @{
-                         var days = (Model.assignment.endDate - DateTime.Now).Days;
-                         var hours = (Model.assignment.endDate - DateTime.Now.AddDays(-days)).Hours;
-                         var minutes = (Model.assignment.endDate - DateTime.Now.AddDays(-days).AddHours(-hours)).Minutes;
-                     }
-                     @days Days, @hours Hours, @minutes Minutes
-                 </h4>
-             }
+            <p style="white-space:pre-line">@Model.assignment.description </p>
         }
     }
     
     @if (Model.courseUser.role == 3)
     {
-        <a class="btn btn-default" href="@Url.Action("add", "problem", new { id = Model.assignment.id })">Add problem</a>
+        <div class="clearfix bottom20">
+            <div class="pull-right">
+                <a class="btn btn-default" href="@Url.Action("add", "problem", new { id = Model.assignment.id })">
+                    <i class="fa fa-plus-square"></i> Add problem
+                </a>
+            </div>
+        </div>
     }
 
-    @foreach (var x in Model.problems)
+    @foreach (var problem in Model.problems)
     {
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <h3 class="panel-title" style="display:inline-block">@x.name</h3>
+            <h3 class="panel-title" style="display:inline-block">@problem.name</h3>
             <div class="info pull-right" style="display:inline-block">
-                <span class="label label-primary" title="Remaining Attempts">2 / @x.maxAttempts</span>
-                <span class="label label-default" title="Percent of Assignment">@x.percentOfGrade %</span>
+                <span class="label label-primary" title="Remaining Attempts">2 / @problem.maxAttempts</span>
+                <span class="label label-default" title="Percent of Assignment">@problem.percentOfGrade %</span>
             </div>
         </div>
         <div class="panel-body">
-            @x.description
+            @problem.description
         </div>
         <div class="panel-footer clearfix">
-            <a class="btn btn-default pull-right" href="@Url.Action("details", "problem", new { id = x.id})">Solve</a>
-            @if (Model.courseUser.role == 3)
-            {
-                <a class="btn btn-default pull-right" href="@Url.Action("edit", "problem", new { id = x.id})">edit</a>
-            }
+            <div class="btn-group pull-right">
+                <a class="btn btn-default" href="@Url.Action("details", "problem", new { id = problem.id})">
+                    <i class="fa fa-code"></i> Solve
+                </a>
+                @if (Model.courseUser.role == 3)
+                {
+                    <a class="btn btn-default" href="@Url.Action("edit", "problem", new { id = problem.id})">
+                    <i class="fa fa-pencil-square"></i> Edit
+                    </a>
+                }
+            </div>
         </div>
     </div>
     }

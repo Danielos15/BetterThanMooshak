@@ -7,15 +7,15 @@ namespace BetterThanMooshak.Controllers
     public class AssignmentController : Controller
     {
         private AssignmentService service = new AssignmentService();
-        // GET: Assignments
-        #region Get overview off all Courses
+
+        #region Index Action - Get overview off all Courses
         public ActionResult Index()
         {
             return View(service.GetAll());
         }
         #endregion
 
-        #region Get details from single Course
+        #region Details Action - Get details from single Course
         public ActionResult Details(int? id)
         {
             if (id != null)
@@ -32,7 +32,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Add Assignment
+        #region Add Action - New Assignment
         public ActionResult Add(int? id)
         {
             if (id != null)
@@ -59,7 +59,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Edit Assignment
+        #region Edit Action - Edit Assignment
         public ActionResult Edit (int? id)
         {
             if (id != null)
