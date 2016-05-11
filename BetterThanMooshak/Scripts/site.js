@@ -57,9 +57,13 @@ $(function () {
     $("input.datepicker").datetimepicker({
         format: "DD/M/YYYY HH:mm",
         calendarWeeks: true,
-        sideBySide: true
+        sideBySide: true,
+        toolbarPlacement: 'top',
+        showTodayButton: true,
+        showClose: true,
+        showClear: true,
+        widgetPositioning: {horizontal: 'left', vertical: 'bottom'}
     });
-    $('.jqtabs').tabs();
 });
 
 $(function () {

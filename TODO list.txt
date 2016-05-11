@@ -6,7 +6,6 @@ Import Users
 -- Course Overview --
 Import Courses
 Fix remove, not active is course has users
-Fix EndDate datepicker...
 
 -- Frontpage --
 Make sure everybox is working.

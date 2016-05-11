@@ -35,11 +35,16 @@ namespace BetterThanMooshak.Controllers
         // GET: User
         public ActionResult Index()
         {
-            UsersViewModel viewModel = service.GetAllUsers();
+            if (TempData["errorMessage"] != null)
+            {
+                ViewBag.errorMessage = TempData["errorMessage"].ToString();
+            }
             if (TempData["message"] != null)
             {
                 ViewBag.message = TempData["message"].ToString();
             }
+
+            UsersViewModel viewModel = service.GetAllUsers();
 
             return View(viewModel);
         }
@@ -75,7 +80,7 @@ namespace BetterThanMooshak.Controllers
 
                         UserManager.AddToRole(user.Id, "Admin");
                     }
-
+                    TempData["message"] = newUser.name + " has been added.";
                     return RedirectToAction("index", "user");
                 }
                 AddErrors(result);
@@ -144,7 +149,7 @@ namespace BetterThanMooshak.Controllers
         // GET: Send Email Validation
         public async Task<ActionResult> SendEmailValidation()
         {
-
+            TempData["message"] = "Validation E-mail sent to : ";
             var users = service.GetAllUsersAsEntity();
             foreach (var user in users)
             {
@@ -154,6 +159,7 @@ namespace BetterThanMooshak.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    TempData["message"] += user.Email + ", ";
                 }
             }
 
@@ -166,21 +172,19 @@ namespace BetterThanMooshak.Controllers
         public async Task<ActionResult> Remove(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
-            string message ="";
             if (service.CanDeleteUser(user))
             {
                 var result = UserManager.Delete(user);
                 if (result.Succeeded)
                 {
-                    message = user.Name + " has be deleted from the system";
+                    TempData["message"] = user.Name + " has be deleted from the system";
                 } 
                 else
                 {
-                    message = "An error occured while trying to delete " + user.Name;
+                    TempData["errorMessage"] = "An error occured while trying to delete " + user.Name;
                 }
             } 
 
-            TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
         #endregion
@@ -190,22 +194,19 @@ namespace BetterThanMooshak.Controllers
         public async Task<ActionResult> Active(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
-            string message;
             if (user.Active)
             {
                 user.Active = false;
                 UserManager.Update(user);
-                message = user.Name + " has be deactivated and can no longer login.";
+                TempData["message"] = user.Name + " has be deactivated and can no longer login.";
             } 
             else
             {
                 user.Active = true;
                 UserManager.Update(user);
-                message = user.Name + " has be activated and can now login.";
+                TempData["message"] = user.Name + " has be activated and can now login.";
             }
             
-
-            TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
         #endregion
@@ -223,22 +224,19 @@ namespace BetterThanMooshak.Controllers
         public async Task<ActionResult> EmailConfirm(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
-            string message;
             if (user.EmailConfirmed)
             {
                 user.EmailConfirmed = false;
                 UserManager.Update(user);
-                message = user.Name + "'s Email confirmation disabled";
+                TempData["message"] = user.Name + "'s Email confirmation disabled";
             }
             else
             {
                 user.EmailConfirmed = true;
                 UserManager.Update(user);
-                message = user.Name + "'s Email has been confirmed";
+                TempData["message"] = user.Name + "'s Email has been confirmed";
             }
 
-
-            TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
         #endregion

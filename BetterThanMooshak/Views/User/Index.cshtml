@@ -6,15 +6,7 @@
     <h1>User Overview</h1>
 </div>
 <div class="boxText">
-    @{ if(ViewBag.message != null)
-        {
-            <div class="alert alert-info">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                @ViewBag.message    
-            </div>
-        }
-
-    }
+    @Html.Partial("_ViewBagAlerts")
     <div class="userActions btn-group bottom20">
         <a href="@Url.Action("add", "user")" class="btn btn-default">
             <i class="fa fa-plus-square"></i>

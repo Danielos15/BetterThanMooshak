@@ -18,6 +18,15 @@ namespace BetterThanMooshak.Controllers
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Index()
         {
+            if (TempData["errorMessage"] != null)
+            {
+                ViewBag.errorMessage = TempData["errorMessage"].ToString();
+            }
+            if (TempData["message"] != null)
+            {
+                ViewBag.message = TempData["message"].ToString();
+            }
+
             IQueryable<Course> viewModel = service.GetAllCourses();
 
             return View(viewModel);
@@ -39,11 +48,13 @@ namespace BetterThanMooshak.Controllers
             {
                 if (!service.Add(newCourse))
                 {
-                    ModelState.AddModelError("", "Could not add this Course!");
+                    ModelState.AddModelError("", "Course could not be saved!");
                     return View(newCourse);
                 }
+                TempData["message"] = newCourse.name + " Has been added!";
                 return RedirectToAction("index");
             }
+            ModelState.AddModelError("", "Submission invalid!");
             return View(newCourse);
         }
         #endregion
@@ -80,14 +91,17 @@ namespace BetterThanMooshak.Controllers
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Remove(int? id)
         {
-            if(!service.RemoveCourseById(id.Value))
+            if (id != null)
             {
-                ModelState.AddModelError("", "Could not remove this Course!");
+                if (!service.RemoveCourseById(id.Value))
+                {
+                    TempData["errorMessage"] = "Course Could not be removed!";
+                    return RedirectToAction("index");
+                }
 
                 return RedirectToAction("index");
             }
-
-            return RedirectToAction("index");
+            return View("404");
         }
         #endregion
 
