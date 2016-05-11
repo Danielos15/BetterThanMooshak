@@ -131,10 +131,11 @@ header.navbar .menu {
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
+input.form-control,
+select.form-control,
+textarea.form-control {
    /*max-width: 280px;*/
+   font-size: 18px;
 }
 
 
@@ -245,7 +246,7 @@ footer {
 
 /*Font Awesome changes*/
 body .fa {
-    font-size: 18px;
+    font-size: 20px;
 }
 body a > i.fa {
     color: #407E84;
@@ -262,6 +263,12 @@ body span.fa {
     body i:hover.fa,
     body span:hover.fa {
     color: #666;
+    }
+
+    .btn {
+        font-family: "Roboto";
+        font-style: normal;
+        font-size: 18px;
     }
 
 /* Login Form */

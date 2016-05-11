@@ -1,10 +1,7 @@
 TODO:
 
--- User Overview --
-Import Users
-
--- Course Overview --
-Import Courses
+-- User & Course Overview --
+Import Users/Course
 
 -- Frontpage --
 Make sure everybox is working.
@@ -16,8 +13,6 @@ Whole box clicable?
 Whole box clicable?
 
 -- Course Detail --
-Open Assignments, last column days til due date ?
-Closed Assignments, last column show grade?
 If teacher or TA, last column grade/view solutions?
 if teacher , last column edit Assignment
 
