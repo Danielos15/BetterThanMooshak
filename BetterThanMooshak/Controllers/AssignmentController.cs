@@ -8,11 +8,31 @@ namespace BetterThanMooshak.Controllers
     {
         private AssignmentService service = new AssignmentService();
         // GET: Assignments
+        #region Get overview off all Courses
         public ActionResult Index()
         {
             return View(service.GetAll());
         }
+        #endregion
 
+        #region Get details from single Course
+        public ActionResult Details(int? id)
+        {
+            if (id != null)
+            {
+                if (service.verifyUser(id.Value))
+                    return View(service.GetAssignmentProblems(id.Value));
+                else
+                {
+                    ModelState.AddModelError("", "User not authorized");
+                    return RedirectToAction("index", "home");
+                }
+            }
+            return RedirectToAction("notfound", "error");
+        }
+        #endregion
+
+        #region Add Assignment
         public ActionResult Add(int? id)
         {
             if (id != null)
@@ -37,21 +57,9 @@ namespace BetterThanMooshak.Controllers
             }
             return View("404");
         }
+        #endregion
 
-        public ActionResult Details(int? id)
-        {
-            if(id != null) { 
-                if (service.verifyUser(id.Value))
-                    return View(service.GetAssignmentProblems(id.Value));
-                else
-                {
-                    ModelState.AddModelError("", "User not authorized");
-                    return RedirectToAction("index", "home");
-                }
-            }
-            return RedirectToAction("notfound", "error");
-        }
-
+        #region Edit Assignment
         public ActionResult Edit (int? id)
         {
             if (id != null)
@@ -79,6 +87,6 @@ namespace BetterThanMooshak.Controllers
             }
             return View("404");
         }
-
+        #endregion
     }
 }
