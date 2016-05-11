@@ -6,12 +6,6 @@ Import Users/Course
 -- Frontpage --
 Make sure everybox is working.
 
--- Courses --
-Whole box clicable?
-
--- Assignments --
-Whole box clicable?
-
 -- Course Detail --
 If teacher or TA, last column grade/view solutions?
 if teacher , last column edit Assignment
