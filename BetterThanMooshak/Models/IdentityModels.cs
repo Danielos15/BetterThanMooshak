@@ -36,7 +36,25 @@ namespace BetterThanMooshak.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public interface IAppDataContext
+    {
+        IDbSet<Assignment> Assignments { get; set; }
+        IDbSet<BestSolution> BestSolutions { get; set; }
+        IDbSet<Course> Courses { get; set; }
+        IDbSet<CourseUser> CourseUsers { get; set; }
+        IDbSet<DiscussionComment> DiscussionComments { get; set; }
+        IDbSet<DiscussionTopic> DiscussionTopics { get; set; }
+        IDbSet<Notification> Notifications { get; set; }
+        IDbSet<Problem> Problems { get; set; }
+        IDbSet<Grade> Grades { get; set; }
+        IDbSet<Solution> Solutions { get; set; }
+        IDbSet<Testcase> Testcases { get; set; }
+        IDbSet<ApplicationUser> Users { get; set; }
+        int SaveChanges();
+
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IAppDataContext
     {
         public ApplicationDbContext()
             : base("MooshakDB", throwIfV1Schema: false)
@@ -48,16 +66,16 @@ namespace BetterThanMooshak.Models
             return new ApplicationDbContext();
         }
         
-        public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<BestSolution> BestSolutions { get; set; }
-        public DbSet<Course> Courses { get; set; }
-        public DbSet<CourseUser> CourseUsers { get; set; }
-        public DbSet<DiscussionComment> DiscussionComments { get; set; }
-        public DbSet<DiscussionTopic> DiscussionTopics { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
-        public DbSet<Problem> Problems { get; set; }
-        public DbSet<Grade> Grades { get; set; }
-        public DbSet<Solution> Solutions { get; set; }
-        public DbSet<Testcase> Testcases { get; set; }
+        public IDbSet<Assignment> Assignments { get; set; }
+        public IDbSet<BestSolution> BestSolutions { get; set; }
+        public IDbSet<Course> Courses { get; set; }
+        public IDbSet<CourseUser> CourseUsers { get; set; }
+        public IDbSet<DiscussionComment> DiscussionComments { get; set; }
+        public IDbSet<DiscussionTopic> DiscussionTopics { get; set; }
+        public IDbSet<Notification> Notifications { get; set; }
+        public IDbSet<Problem> Problems { get; set; }
+        public IDbSet<Grade> Grades { get; set; }
+        public IDbSet<Solution> Solutions { get; set; }
+        public IDbSet<Testcase> Testcases { get; set; }
     }
 }
