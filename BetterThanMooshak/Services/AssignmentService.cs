@@ -45,38 +45,75 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean( db.SaveChanges() );
         }
 
-        public AssignmentIndexViewModel getAll()
+        public AssignmentIndexViewModel GetAll()
         {
-            var currentUser = HttpContext.Current.User.Identity.GetUserId();
-
-            var currDate = DateTime.Now;
-
-            var appUser = (from user in db.Users
-                           where user.Id == currentUser
-                           select user).SingleOrDefault();
-
-            var userCourses = from courseusers in db.CourseUsers
-                              join courses in db.Courses on courseusers.courseId equals courses.id into result
-                              where courseusers.userId == appUser.Id
+            var teacherCourses = from cu in db.CourseUsers
+                              join c in db.Courses on cu.courseId equals c.id into result
+                              where cu.userId == currentUser && cu.role == 3
                               from x in result
                               select x;
 
-            var newAss = from course in userCourses
+            var teacherAss = (from course in teacherCourses
+                              join ass in db.Assignments on course.id equals ass.courseId into result
+                              from x in result
+                              where x.endDate > DateTime.Now
+                              orderby x.endDate ascending
+                              select x).ToList();
+
+            var userCourses = from cu in db.CourseUsers
+                              join c in db.Courses on cu.courseId equals c.id into result
+                              where cu.userId == currentUser && cu.role != 3
+                              from x in result
+                              select x;
+
+            var newAss = (from course in userCourses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
-                                  where x.endDate > currDate
+                                  where x.endDate > DateTime.Now && x.startDate < DateTime.Now
                                   orderby x.endDate ascending
-                                  select x;
+                                  select x).ToList();
 
-            var oldAss = from course in userCourses
+            newAss.AddRange(teacherAss);
+
+            var newCourses = (from a in newAss
+                join c in db.Courses on a.courseId equals c.id
+                select c).ToList();
+
+            var newAssignments = new List<AssignmentViewModel> {};
+
+            for (int i = 0; i < newAss.Count; i++)
+            {
+                newAssignments.Add(new AssignmentViewModel
+                {
+                    assignment = newAss.ElementAt(i),
+                    course = newCourses.ElementAt(i)
+                });
+            }
+
+            var oldAss = (from course in userCourses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
-                                  where x.endDate < currDate
-                                  select x;
+                                  where x.endDate < DateTime.Now
+                                  select x).ToList();
 
-            var all = new AssignmentIndexViewModel() { newAssignments = newAss, oldAssignments = oldAss };
+            var oldCourses = (from a in oldAss
+                              join c in db.Courses on a.courseId equals c.id
+                              select c).ToList();
 
-            return (all);
+            var oldAssignments = new List<AssignmentViewModel> { };
+
+            for (int i = 0; i < oldAss.Count; i++)
+            {
+                oldAssignments.Add(new AssignmentViewModel
+                {
+                    assignment = oldAss.ElementAt(i),
+                    course = oldCourses.ElementAt(i)
+                });
+            }
+
+            var model = new AssignmentIndexViewModel() { newAssignments = newAssignments, oldAssignments = oldAssignments };
+
+            return (model);
         }
 
         public bool Edit(Assignment assignment)

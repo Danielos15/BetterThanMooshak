@@ -16,7 +16,7 @@ namespace BetterThanMooshak.Controllers
         // GET: Assignments
         public ActionResult Index()
         {
-            return View(service.getAll());
+            return View(service.GetAll());
         }
 
         public ActionResult Add(int? id)
