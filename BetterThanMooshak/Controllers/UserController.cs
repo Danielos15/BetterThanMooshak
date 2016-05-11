@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using BetterThanMooshak.Utilities;
+using System.Threading.Tasks;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -58,7 +59,12 @@ namespace BetterThanMooshak.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = newUser.email, Email = newUser.email, Name = newUser.name, Active = true };
+                ApplicationUser user = new ApplicationUser {
+                    UserName = newUser.email,
+                    Email = newUser.email,
+                    Name = newUser.name,
+                    Active = true
+                };
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -82,14 +88,18 @@ namespace BetterThanMooshak.Controllers
         // GET: Edit User
         public ActionResult Edit(string id)
         {
-            ApplicationUser user = service.GetUserById(id);
-            UserAddViewModel model = new UserAddViewModel()
+            if (id != null)
             {
-                name = user.Name,
-                email = user.Email,
-                admin = UserManager.IsInRole(user.Id, "Admin")
-            };
-            return View(model);
+                ApplicationUser user = service.GetUserById(id);
+                UserAddViewModel model = new UserAddViewModel()
+                {
+                    name = user.Name,
+                    email = user.Email,
+                    admin = UserManager.IsInRole(user.Id, "Admin")
+                };
+                return View(model);
+            }
+            return View("404");
         }
 
         // POST: Edit User
@@ -126,7 +136,7 @@ namespace BetterThanMooshak.Controllers
                 }
                 return View(editUser);
             }
-            return View("NotFound");
+            return View("404");
         }
         #endregion
 
