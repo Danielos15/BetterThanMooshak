@@ -45,20 +45,12 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public bool RemoveCourseById (int id)
-        {
-            db.Courses.Remove(GetCourseById(id));
-
-            return Convert.ToBoolean(db.SaveChanges());
-        }
-
-        public CourseEditViewModel GetCourseEditViewModel(int value)
+        public CourseAddViewModel GetCourseEditViewModel(int value)
         {
             Course course = GetCourseById(value);
 
-            CourseEditViewModel viewModel = new CourseEditViewModel
+            CourseAddViewModel viewModel = new CourseAddViewModel()
             {
-                id = course.id,
                 name = course.name,
                 startDate = course.startDate,
                 endDate = course.endDate
@@ -67,15 +59,22 @@ namespace BetterThanMooshak.Services
             return viewModel;
         }
 
-        public bool Edit(CourseEditViewModel editCourse)
+        public bool Edit(int id, CourseAddViewModel editCourse)
         {
             var item = (from course in db.Courses
-                        where course.id == editCourse.id
+                        where course.id == id
                         select course).SingleOrDefault();
 
             item.name =         editCourse.name;
             item.startDate =    editCourse.startDate;
             item.endDate =      editCourse.endDate;
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public bool RemoveCourseById(int id)
+        {
+            db.Courses.Remove(GetCourseById(id));
 
             return Convert.ToBoolean(db.SaveChanges());
         }

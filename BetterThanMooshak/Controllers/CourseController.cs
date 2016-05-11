@@ -3,13 +3,8 @@ using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using BetterThanMooshak.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using System.Web.Script.Serialization;
 
 
@@ -40,13 +35,44 @@ namespace BetterThanMooshak.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(CourseAddViewModel newCourse)
         {
-            if(!service.Add(newCourse))
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Could not add this Course!");
-                return View(newCourse);
+                if (!service.Add(newCourse))
+                {
+                    ModelState.AddModelError("", "Could not add this Course!");
+                    return View(newCourse);
+                }
+                return RedirectToAction("index");
             }
+            return View(newCourse);
+        }
+        #endregion
 
-            return RedirectToAction("index");
+        #region Edit view
+        [CustomAuthorize(Roles = "Admin")]
+        public ActionResult Edit(int? id)
+        {
+            CourseAddViewModel viewModel = service.GetCourseEditViewModel(id.Value);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int? id, CourseAddViewModel editCourse)
+        {
+            if (id != null)
+            {
+                if (!service.Edit(id.Value, editCourse))
+                {
+                    ModelState.AddModelError("", "No changes have been made");
+                    return View(editCourse);
+                }
+
+                return RedirectToAction("index");
+            }
+            return View("404");
+
         }
         #endregion
 
@@ -62,30 +88,6 @@ namespace BetterThanMooshak.Controllers
             }
 
             return RedirectToAction("index");
-        }
-        #endregion
-
-        #region Edit view
-        [CustomAuthorize(Roles = "Admin")]
-        public ActionResult Edit(int? id)
-        {
-            CourseEditViewModel viewModel = service.GetCourseEditViewModel(id.Value);
-
-            return View(viewModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(CourseEditViewModel editCourse)
-        {
-            if (!service.Edit(editCourse))
-            {
-                ModelState.AddModelError("", "No changes have been made");
-                return View(editCourse);
-            }
-
-            return RedirectToAction("index");
-
         }
         #endregion
 
