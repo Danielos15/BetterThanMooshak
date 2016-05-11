@@ -46,23 +46,4 @@ namespace BetterThanMooshak.Models.ViewModel
         [Display(Name = "Admin")]
         public bool admin { get; set; }
     }
-
-    public class UserEditViewModel
-    {
-        public string id { get; set; }
-
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string email { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Name")]
-        [StringLength(100, ErrorMessage = "Type in your name, god damn it!", MinimumLength = 2)]
-        public string name { get; set; }
-
-        [Display(Name = "Admin")]
-        public bool admin { get; set; }
-    }
 }

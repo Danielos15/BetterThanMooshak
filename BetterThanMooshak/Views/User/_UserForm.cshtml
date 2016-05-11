@@ -1,0 +1,27 @@
+﻿@model BetterThanMooshak.Models.ViewModel.UserAddViewModel
+
+@Html.AntiForgeryToken()
+@Html.ValidationSummary("", new { @class = "text-danger" })
+<div class="form-group">
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Name..." })
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-sm-5">
+        @Html.TextBoxFor(m => m.email, new { @class = "form-control", placeholder = "E-mail..." })
+    </div>
+</div>
+
+<div class="form-group form-inline">
+    <div class="col-sm-5">
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.admin)
+                Admin
+            </label>
+        </div>
+        <input type="submit" value="Save" class="btn btn-default pull-right" />
+    </div>
+</div>

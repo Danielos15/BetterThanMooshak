@@ -2,18 +2,12 @@ TODO:
 
 -- User Overview --
 Import Users
-Css action buttons
-Buttons to group
 Fix add/edit form (use same form)
-search form, remoive pointer from spyglass
 
 -- Course Overview --
 Import Courses
-Css action buttons
-Buttons to group
 Fix remove, not active is course has users
 Fix add/edit form (use same form)
-search form, remoive pointer from spyglass
 
 -- Frontpage --
 Make sure everybox is working.

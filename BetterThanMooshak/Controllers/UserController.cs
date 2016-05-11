@@ -1,28 +1,22 @@
 ﻿using BetterThanMooshak.Models;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-
-using System.Globalization;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using BetterThanMooshak.Utilities;
 
 namespace BetterThanMooshak.Controllers
 {
+    //So only Admins can view these Actions
     [CustomAuthorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private UserService service = new UserService();        
         private ApplicationUserManager _userManager;
 
+        #region UserManager setup
         public ApplicationUserManager UserManager
         {
             get
@@ -34,9 +28,10 @@ namespace BetterThanMooshak.Controllers
                 _userManager = value;
             }
         }
+        #endregion
 
+        #region Index of all users for Admins
         // GET: User
-        
         public ActionResult Index()
         {
             UsersViewModel viewModel = service.GetAllUsers();
@@ -47,7 +42,9 @@ namespace BetterThanMooshak.Controllers
 
             return View(viewModel);
         }
+        #endregion
 
+        #region Add user Actions
         // GET: Add User
         public ActionResult Add()
         {
@@ -79,14 +76,15 @@ namespace BetterThanMooshak.Controllers
             }
             return View(newUser);
         }
-        
+        #endregion
+
+        #region Edit user Actions
         // GET: Edit User
         public ActionResult Edit(string id)
         {
             ApplicationUser user = service.GetUserById(id);
-            UserEditViewModel model = new UserEditViewModel()
+            UserAddViewModel model = new UserAddViewModel()
             {
-                id = user.Id,
                 name = user.Name,
                 email = user.Email,
                 admin = UserManager.IsInRole(user.Id, "Admin")
@@ -97,36 +95,42 @@ namespace BetterThanMooshak.Controllers
         // POST: Edit User
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UserEditViewModel editUser)
+        public async Task<ActionResult> Edit(string id, UserAddViewModel editUser)
         {
-            if (ModelState.IsValid)
+            if (id != null)
             {
-                ApplicationUser user = await UserManager.FindByIdAsync(editUser.id);
-                user.UserName = editUser.email;
-                user.Email = editUser.email;
-                user.Name = editUser.name;
-                IdentityResult result = await UserManager.UpdateAsync(user);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    if (editUser.admin)
+                    ApplicationUser user = await UserManager.FindByIdAsync(id);
+                    user.UserName = editUser.email;
+                    user.Email = editUser.email;
+                    user.Name = editUser.name;
+                    IdentityResult result = await UserManager.UpdateAsync(user);
+                    if (result.Succeeded)
                     {
-                        if (!service.IfRoleExists("Admin"))
-                            service.AddRole("Admin");
+                        if (editUser.admin)
+                        {
+                            if (!service.IfRoleExists("Admin"))
+                                service.AddRole("Admin");
 
-                        UserManager.AddToRole(user.Id, "Admin");
+                            UserManager.AddToRole(user.Id, "Admin");
+                        }
+                        else
+                        {
+                            if (UserManager.IsInRole(user.Id, "Admin"))
+                            UserManager.RemoveFromRole(user.Id, "Admin");
+                        }
+                        return RedirectToAction("index", "user");
                     }
-                    else
-                    {
-                        if (UserManager.IsInRole(user.Id, "Admin"))
-                        UserManager.RemoveFromRole(user.Id, "Admin");
-                    }
-                    return RedirectToAction("index", "user");
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                return View(editUser);
             }
-            return View(editUser);
+            return View("NotFound");
         }
+        #endregion
 
+        #region Send Email Validation to all that are not Validated
         // GET: Send Email Validation
         public async Task<ActionResult> SendEmailValidation()
         {
@@ -145,8 +149,10 @@ namespace BetterThanMooshak.Controllers
 
             return RedirectToAction("index", "user");
         }
+        #endregion
 
-        // POST: Remove User
+        #region Remove user Action
+        // Get: Remove User
         public async Task<ActionResult> Remove(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
@@ -167,8 +173,10 @@ namespace BetterThanMooshak.Controllers
             TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
+        #endregion
 
-        // POST: Activate User
+        #region Activate or Deactivate User
+        // GET: Activate User
         public async Task<ActionResult> Active(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
@@ -190,14 +198,18 @@ namespace BetterThanMooshak.Controllers
             TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
+        #endregion
 
-
+        #region Import users from .csv file
         [HttpPost]
         public ActionResult Import()
         {
+            //TODO: Danni - make import avalible
             return View();
         }
+        #endregion
 
+        #region Admin can confirm e-mail for users if needed
         public async Task<ActionResult> EmailConfirm(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
@@ -219,7 +231,9 @@ namespace BetterThanMooshak.Controllers
             TempData["message"] = message;
             return RedirectToAction("index", "user");
         }
+        #endregion
 
+        #region Helper function to add errors to ModelState
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -227,5 +241,6 @@ namespace BetterThanMooshak.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+        #endregion
     }
 }

@@ -656,6 +656,7 @@
     <Content Include="Views\Problem\_ProblemDiscussion.cshtml" />
     <Content Include="Views\Problem\_ProblemDiscussionComment.cshtml" />
     <Content Include="Views\Problem\_ProblemDiscussionAddTopicForm.cshtml" />
+    <Content Include="Views\User\_UserForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
