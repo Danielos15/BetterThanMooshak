@@ -87,5 +87,17 @@ namespace BetterThanMooshak.Services
 
             return allSolutions;
         }
+
+        public bool SaveSolution(int id, string userId, SolutionPostViewModel model)
+        {
+            Solution solution = new Solution()
+            {
+                problemId = id,
+                program = model.code,
+                userId = userId
+            };
+            db.Solutions.Add(solution);
+            return Convert.ToBoolean(db.SaveChanges());
+        }
     }
 }

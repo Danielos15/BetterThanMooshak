@@ -13,7 +13,8 @@ namespace BetterThanMooshak
                         "~/Scripts/jquery-ui.min.js",
                         "~/Scripts/moment.min.js",
                         "~/Scripts/bootstrap-datetimepicker.min.js",
-                        "~/Scripts/DragDrop.js"));
+                        "~/Scripts/DragDrop.js",
+                        "~/Scripts/ace/ace.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

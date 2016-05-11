@@ -32,15 +32,51 @@ site.enrole = {
         $('form#enroleForm #roles').val(json);
     }
 }
-site.testcase = {
-    add: function () {
-       return false;
-    },
-    submit: function () {
 
+site.solution = {
+    init: function () {
+        if ($('#editor').length > 0) {
+            site.solution.editor = ace.edit("editor");
+            site.solution.editor.setOptions({
+                minLines: 20,
+                maxLines: 30,
+                showPrintMargin: false,
+                fontSize: 18,
+                animatedScroll: true,
+                theme: "ace/theme/xcode"
+            });
+            site.solution.editor.getSession().setMode("ace/mode/c_cpp");
+            site.solution.editor.getSession().on("change", site.solution.localSave);
+            if (localStorage.aceEditor) {
+                site.solution.editor.setValue(localStorage.aceEditor);
+            }
+        }
+    },
+    localSave : function() {
+        localStorage.aceEditor = site.solution.editor.getValue();
+    },
+    success : function() {
+        console.log("Post was a Success");
+    },
+    save: function (id) {
+        $.ajax({
+            url: "/solution/save/"+id,
+            method: "POST",
+            data: {code : site.solution.editor.getValue()},
+            success: site.solution.success
+        });
+    },
+    submit: function (id) {
+        $.ajax({
+            url: "/solution/submit/"+id,
+            method: "POST",
+            data: {code : site.solution.editor.getValue()},
+            success: site.solution.success
+        });
     }
 }
 $(function () {
+    site.solution.init();
 
     $('form#enroleForm').submit(function() {
         site.enrole.submit();
