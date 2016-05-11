@@ -34,5 +34,6 @@ namespace BetterThanMooshak.Models.ViewModel
         public IQueryable<string> hints { get; set; }
         public DiscussionViewModel discussions { get; set; }
         public Solution answer { get; set; }
+        public bool isTeacher { get; set; }
     }
 }

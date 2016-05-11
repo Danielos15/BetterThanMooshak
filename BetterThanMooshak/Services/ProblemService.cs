@@ -132,6 +132,12 @@ namespace BetterThanMooshak.Services
                           from co in courses
                           select co).SingleOrDefault();
 
+            var userRole = (from cu in db.CourseUsers
+                where cu.courseId == course.id && cu.userId == currentUser
+                select cu).SingleOrDefault();
+
+            var isTeacher = userRole.role == 3;
+
             var currSolution = new Solution { problemId = problem.id, userId = currentUser };
 
             var testcases = (from t in db.Testcases
@@ -183,7 +189,8 @@ namespace BetterThanMooshak.Services
                 submissions = submissions,
                 hints = hints,
                 discussions = discussions,
-                answer = answer
+                answer = answer,
+                isTeacher = isTeacher
             };
 
             return viewModel;
