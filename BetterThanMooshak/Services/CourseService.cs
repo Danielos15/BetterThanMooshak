@@ -141,12 +141,30 @@ namespace BetterThanMooshak.Services
 
         public CourseAssignments GetCourseAssignments(int? id)
         {
-            var newAssignments =  from course in db.Courses
-                                  join ass in db.Assignments on course.id equals ass.courseId into result
-                                  where course.id == id
-                                  from x in result
-                                  where x.endDate > DateTime.Now
-                                  select x;
+            var isTeacher = (from cu in db.CourseUsers
+                where cu.courseId == id.Value && cu.userId == currentUser
+                select cu).SingleOrDefault().role;
+
+            IQueryable<Assignment> newAssignments;
+
+            if (isTeacher == 3)
+            {
+                newAssignments =    from course in db.Courses
+                                        join ass in db.Assignments on course.id equals ass.courseId into result
+                                        where course.id == id
+                                        from x in result
+                                        where x.endDate > DateTime.Now
+                                        select x;
+            }
+            else
+            {
+                newAssignments = from course in db.Courses
+                                     join ass in db.Assignments on course.id equals ass.courseId into result
+                                     where course.id == id
+                                     from x in result
+                                     where x.endDate > DateTime.Now && x.startDate < DateTime.Now
+                                     select x;
+            }
 
             var oldAssignments = from course in db.Courses
                                  join ass in db.Assignments on course.id equals ass.courseId into result

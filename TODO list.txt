@@ -1,18 +1,10 @@
 TODO:
 
--- User Overview --
-Import Users
-
--- Course Overview --
-Import Courses
+-- User & Course Overview --
+Import Users/Course
 
 -- Frontpage --
 Make sure everybox is working.
-
--- Course Detail --
-Closed Assignments, last column show grade?
-If teacher or TA, last column grade/view solutions?
-if teacher , last column edit Assignment
 
 -- Add Assignment --
 Fix form

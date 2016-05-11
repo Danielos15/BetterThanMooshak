@@ -1,11 +1,5 @@
-﻿﻿using BetterThanMooshak.Models.Entities;
-using BetterThanMooshak.Models.ViewModel;
+﻿using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
@@ -14,36 +8,20 @@ namespace BetterThanMooshak.Controllers
     {
         private AssignmentService service = new AssignmentService();
         // GET: Assignments
+        #region Get overview off all Courses
         public ActionResult Index()
         {
-            return View(service.getAll());
+            return View(service.GetAll());
         }
+        #endregion
 
-        public ActionResult Add(int? id)
-        {
-            return View(service.Initialize(id));
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Add(AssignmentViewModel newAss)
-        {
-            var assignment = newAss.assignment;
-
-            if(!service.AddAssignmet(assignment))
-            {
-                ModelState.AddModelError("", "The Assignment could not be added to the database");
-                return View(newAss);
-            }
-
-            return RedirectToAction("index", "course");
-        }
-
+        #region Get details from single Course
         public ActionResult Details(int? id)
         {
-            if(id != null) { 
+            if (id != null)
+            {
                 if (service.verifyUser(id.Value))
-                    return View(service.getAssignmentProblems(id.Value));
+                    return View(service.GetAssignmentProblems(id.Value));
                 else
                 {
                     ModelState.AddModelError("", "User not authorized");
@@ -52,24 +30,63 @@ namespace BetterThanMooshak.Controllers
             }
             return RedirectToAction("notfound", "error");
         }
+        #endregion
 
-        public ActionResult Edit (int? id)
+        #region Add Assignment
+        public ActionResult Add(int? id)
         {
-            return View(service.getAssignmentById(id.Value));
+            if (id != null)
+            {
+                return View();
+            }
+            return View("404");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Assignment assignment)
+        public ActionResult Add(int? id, AssignmentAddViewModel model)
         {
-            if (!service.Edit(assignment))
+            if (id != null)
             {
-                ModelState.AddModelError("", "Could not edit this Assignment!");
-                return View(assignment);
+                if (!service.AddAssignmet(id.Value, model))
+                {
+                    ModelState.AddModelError("", "The Assignment could not be added to the database");
+                    return View(model);
+                }
+                return RedirectToAction("details", "course", new { id = id.Value });
             }
+            return View("404");
+        }
+        #endregion
 
-            return RedirectToAction("index");
+        #region Edit Assignment
+        public ActionResult Edit (int? id)
+        {
+            if (id != null)
+            {
+                AssignmentAddViewModel model = service.GetAssignmentAddViewModelById(id.Value);
+
+                return View(model);
+            }
+            return View("404");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int? id, AssignmentAddViewModel model)
+        {
+            if (id != null)
+            {
+                if (!service.Edit(id.Value, model))
+                {
+                    ModelState.AddModelError("", "No changes have been made");
+                    return View(model);
+                }
+                int returnId = service.GetCourseIdByAssignmentId(id.Value);
+                return RedirectToAction("details", "course", new { id = returnId });
+            }
+            return View("404");
+        }
+        #endregion
     }
 }

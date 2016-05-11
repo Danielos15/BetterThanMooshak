@@ -74,16 +74,21 @@ $(function () {
             return true;
     }
 
+    $(".searchingFilter")
+        .keyup(function() {
+            var searchText = $("#userSearch").val().toLowerCase()
+            $(".searching")
+                .each(function() {
+                    if (!contains($(this).text().toLowerCase(), searchText))
+                        $(this).hide();
+                    else
+                        $(this).show();
+                });
+        });
 
-    $(".searchingFilter").keyup(function () {
-        var searchText = $("#userSearch").val().toLowerCase()
-        $(".searching").each(function () {
-            if (!contains($(this).text().toLowerCase(), searchText))
-                $(this).hide();
-            else
-                $(this).show();
-        })
-    })
+    $(".clickable-row").click(function () {
+        window.document.location = $(this).data("url");
+    });
 });
 
 
@@ -601,4 +606,7 @@ $(function () {
 
     }, false);
 
+});
+
+$(document).ready(function ($) {
 });

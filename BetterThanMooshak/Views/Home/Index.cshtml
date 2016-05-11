@@ -22,16 +22,12 @@
                 <tbody>
                     @foreach (var x in Model.assignments)
                     {
-                        <tr>
+                        <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                             <td>
-                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                                     @x.assignment.name
-                                </a>
                             </td>
                             <td>
-                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
                                     @x.course.name
-                                </a>
                             </td>
                             <td>
                                 @x.assignment.endDate.ToShortDateString() @x.assignment.endDate.ToShortTimeString()
@@ -56,12 +52,10 @@
                 <tbody>
                     @foreach (var x in Model.notifications)
                     {
-                        <tr>
+                        <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                             <td>@x.notification.title</td>
                             <td>
-                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                                     @x.assignment.name
-                                </a>
                             <td>
                             </td>
                         </tr>
@@ -87,14 +81,12 @@
                 <tbody>
                     @foreach (var x in Model.courses)
                     {
-                        <tr>
+                        <tr class="clickable-row" data-url="@Url.Action("details", "course", new { id = x.id})">
                             <td>
-                                <a href="@Url.Action("details", "course", new { id = x.id})">
                                     @x.name
-                                </a>
                             </td>
                             <td>
-                                <p>@x.endDate.ToShortDateString()</p>
+                                    @x.endDate.ToShortDateString()
                             </td>
                         </tr>
                     }
@@ -117,19 +109,15 @@
                 <tbody>
                     @foreach (var x in Model.grades)
                     {
-                        <tr>
+                        <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                             <td>
-                                <a href="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                                     @x.assignment.name
-                                </a>
                             </td>
                             <td>
-                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
                                     @x.course.name
-                                </a>
                             </td>
                             <td>
-                                @x.grade.grade
+                                    @x.grade.grade
                             </td>
                         </tr>
                     }

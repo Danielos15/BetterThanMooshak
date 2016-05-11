@@ -11,15 +11,19 @@
 <div class="boxText">
     @if (Model.role.role == 3)
     {
-        <a class="btn btn-default" href="@Url.Action("add", "assignment", new { id = Model.course.id})">Add assignment</a>
+        <div class="clearfix">
+            <a class="btn btn-default pull-right" href="@Url.Action("add", "assignment", new { id = Model.course.id})">
+                <i class="fa fa-plus-square"></i> Add assignment
+            </a>
+        </div>
     }
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#view1">Open Assignments</a></li>
-        <li><a data-toggle="tab" href="#view2">Closed Assignments</a></li>
+        <li class="active"><a data-toggle="tab" href="#active">Open Assignments</a></li>
+        <li><a data-toggle="tab" href="#inactive">Closed Assignments</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="view1">
+        <div class="tab-pane fade in active" id="active">
             <div>
                 <table class="table table-hover table-responsive">
                     <thead>
@@ -27,16 +31,19 @@
                             <th>Name</th>
                             <th>Due Date</th>
                             <th>Time remaining</th>
+                            @{ if(Model.role.role == 3)
+                                {
+                                    <th>Actions</th>
+                                }
+                            }
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var x in Model.newAssignments)
                         {
-                            <tr>
+                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.id})">
                                 <td>
-                                    <a href="@Url.Action("details", "assignment", new { id = x.id})">
                                         @x.name
-                                    </a>
                                 </td>
                                 <td>
                                     @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
@@ -49,36 +56,59 @@
                                             }
                                     @days Days, @hours Hours, @minutes Minutes 
                                 </td>
+                                @{ if (Model.role.role == 3)
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("edit", "assignment", new { id = x.id})" class="" title="Edit @x.name">
+                                                <i class="fa fa-pencil-square"></i>
+                                            </a> 
+                                            @{
+                                                if (1 == 1)
+                                                {
+                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Hide @x.name">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Show @x.name">
+                                                        <i class="fa fa-eye-slash"></i>
+                                                    </a>
+                                                }
+                                            }
+                                            <a href="@Url.Action("grade", "assignment", new { id = x.id })" class="" title="Grade @x.name">
+                                                <i class="fa fa-graduation-cap"></i>
+                                            </a>
+                                        </td>
+                                    }
+                                }
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="tab-pane fade" id="view2">
+        <div class="tab-pane fade" id="inactive">
             <div>
                 <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Due Date
-                            </th>
-                            <th>
-                                Grade
-                            </th>
+                            <th>Name</th>
+                            <th>Due Date</th>
+                            <th>Grade</th>
+                            @{ if (Model.role.role == 3)
+                                {
+                                    <th>Actions</th>
+                                }
+                            }
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var x in Model.oldAssignments)
                                         {
-                            <tr>
+                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.id})">
                                 <td>
-                                    <a href="@Url.Action("details", "assignment", new { id = x.id})">
                                         @x.name
-                                    </a>
                                 </td>
                                 <td>
                                     @x.endDate.ToLongDateString()
@@ -86,6 +116,32 @@
                                 <td>
                                     @*//TODO: Insert grades for closed assignments*@
                                 </td>
+                                @{ if (Model.role.role == 3)
+                                    {
+                                        <td>
+                                            <a href="@Url.Action("edit", "assignment", new { id = x.id})" class="" title="Edit @x.name">
+                                                <i class="fa fa-pencil-square"></i>
+                                            </a>
+                                            @{
+                                                if (1 == 1)
+                                                {
+                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Hide @x.name">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Show @x.name">
+                                                        <i class="fa fa-eye-slash"></i>
+                                                    </a>
+                                                }
+                                            }
+                                            <a href="@Url.Action("grade", "assignment", new { id = x.id })" class="" title="Grade @x.name">
+                                                <i class="fa fa-graduation-cap"></i>
+                                            </a>
+                                        </td>
+                                                }
+                                }
                             </tr>
                         }
                     </tbody>
