@@ -12,7 +12,8 @@ namespace BetterThanMooshak
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery-ui.min.js",
                         "~/Scripts/moment.min.js",
-                        "~/Scripts/bootstrap-datetimepicker.min.js"));
+                        "~/Scripts/bootstrap-datetimepicker.min.js",
+                        "~/Scripts/DragDrop.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -32,7 +33,8 @@ namespace BetterThanMooshak
                       "~/Content/jquery-ui.min.css",
                       "~/Content/jquery-ui.structure.min.css",
                       "~/Content/jquery-ui.theme.min.css",
-                      "~/content/bootstrap-datetimepicker.min.css"));
+                      "~/Content/bootstrap-datetimepicker.min.css",
+                      "~/Content/DragDrop.css"));
         }
     }
 }
