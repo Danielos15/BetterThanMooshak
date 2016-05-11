@@ -26,11 +26,9 @@
                 <tbody>
                     @foreach (var x in Model.activeCourses)
                     {
-                        <tr>
+                        <tr class="clickable-row" data-url="@Url.Action("details", "course", new { id = x.course.id})">
                             <td>
-                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
                                     @x.course.name
-                                </a>
                             </td>
                             <td>@x.course.startDate.ToShortDateString()</td>
                             <td>@x.course.endDate.ToShortDateString()</td>
@@ -67,11 +65,9 @@
                 <tbody>
                     @foreach (var x in Model.inactiveCourses)
                     {
-                        <tr>
+                        <tr class="clickable-row" data-url="@Url.Action("details", "course", new { id = x.course.id})">
                             <td>
-                                <a href="@Url.Action("details", "course", new { id = x.course.id})">
                                     @x.course.name
-                                </a>
                             </td>
                             <td>@x.course.startDate.ToShortDateString()</td>
                             <td>@x.course.endDate.ToShortDateString()</td>

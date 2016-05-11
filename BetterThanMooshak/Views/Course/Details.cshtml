@@ -19,11 +19,11 @@
     }
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#view1">Open Assignments</a></li>
-        <li><a data-toggle="tab" href="#view2">Closed Assignments</a></li>
+        <li class="active"><a data-toggle="tab" href="#active">Open Assignments</a></li>
+        <li><a data-toggle="tab" href="#inactive">Closed Assignments</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="view1">
+        <div class="tab-pane fade in active" id="active">
             <div>
                 <table class="table table-hover table-responsive">
                     <thead>
@@ -41,11 +41,9 @@
                     <tbody>
                         @foreach (var x in Model.newAssignments)
                         {
-                            <tr>
+                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.id})">
                                 <td>
-                                    <a href="@Url.Action("details", "assignment", new { id = x.id})">
                                         @x.name
-                                    </a>
                                 </td>
                                 <td>
                                     @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
@@ -90,7 +88,7 @@
                 </table>
             </div>
         </div>
-        <div class="tab-pane fade" id="view2">
+        <div class="tab-pane fade" id="inactive">
             <div>
                 <table class="table table-hover table-responsive">
                     <thead>
@@ -108,11 +106,9 @@
                     <tbody>
                         @foreach (var x in Model.oldAssignments)
                                         {
-                            <tr>
+                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.id})">
                                 <td>
-                                    <a href="@Url.Action("details", "assignment", new { id = x.id})">
                                         @x.name
-                                    </a>
                                 </td>
                                 <td>
                                     @x.endDate.ToLongDateString()
