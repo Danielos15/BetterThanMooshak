@@ -12,12 +12,13 @@ namespace BetterThanMooshak.Services
 {
     public class CourseService
     {
-        private ApplicationDbContext db;
+        private readonly IAppDataContext db;
+        //private string currentUser = "1";
         private string currentUser = HttpContext.Current.User.Identity.GetUserId();
 
-        public CourseService()
+        public CourseService(IAppDataContext context)
         {
-            db = new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
         }
 
         public Course GetCourseById(int id)
@@ -29,8 +30,8 @@ namespace BetterThanMooshak.Services
 
         public IQueryable<Course> GetAllCourses()
         {
-            return      from c in db.Courses
-                        select c;
+            return      (from c in db.Courses
+                        select c);
         }
 
         public bool Add(CourseAddViewModel newCourse)

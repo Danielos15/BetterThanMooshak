@@ -8,11 +8,12 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
 
+
 namespace BetterThanMooshak.Controllers
 {
     public class CourseController : Controller
     {
-        private CourseService service = new CourseService();
+        private CourseService service = new CourseService(null);
 
         #region Index view
         [CustomAuthorize(Roles = "Admin")]
