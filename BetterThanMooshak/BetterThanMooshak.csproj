@@ -660,6 +660,7 @@
     <Content Include="Views\Shared\404.cshtml" />
     <Content Include="Views\Course\_CourseForm.cshtml" />
     <Content Include="Views\Shared\_ViewBagAlerts.cshtml" />
+    <Content Include="Views\Problem\_ProblemForm.cshtml" />
     <Content Include="Views\Assignment\_AssignmentForm.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -62,16 +62,34 @@ namespace BetterThanMooshak.Services
             return null;
         }
 
-        public bool Edit(Problem problem)
+        public bool Edit(int id, ref ProblemAddViewModel problem)
         {
-            var p = GetProblemById(problem.id);
+            var p = GetProblemById(id);
 
-            p.assignmentId = problem.assignmentId;
-            p.maxAttempts = problem.maxAttempts;
             p.name = problem.name;
+            p.maxAttempts = problem.maxAttempts;
+            p.percentOfGrade = problem.percentOfGrade;
             p.description = problem.description;
 
+            problem.assignmentId = p.assignmentId;
+
             return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public ProblemAddViewModel GetProblemEditViewModel(int id)
+        {
+            Problem problem = GetProblemById(id);
+
+            ProblemAddViewModel viewModel = new ProblemAddViewModel()
+            {
+                name = problem.name,
+                maxAttempts = problem.maxAttempts,
+                percentOfGrade = problem.percentOfGrade,
+                description = problem.description,
+                assignmentId = problem.assignmentId
+            };
+
+            return viewModel;
         }
 
         public IQueryable<Problem> getAllProblems()
