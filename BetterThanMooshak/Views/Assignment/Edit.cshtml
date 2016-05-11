@@ -1,46 +1,17 @@
-﻿@model BetterThanMooshak.Models.Entities.Assignment
+﻿@model BetterThanMooshak.Models.ViewModel.AssignmentAddViewModel
 
 @{
     ViewBag.Title = "Edit Assignment";
 }
 
 <div class="boxTitle">
-    <h1>@ViewBag.Title.</h1>
+    <h1>@ViewBag.Title</h1>
 </div>
+
 <div class="boxText">
     @using (Html.BeginForm("edit", "assignment", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary("", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-12">
-                @Html.TextBoxFor(m => m.name, new { @class = "form-control", placeholder = "Name..." })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12">
-                @Html.TextBoxFor(m => m.startDate, new { @class = "form-control datepicker", placeholder = "start date" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                @Html.TextBoxFor(m => m.endDate, new { @class = "form-control datepicker", placeholder = "end date" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                @Html.TextAreaFor(m => m.description, new { @class = "form-control", placeholder = "Assignment Description..." })
-            </div>
-        </div>
-        <div class="hidden">
-            @Html.HiddenFor(m => m.courseId)
-        </div>
-        <div class="form-group">
-            <div class="col-md-6">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+        @Html.Partial("_AssignmentForm", Model)
     }
 </div>
 @section Scripts {

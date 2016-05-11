@@ -1,11 +1,5 @@
-﻿﻿using BetterThanMooshak.Models.Entities;
-using BetterThanMooshak.Models.ViewModel;
+﻿using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
@@ -16,34 +10,39 @@ namespace BetterThanMooshak.Controllers
         // GET: Assignments
         public ActionResult Index()
         {
-            return View(service.getAll());
+            return View(service.GetAll());
         }
 
         public ActionResult Add(int? id)
         {
-            return View(service.Initialize(id));
+            if (id != null)
+            {
+                return View();
+            }
+            return View("404");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(AssignmentViewModel newAss)
+        public ActionResult Add(int? id, AssignmentAddViewModel model)
         {
-            var assignment = newAss.assignment;
-
-            if(!service.AddAssignmet(assignment))
+            if (id != null)
             {
-                ModelState.AddModelError("", "The Assignment could not be added to the database");
-                return View(newAss);
+                if (!service.AddAssignmet(id.Value, model))
+                {
+                    ModelState.AddModelError("", "The Assignment could not be added to the database");
+                    return View(model);
+                }
+                return RedirectToAction("details", "course", new { id = id.Value });
             }
-
-            return RedirectToAction("index", "course");
+            return View("404");
         }
 
         public ActionResult Details(int? id)
         {
             if(id != null) { 
                 if (service.verifyUser(id.Value))
-                    return View(service.getAssignmentProblems(id.Value));
+                    return View(service.GetAssignmentProblems(id.Value));
                 else
                 {
                     ModelState.AddModelError("", "User not authorized");
@@ -55,20 +54,30 @@ namespace BetterThanMooshak.Controllers
 
         public ActionResult Edit (int? id)
         {
-            return View(service.getAssignmentById(id.Value));
+            if (id != null)
+            {
+                AssignmentAddViewModel model = service.GetAssignmentAddViewModelById(id.Value);
+
+                return View(model);
+            }
+            return View("404");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Assignment assignment)
+        public ActionResult Edit(int? id, AssignmentAddViewModel model)
         {
-            if (!service.Edit(assignment))
+            if (id != null)
             {
-                ModelState.AddModelError("", "Could not edit this Assignment!");
-                return View(assignment);
+                if (!service.Edit(id.Value, model))
+                {
+                    ModelState.AddModelError("", "No changes have been made");
+                    return View(model);
+                }
+                int returnId = service.GetCourseIdByAssignmentId(id.Value);
+                return RedirectToAction("details", "course", new { id = returnId });
             }
-
-            return RedirectToAction("index");
+            return View("404");
         }
 
     }

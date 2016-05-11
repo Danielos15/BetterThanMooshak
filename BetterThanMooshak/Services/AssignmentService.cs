@@ -19,7 +19,7 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public Assignment getAssignmentById (int id)
+        public Assignment GetAssignmentById (int id)
         {
             return (from assignments in db.Assignments
                               where assignments.id == id
@@ -39,13 +39,46 @@ namespace BetterThanMooshak.Services
             return result;
         }
 
-        public bool AddAssignmet(Assignment assignment)
+        public AssignmentAddViewModel GetAssignmentAddViewModelById(int id)
         {
+            Assignment assignment = (from assignments in db.Assignments
+                                where assignments.id == id
+                                select assignments).SingleOrDefault();
+            AssignmentAddViewModel model = new AssignmentAddViewModel()
+            {
+                name = assignment.name,
+                description = assignment.description,
+                startDate = assignment.startDate,
+                endDate = assignment.endDate
+            };
+
+            return model;
+        }
+
+        public int GetCourseIdByAssignmentId(int assignmentId)
+        {
+            var courseId = (from ass in db.Assignments
+                           where ass.id == assignmentId
+                           select ass.courseId).SingleOrDefault();
+
+            return courseId;
+        }
+
+        public bool AddAssignmet(int id, AssignmentAddViewModel model)
+        {
+            Assignment assignment = new Assignment()
+            {
+                courseId = id,
+                name = model.name,
+                startDate = model.startDate,
+                endDate = model.endDate,
+                description = model.description,
+            };
             db.Assignments.Add(assignment);
             return Convert.ToBoolean( db.SaveChanges() );
         }
 
-        public AssignmentIndexViewModel getAll()
+        public AssignmentIndexViewModel GetAll()
         {
             var currentUser = HttpContext.Current.User.Identity.GetUserId();
 
@@ -79,24 +112,24 @@ namespace BetterThanMooshak.Services
             return (all);
         }
 
-        public bool Edit(Assignment assignment)
+        public bool Edit(int id, AssignmentAddViewModel model)
         {
             var item = (from assignments in db.Assignments
-                        where assignments.id == assignment.id
+                        where assignments.id == id
                         select assignments).SingleOrDefault();
 
-            item.description = assignment.description;
-            item.endDate = assignment.endDate;
-            item.name = assignment.name;
-            item.startDate = assignment.startDate;
-
+            item.startDate = model.startDate;
+            item.name = model.name;
+            item.description = model.description;
+            item.endDate = model.endDate;
+            
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public AssignmentProblems getAssignmentProblems (int id)
+        public AssignmentProblems GetAssignmentProblems (int id)
         {
 
-            var assignment = getAssignmentById(id);
+            var assignment = GetAssignmentById(id);
 
             var currentCourse = (from course in db.Courses
                                  where course.id == assignment.courseId
