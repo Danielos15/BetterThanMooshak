@@ -26,6 +26,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Due Date</th>
+                            <th>Time remaining</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +40,14 @@
                                 </td>
                                 <td>
                                     @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
+                                </td>
+                                <td>
+                                    @{ 
+                                                int days = (x.endDate - DateTime.Now).Days;
+                                                int hours = (x.endDate - DateTime.Now.AddDays(-days)).Hours;
+                                                int minutes = (x.endDate - DateTime.Now.AddDays(-days).AddHours(-hours)).Minutes;
+                                            }
+                                    @days Days, @hours Hours, @minutes Minutes 
                                 </td>
                             </tr>
                         }
@@ -57,11 +66,14 @@
                             <th>
                                 Due Date
                             </th>
+                            <th>
+                                Grade
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var x in Model.oldAssignments)
-                        {
+                                        {
                             <tr>
                                 <td>
                                     <a href="@Url.Action("details", "assignment", new { id = x.id})">
@@ -69,7 +81,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @x.endDate.ToShortDateString() @x.endDate.ToShortTimeString()
+                                    @x.endDate.ToLongDateString()
+                                </td>
+                                <td>
+                                    @*//TODO: Insert grades for closed assignments*@
                                 </td>
                             </tr>
                         }

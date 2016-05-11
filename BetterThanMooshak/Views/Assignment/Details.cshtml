@@ -7,11 +7,26 @@
     <h1>@Model.assignment.name - <a href="@Url.Action("details", "course", new { id = Model.course.id })"> @Model.course.name </a></h1>
 </div>
 <div class="boxText">
-    @{ if (Model.assignment .description != null && Model.assignment.description.Length > 0)
+    @{
+        if (Model.assignment.description != null && Model.assignment.description.Length > 0)
         {
             <h3>@Model.assignment.description </h3>
+
+            if (Model.assignment.endDate > DateTime.Now)
+             {
+                 <h4>
+                     Time remaining:
+                     @{
+                         var days = (Model.assignment.endDate - DateTime.Now).Days;
+                         var hours = (Model.assignment.endDate - DateTime.Now.AddDays(-days)).Hours;
+                         var minutes = (Model.assignment.endDate - DateTime.Now.AddDays(-days).AddHours(-hours)).Minutes;
+                     }
+                     @days Days, @hours Hours, @minutes Minutes
+                 </h4>
+             }
         }
     }
+    
     @if (Model.courseUser.role == 3)
     {
         <a class="btn btn-default" href="@Url.Action("add", "problem", new { id = Model.assignment.id })">Add problem</a>
