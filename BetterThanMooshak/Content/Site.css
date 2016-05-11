@@ -8,9 +8,6 @@
         flex: 1;
     }
 
-
-    
-
     body .form-search
     {
         display: inline-block;
@@ -36,6 +33,9 @@
     }
     .input-arrow {
         padding-top: 90px;
+    }
+    body a:hover {
+        text-decoration: none;
     }
 header.navbar {
     height: 70px;
@@ -249,9 +249,11 @@ body .fa {
 }
 body a > i.fa {
     color: #407E84;
+    text-decoration: none;
 }
     body a:hover > i.fa {
         color: #e3000f;
+        text-decoration: none;
     }
 body i.fa,
 body span.fa {

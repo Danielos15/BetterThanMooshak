@@ -5,7 +5,6 @@ Import Users
 
 -- Course Overview --
 Import Courses
-Fix remove, not active is course has users
 
 -- Frontpage --
 Make sure everybox is working.

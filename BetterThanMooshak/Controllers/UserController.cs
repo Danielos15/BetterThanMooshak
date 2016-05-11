@@ -171,21 +171,24 @@ namespace BetterThanMooshak.Controllers
         // Get: Remove User
         public async Task<ActionResult> Remove(string id)
         {
-            ApplicationUser user = await UserManager.FindByIdAsync(id);
-            if (service.CanDeleteUser(user))
+            if (id != null)
             {
-                var result = UserManager.Delete(user);
-                if (result.Succeeded)
+                ApplicationUser user = await UserManager.FindByIdAsync(id);
+                if (service.CanDeleteUser(user))
                 {
-                    TempData["message"] = user.Name + " has be deleted from the system";
-                } 
-                else
-                {
-                    TempData["errorMessage"] = "An error occured while trying to delete " + user.Name;
+                    var result = UserManager.Delete(user);
+                    if (result.Succeeded)
+                    {
+                        TempData["message"] = user.Name + " has be deleted from the system";
+                    }
+                    else
+                    {
+                        TempData["errorMessage"] = "An error occured while trying to delete " + user.Name;
+                    }
                 }
-            } 
-
-            return RedirectToAction("index", "user");
+                return RedirectToAction("index", "user");
+            }
+            return View("404");
         }
         #endregion
 

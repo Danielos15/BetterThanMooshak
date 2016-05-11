@@ -72,6 +72,18 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
+        public bool CanDeleteCourse(Course course)
+        {
+            var exists = (from x in db.CourseUsers
+                          where x.courseId == course.id
+                          select x).FirstOrDefault();
+            if (exists != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
         public bool RemoveCourseById(int id)
         {
             db.Courses.Remove(GetCourseById(id));
