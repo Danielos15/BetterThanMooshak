@@ -9,12 +9,6 @@ Import Courses
 -- Frontpage --
 Make sure everybox is working.
 
--- Courses --
-Whole box clicable?
-
--- Assignments --
-Whole box clicable?
-
 -- Course Detail --
 Open Assignments, last column days til due date ?
 Closed Assignments, last column show grade?
