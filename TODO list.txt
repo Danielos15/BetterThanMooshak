@@ -1,7 +1,7 @@
 TODO:
 
--- Course Overview --
-Import Courses
+-- Import buttons --
+Fix layout (maybe AJAX ?)
 
 -- Assignment Detail --
 Fix description

@@ -98,6 +98,26 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
+        #region Delete Action - Delete a certain Problem
+        public ActionResult Delete(Problem problem)
+        {
+            if (service.canDeleteProblem(problem))
+            {
+                if (service.deleteProblem(problem))
+                    TempData["message"] = problem.name + " has been removed!";
+                else
+                    TempData["errorMessage"] = problem.name + " could not be removed!";
+            }
+            else
+            {
+                TempData["errorMessage"] = problem.name + " could not be removed!";
+            }
+
+            return RedirectToAction("details", "assignment", new { id = problem.assignmentId });
+        }
+
+        #endregion
+
         #region AddTestcase Action - Add a testcase to a certain Problem
         public ActionResult AddTestcase (int? id)
         {

@@ -37,6 +37,8 @@
         </div>
     }
 
+    @Html.Partial("_ViewBagAlerts")
+
     @foreach (var problem in Model.problems)
     {
     <div class="panel panel-default">
@@ -58,7 +60,10 @@
                 @if (Model.courseUser.role == 3)
                 {
                     <a class="btn btn-default" href="@Url.Action("edit", "problem", new { id = problem.id})">
-                    <i class="fa fa-pencil-square"></i> Edit
+                        <i class="fa fa-pencil-square"></i> Edit
+                    </a>
+                    <a class="btn btn-default" href="@Url.Action("delete", "problem", problem)">
+                        <i class="fa fa-trash"></i> Delete
                     </a>
                 }
             </div>
