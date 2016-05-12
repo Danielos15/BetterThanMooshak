@@ -10,6 +10,7 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public Course course { get; set; }
         public Assignment assignment { get; set; }
+        public Grade grade { get; set; }
     }
 
     public class AssignmentAddViewModel

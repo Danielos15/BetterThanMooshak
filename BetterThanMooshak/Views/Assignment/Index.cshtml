@@ -72,7 +72,7 @@
                     <tbody>
                         @foreach (var x in Model.oldAssignments)
                         {
-                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
+                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id })">
                                 <td>
                                     @x.assignment.name
                                 </td>
@@ -82,9 +82,16 @@
                                 <td>
                                     @x.assignment.endDate.ToLongDateString()
                                 </td>
-                                <td>
-                                    @*//TODO: Insert grades for closed assignments*@
-                                </td>
+                                @{ 
+                                    if (x.grade.grade < 0)
+                                    {
+                                        <td>Not graded</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@x.grade.grade</td>
+                                    }
+                                }
                             </tr>
                         }
                     </tbody>

@@ -101,6 +101,7 @@ namespace BetterThanMooshak.Controllers
         #region Delete Action - Delete a certain Problem
         public ActionResult Delete(Problem problem)
         {
+            //TODO pass tempdata into Assignment Details view
             if (service.canDeleteProblem(problem))
             {
                 if (service.deleteProblem(problem))
