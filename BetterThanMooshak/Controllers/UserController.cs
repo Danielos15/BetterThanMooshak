@@ -1,4 +1,8 @@
-﻿using BetterThanMooshak.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using BetterThanMooshak.Models;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using System.Web;
@@ -17,7 +21,7 @@ namespace BetterThanMooshak.Controllers
         private UserService service = new UserService();        
         private ApplicationUserManager _userManager;
 
-        #region UserManager setup
+        #region UserManager Action Setup
         public ApplicationUserManager UserManager
         {
             get
@@ -31,7 +35,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Index of all users for Admins
+        #region Index Action - Display all users for Admins
         // GET: User
         public ActionResult Index()
         {
@@ -50,7 +54,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Add user Actions
+        #region Add Action - Add Users to the database
         // GET: Add User
         public ActionResult Add()
         {
@@ -89,7 +93,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Edit user Actions
+        #region Edit Action - Edit a certain User
         // GET: Edit User
         public ActionResult Edit(string id)
         {
@@ -145,7 +149,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Send Email Validation to all that are not Validated
+        #region SendEmailValidation Action - Send email to all Users that are not Validated
         // GET: Send Email Validation
         public async Task<ActionResult> SendEmailValidation()
         {
@@ -167,7 +171,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Remove user Action
+        #region Remove Action - Remove a certain User
         // Get: Remove User
         public async Task<ActionResult> Remove(string id)
         {
@@ -192,7 +196,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Activate or Deactivate User
+        #region Active Action - Activate or Deactivate User
         // GET: Activate User
         public async Task<ActionResult> Active(string id)
         {
@@ -214,16 +218,58 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Import users from .csv file
+        #region Import Action - Import users from .csv file
         [HttpPost]
-        public ActionResult Import()
+        public async Task<ActionResult> Import(HttpPostedFileBase inputFileBase)
         {
-            //TODO: Danni - make import avalible
-            return View();
+            if (inputFileBase == null)
+            {
+                TempData["message"] = "Please select a .csv file!";
+
+                return RedirectToAction("index");
+            }
+
+            if (inputFileBase.ContentType != "application/vnd.ms-excel")
+            {
+                TempData["message"] = "Invalid file type!";
+
+                return RedirectToAction("index");
+            }
+
+            var users = service.ImportUsers(inputFileBase);
+
+            foreach (var newUser in users)
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = newUser.email,
+                    Email = newUser.email,
+                    Name = newUser.name,
+                    Active = true
+                };
+
+                IdentityResult result = await UserManager.CreateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    if (newUser.admin)
+                    {
+                        UserManager.AddToRole(user.Id, "Admin");
+                    }
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+
+            TempData["message"] = "Users have been imported!";
+
+            return RedirectToAction("index");
         }
         #endregion
 
-        #region Admin can confirm e-mail for users if needed
+        #region EmailConfirm Action - Admin can confirm e-mail for users if needed
         public async Task<ActionResult> EmailConfirm(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);

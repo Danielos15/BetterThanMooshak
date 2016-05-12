@@ -4,6 +4,7 @@ using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using BetterThanMooshak.Utilities;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -15,7 +16,7 @@ namespace BetterThanMooshak.Controllers
     {
         private CourseService service = new CourseService(null);
 
-        #region Index view
+        #region Index Action - Get overview of all Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Index()
         {
@@ -28,13 +29,15 @@ namespace BetterThanMooshak.Controllers
                 ViewBag.message = TempData["message"].ToString();
             }
 
-            IQueryable<Course> viewModel = service.GetAllCourses();
+            IQueryable<Course> courses = service.GetAllCourses();
 
-            return View(viewModel);
+            CourseIndexViewModel model = new CourseIndexViewModel { courses = courses};
+
+            return View(model);
         }
         #endregion
 
-        #region Add view
+        #region Add Action - Add new Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Add()
         {
@@ -60,7 +63,42 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Edit view
+        #region Import Action - Import list of Courses with .csv
+
+        [HttpPost]
+        public ActionResult Import(HttpPostedFileBase inputFileBase)
+        {
+            if (inputFileBase == null)
+            {
+                TempData["message"] = "Please select a .csv file!";
+
+                return RedirectToAction("index");
+            }
+
+            if (inputFileBase.ContentType != "application/vnd.ms-excel")
+            {
+                TempData["message"] = "Invalid file type!";
+
+                return RedirectToAction("index");
+            }
+
+            var newCourses = service.ImportCourses(inputFileBase);
+
+            foreach (var newCourse in newCourses)
+            {
+                if (!service.Add(newCourse))
+                {
+                    ModelState.AddModelError("", newCourse.name + " could not be saved!");
+                }
+            }
+
+            TempData["message"] = "Courses have been imported!";
+
+            return RedirectToAction("index");
+        }
+        #endregion
+
+        #region Edit Action - Edit existing Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
@@ -88,7 +126,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Remove Course
+        #region Remove Action - Remove existing Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Remove(int? id)
         {
@@ -110,7 +148,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Enrole view
+        #region Enrole Action - Link users to courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Enrole(int? id)
         {
@@ -162,7 +200,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Usercourses view
+        #region Usercourses Action - Overview of courses linked to the current user
         public ActionResult UserCourses()
         {
             UserCoursesViewModel viewModel = service.GetUserCourses();
@@ -171,7 +209,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Details view
+        #region Details Action - Get details for certain Course
         public ActionResult Details(int? id)
         {
             CourseAssignments viewModel = service.GetCourseAssignments(id.Value);

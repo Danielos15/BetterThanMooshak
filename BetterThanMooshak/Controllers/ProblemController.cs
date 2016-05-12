@@ -10,11 +10,14 @@ namespace BetterThanMooshak.Controllers
     {
         private ProblemService service = new ProblemService();
         // GET: Problem
+        #region Index Action - Get overview of all Problems for current user
         public ActionResult Index()
         {
             return View(service.getAllProblems());
         }
+        #endregion
 
+        #region Details Action - Get details for a certain Problem
         public ActionResult Details (int? id)
         {
             if (id != null)
@@ -32,6 +35,9 @@ namespace BetterThanMooshak.Controllers
             }
             return RedirectToAction("notfound", "error");
         }
+        #endregion
+
+        #region Add Action - Add new Problems
         public ActionResult Add(int? id)
         {
             ProblemAddViewModel model = service.Initialize(id.Value);
@@ -63,6 +69,9 @@ namespace BetterThanMooshak.Controllers
             }
             return RedirectToAction("notfound", "error");
         }
+        #endregion
+
+        #region Edit Action - Edit a certain Problem
         public ActionResult Edit (int? id)
         {
             ProblemAddViewModel viewModel = service.GetProblemEditViewModel(id.Value);
@@ -87,7 +96,30 @@ namespace BetterThanMooshak.Controllers
             return View("404");
 
         }
+        #endregion
 
+        #region Delete Action - Delete a certain Problem
+        public ActionResult Delete(Problem problem)
+        {
+            //TODO pass tempdata into Assignment Details view
+            if (service.canDeleteProblem(problem))
+            {
+                if (service.deleteProblem(problem))
+                    TempData["message"] = problem.name + " has been removed!";
+                else
+                    TempData["errorMessage"] = problem.name + " could not be removed!";
+            }
+            else
+            {
+                TempData["errorMessage"] = problem.name + " could not be removed!";
+            }
+
+            return RedirectToAction("details", "assignment", new { id = problem.assignmentId });
+        }
+
+        #endregion
+
+        #region AddTestcase Action - Add a testcase to a certain Problem
         public ActionResult AddTestcase (int? id)
         {
             if (id != null)
@@ -121,7 +153,9 @@ namespace BetterThanMooshak.Controllers
             }
             return RedirectToAction("notfound", "error");
         }
+        #endregion
 
+        #region Discussion Actions - Add Topic and Comments to certain Problems
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -153,6 +187,6 @@ namespace BetterThanMooshak.Controllers
             }
             return RedirectToAction("notfound", "error");
         }
-
+#endregion
     }
 }

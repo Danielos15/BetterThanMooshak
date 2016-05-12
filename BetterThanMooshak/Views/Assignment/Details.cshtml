@@ -4,7 +4,21 @@
 }
 
 <div class="boxTitle">
-    <h1>@Model.assignment.name - <a href="@Url.Action("details", "course", new { id = Model.course.id })"> @Model.course.name </a></h1>
+    <h1>
+        @Model.assignment.name - 
+
+        <a href="@Url.Action("details", "course", new { id = Model.course.id })">
+            @Model.course.name 
+        </a> 
+        @{
+            if (Model.grade != null)
+            {
+                <i class="pull-right">
+                    My Grade: @Model.grade.grade
+                </i>
+            }
+        }
+    </h1>
 </div>
 <div class="boxText">
     @{
@@ -37,6 +51,8 @@
         </div>
     }
 
+    @Html.Partial("_ViewBagAlerts")
+
     @foreach (var problem in Model.problems)
     {
     <div class="panel panel-default">
@@ -58,7 +74,10 @@
                 @if (Model.courseUser.role == 3)
                 {
                     <a class="btn btn-default" href="@Url.Action("edit", "problem", new { id = problem.id})">
-                    <i class="fa fa-pencil-square"></i> Edit
+                        <i class="fa fa-pencil-square"></i> Edit
+                    </a>
+                    <a class="btn btn-default" href="@Url.Action("delete", "problem", problem)">
+                        <i class="fa fa-trash"></i> Delete
                     </a>
                 }
             </div>

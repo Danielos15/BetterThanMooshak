@@ -12,7 +12,14 @@ namespace BetterThanMooshak.Controllers
     {
         private ProblemService service = new ProblemService();
 
+        #region Index Action - Get overview of all user Solutions
+        public ActionResult Index()
+        {
+            return View(service.getAllSolutions());
+        }
+#endregion
 
+        #region Save Action - Save a certain Solution
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Save(int? id, SolutionPostViewModel model)
@@ -25,6 +32,7 @@ namespace BetterThanMooshak.Controllers
             }
             return View("404");
         }
+#endregion
 
         #region Submit Action - Solution for a problem
         [HttpPost]
@@ -42,6 +50,5 @@ namespace BetterThanMooshak.Controllers
             return View("404");
         }
         #endregion
-
     }
 }

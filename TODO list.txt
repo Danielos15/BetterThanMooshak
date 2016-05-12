@@ -1,17 +1,9 @@
 TODO:
 
--- User & Course Overview --
-Import Users/Course
-
--- Frontpage --
-Make sure everybox is working.
-
--- Add Assignment --
-Fix form
-remove % of final grade
+-- Import buttons --
+Fix layout (maybe AJAX ?)
 
 -- Assignment Detail --
-Fix add problem button 
 Fix description
 fix Score
 buttons to group

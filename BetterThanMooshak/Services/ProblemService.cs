@@ -109,6 +109,39 @@ namespace BetterThanMooshak.Services
             return problems;
         }
 
+        internal bool canDeleteProblem(Problem problem)
+        {
+            //TODO when hints are implemented
+            // var existHints = ...
+
+            var existDiscussion = (from t in db.DiscussionTopics
+                          where t.problemId == problem.id
+                          select t).FirstOrDefault();
+
+            var existSolution = (from s in db.Solutions
+                                 where s.problemId == problem.id
+                                 select s).FirstOrDefault();
+
+            var existTestcase = (from t in db.Testcases
+                                 where t.problemId == problem.id
+                                 select t).FirstOrDefault();
+
+            if ((existDiscussion != null) || (existSolution != null) || (existTestcase != null))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    
+
+    public bool deleteProblem(Problem problem)
+        {
+            db.Problems.Remove(GetProblemById(problem.id));
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+        
         public bool AddProblem(Problem add)
         {
             db.Problems.Add(add);

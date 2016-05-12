@@ -95,30 +95,44 @@ namespace BetterThanMooshak.Services
 
             var userCourses = from cu in db.CourseUsers
                               join c in db.Courses on cu.courseId equals c.id into result
-                              where cu.userId == currentUser && cu.role != 3
+                              where cu.userId == currentUser && cu.role < 3
                               from x in result
                               select x;
 
-            var newAss = (from course in userCourses
+            var userAss = (from course in userCourses
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
                                   where x.endDate > DateTime.Now && x.startDate < DateTime.Now
                                   orderby x.endDate ascending
                                   select x).ToList();
+            
+            foreach(var t in teacherAss)
+            {
+                int index = 0;
 
-            newAss.AddRange(teacherAss);
+                for (int i = 0; i < userAss.Count; i++)
+                {
+                    if (userAss.ElementAt(i).endDate > t.endDate)
+                        break;
 
-            var newCourses = (from a in newAss
+                    index++;
+                }
+
+                userAss.Insert(index, t);
+            }
+
+            var newCourses = (from a in userAss
                 join c in db.Courses on a.courseId equals c.id
                 select c).ToList();
+           
 
             var newAssignments = new List<AssignmentViewModel> {};
 
-            for (int i = 0; i < newAss.Count; i++)
+            for (int i = 0; i < userAss.Count; i++)
             {
                 newAssignments.Add(new AssignmentViewModel
                 {
-                    assignment = newAss.ElementAt(i),
+                    assignment = userAss.ElementAt(i),
                     course = newCourses.ElementAt(i)
                 });
             }
@@ -133,14 +147,28 @@ namespace BetterThanMooshak.Services
                               join c in db.Courses on a.courseId equals c.id
                               select c).ToList();
 
+            var oldGrades = (from a in oldAss
+                             join g in db.Grades on a.id equals g.assignmentId
+                             where g.userId == currentUser
+                             select g).ToList();
+
             var oldAssignments = new List<AssignmentViewModel> { };
 
             for (int i = 0; i < oldAss.Count; i++)
             {
+                Grade currGrade = new Grade { grade = -1 };
+                
+                foreach (var g in oldGrades)
+                {
+                    if (g.assignmentId == oldAss.ElementAt(i).id)
+                        currGrade = g;
+                }
+
                 oldAssignments.Add(new AssignmentViewModel
                 {
                     assignment = oldAss.ElementAt(i),
-                    course = oldCourses.ElementAt(i)
+                    course = oldCourses.ElementAt(i),
+                    grade = currGrade
                 });
             }
 
@@ -165,7 +193,6 @@ namespace BetterThanMooshak.Services
 
         public AssignmentProblems GetAssignmentProblems (int id)
         {
-
             var assignment = GetAssignmentById(id);
 
             var currentCourse = (from course in db.Courses
@@ -180,12 +207,17 @@ namespace BetterThanMooshak.Services
                             where problems.assignmentId == assignment.id
                             select problems).AsQueryable();
 
+            var grade = (from g in db.Grades
+                         where g.assignmentId == assignment.id && g.userId == currentUser
+                         select g).SingleOrDefault();
+
             var result = new AssignmentProblems()
             {
                 courseUser = courseRole,
                 course = currentCourse,
                 assignment = assignment,
-                problems = assignmentProblems
+                problems = assignmentProblems,
+                grade = grade
             };
 
             return result;

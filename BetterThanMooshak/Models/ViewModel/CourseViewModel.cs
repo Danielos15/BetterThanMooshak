@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
 namespace BetterThanMooshak.Models.ViewModel
 {
@@ -57,5 +58,11 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public Course course { get; set; }
         public CourseUser courseUser { get; set; }
+    }
+
+    public class CourseIndexViewModel
+    {
+        public  IQueryable<Course> courses { get; set; }
+        public HttpPostedFileBase inputFileBase { get; set; }
     }
 }
