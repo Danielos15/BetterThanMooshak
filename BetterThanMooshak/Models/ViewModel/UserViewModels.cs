@@ -9,6 +9,7 @@ namespace BetterThanMooshak.Models.ViewModel
     public class UsersViewModel
     {
         public List<ApplicationUser> users { get; set; }
+        public HttpPostedFileBase inputFileBase { get; set; }
     }
 
     public class UserIndexSingleViewModel

@@ -1,4 +1,8 @@
-﻿using BetterThanMooshak.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using BetterThanMooshak.Models;
 using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using System.Web;
@@ -216,10 +220,38 @@ namespace BetterThanMooshak.Controllers
 
         #region Import users from .csv file
         [HttpPost]
-        public ActionResult Import()
+        public async Task<ActionResult> Import(HttpPostedFileBase inputFileBase)
         {
-            //TODO: Danni - make import avalible
-            return View();
+            var users = service.ImportUsers(inputFileBase);
+
+            foreach (var newUser in users)
+            {
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = newUser.email,
+                    Email = newUser.email,
+                    Name = newUser.name,
+                    Active = true
+                };
+
+                IdentityResult result = await UserManager.CreateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    if (newUser.admin)
+                    {
+                        UserManager.AddToRole(user.Id, "Admin");
+                    }
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }
+
+            TempData["message"] = "Users have been imported!";
+
+            return RedirectToAction("index");
         }
         #endregion
 

@@ -12,10 +12,15 @@
             <i class="fa fa-plus-square"></i>
             Add User
         </a>
-        <a href="@Url.Action("import", "user")" class="btn btn-default">
-            <i class="fa fa-download"></i>
-            Import Users
-        </a>
+
+@using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.TextBoxFor(m => m.inputFileBase, new { type = "file"})
+
+    <input type="submit" />
+
+}
+
         <a href="@Url.Action("sendemailvalidation", "user")" class="btn btn-default">
             <i class="fa fa-envelope"></i>
             Send Verification
