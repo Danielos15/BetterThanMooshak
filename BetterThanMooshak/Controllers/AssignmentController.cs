@@ -8,23 +8,33 @@ namespace BetterThanMooshak.Controllers
     {
         private AssignmentService service = new AssignmentService();
 
-        #region Index Action - Get overview off all Courses
+        #region Index Action - Get overview off all Assignments
         public ActionResult Index()
         {
             return View(service.GetAll());
         }
         #endregion
 
-        #region Details Action - Get details from single Course
+        #region Details Action - Get details for a single Assignment
         public ActionResult Details(int? id)
         {
             if (id != null)
             {
                 if (service.verifyUser(id.Value))
+                {
+                    if (TempData["errorMessage"] != null)
+                    {
+                        ViewBag.errorMessage = TempData["errorMessage"].ToString();
+                    }
+                    if (TempData["message"] != null)
+                    {
+                        ViewBag.message = TempData["message"].ToString();
+                    }
+
                     return View(service.GetAssignmentProblems(id.Value));
+                }
                 else
                 {
-                    ModelState.AddModelError("", "User not authorized");
                     return RedirectToAction("index", "home");
                 }
             }
