@@ -12,13 +12,6 @@ namespace BetterThanMooshak.Controllers
     {
         private ProblemService service = new ProblemService();
 
-        #region Index Action - Get overview of all user Solutions
-        public ActionResult Index()
-        {
-            return View(service.getAllSolutions());
-        }
-#endregion
-
         #region Save Action - Save a certain Solution
         [HttpPost]
         [ValidateInput(false)]
