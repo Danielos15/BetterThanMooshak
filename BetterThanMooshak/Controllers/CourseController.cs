@@ -68,6 +68,20 @@ namespace BetterThanMooshak.Controllers
         [HttpPost]
         public ActionResult Import(HttpPostedFileBase inputFileBase)
         {
+            if (inputFileBase == null)
+            {
+                TempData["message"] = "Please select a .csv file!";
+
+                return RedirectToAction("index");
+            }
+
+            if (inputFileBase.ContentType != "application/vnd.ms-excel")
+            {
+                TempData["message"] = "Invalid file type!";
+
+                return RedirectToAction("index");
+            }
+
             var newCourses = service.ImportCourses(inputFileBase);
 
             foreach (var newCourse in newCourses)
