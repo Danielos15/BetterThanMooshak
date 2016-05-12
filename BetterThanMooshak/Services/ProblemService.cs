@@ -177,7 +177,19 @@ namespace BetterThanMooshak.Services
                 discussions.topics.Add(topicModel);
             }
 
-            var answer = new Solution { program = "This is an answer to this problem", problemId = problem.id };
+            var answer = new Solution { program = @"
+#include <iostream>
+                       
+using namespace std;
+
+int main() {
+    
+    cout << 'Hello World!';
+    return 0;
+}
+
+
+", problemId = problem.id };
 
             var viewModel = new ProblemDetailsViewModel()
             {

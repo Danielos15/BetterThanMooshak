@@ -79,7 +79,7 @@
         </div>
         @*Answer Tab*@
         <div class="tab-pane fade" id="answer">
-            @Model.answer.program
+            @Html.Partial("_ProblemAnswer", @Model.answer.program)
         </div>
 
     </div>

@@ -46,11 +46,33 @@ site.solution = {
                 animatedScroll: true,
                 theme: "ace/theme/xcode"
             });
+
             site.solution.editor.getSession().setMode("ace/mode/c_cpp");
+            site.solution.localGet();
             site.solution.editor.getSession().on("change", site.solution.localSave);
-            if (localStorage.getItem(site.solution.localPath)) {
-                site.solution.editor.setValue(localStorage.getItem(site.solution.localPath));
-            }
+
+            //set Answer editor
+            site.solution.answer();
+        }
+    },
+    answer : function() {
+        if ($('#answerEditor').length > 0) {
+            site.solution.answerEditor = ace.edit("answerEditor");
+            site.solution.answerEditor.setOptions({
+                minLines: 20,
+                maxLines: 30,
+                showPrintMargin: false,
+                fontSize: 18,
+                animatedScroll: true,
+                theme: "ace/theme/xcode",
+                readOnly: true
+            });
+            site.solution.answerEditor.getSession().setMode("ace/mode/c_cpp");
+        }
+    },
+    localGet : function() {
+        if (localStorage.getItem(site.solution.localPath)) {
+            site.solution.editor.setValue(localStorage.getItem(site.solution.localPath));
         }
     },
     localSave : function() {
