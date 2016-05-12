@@ -36,6 +36,7 @@ site.enrole = {
 site.solution = {
     init: function () {
         if ($('#editor').length > 0) {
+            site.solution.localPath = $('#localPath').data('path');
             site.solution.editor = ace.edit("editor");
             site.solution.editor.setOptions({
                 minLines: 20,
@@ -47,13 +48,13 @@ site.solution = {
             });
             site.solution.editor.getSession().setMode("ace/mode/c_cpp");
             site.solution.editor.getSession().on("change", site.solution.localSave);
-            if (localStorage.aceEditor) {
-                site.solution.editor.setValue(localStorage.aceEditor);
+            if (localStorage.getItem(site.solution.localPath)) {
+                site.solution.editor.setValue(localStorage.getItem(site.solution.localPath));
             }
         }
     },
     localSave : function() {
-        localStorage.aceEditor = site.solution.editor.getValue();
+        localStorage.setItem(site.solution.localPath, site.solution.editor.getValue());
     },
     success : function() {
         console.log("Post was a Success");

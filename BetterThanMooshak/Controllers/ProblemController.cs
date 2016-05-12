@@ -22,6 +22,7 @@ namespace BetterThanMooshak.Controllers
                 if (service.verifyUser(id.Value))
                 {
                     ProblemDetailsViewModel model = service.getDetails(id.Value);
+                    model.localPath = User.Identity.GetUserId() + model.courseId + model.assignment.id + model.problem.id;
                     return View(model);
                 }
                 else
