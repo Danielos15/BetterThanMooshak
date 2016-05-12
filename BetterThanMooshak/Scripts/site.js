@@ -85,7 +85,9 @@ site.solution = {
         $.ajax({
             url: "/solution/save/"+id,
             method: "POST",
-            data: {code : site.solution.editor.getValue()},
+            data: {
+                code: site.solution.editor.getValue()
+            },
             success: site.solution.success
         });
     },
@@ -93,13 +95,18 @@ site.solution = {
         $.ajax({
             url: "/solution/submit/"+id,
             method: "POST",
-            data: {code : site.solution.editor.getValue()},
+            data: {
+                code: site.solution.editor.getValue()
+            },
             success: site.solution.success
         });
+        return false;
     }
 }
 $(function () {
     site.solution.init();
+
+
 
     $('form#enroleForm').submit(function() {
         site.enrole.submit();

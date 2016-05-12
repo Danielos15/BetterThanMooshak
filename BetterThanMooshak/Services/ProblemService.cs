@@ -108,12 +108,14 @@ namespace BetterThanMooshak.Services
             
             return problems;
         }
+
         public bool AddProblem(Problem add)
         {
             db.Problems.Add(add);
 
             return Convert.ToBoolean(db.SaveChanges());
         }
+
         public ProblemDetailsViewModel getDetails(int value)
         {
             var currentUser = HttpContext.Current.User.Identity.GetUserId();
@@ -208,6 +210,7 @@ int main() {
 
             return viewModel;
         }
+
         public bool AddTestcase(TestcaseAddViewModel model)
         {
             Testcase testcase = new Testcase()
@@ -245,6 +248,14 @@ int main() {
             };
             db.DiscussionComments.Add(comment);
             return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        public List<Testcase> GetTestcasesByProblemId(int id)
+        {
+            var testcases = (from testcase in db.Testcases
+                             where testcase.problemId == id
+                             select testcase).ToList();
+            return testcases;
         }
     }
 }

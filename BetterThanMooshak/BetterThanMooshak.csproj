@@ -212,6 +212,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\Compiler.cs" />
     <Compile Include="Utilities\CustomAuthorize.cs" />
   </ItemGroup>
   <ItemGroup>

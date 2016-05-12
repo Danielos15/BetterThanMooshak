@@ -15,5 +15,6 @@ namespace BetterThanMooshak.Models.ViewModel
     public class SolutionPostViewModel
     {
         public string code { get; set; }
+        public string fileName { get; set; }
     }
 }
