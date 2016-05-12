@@ -63,6 +63,7 @@ namespace BetterThanMooshak.Services
             var exists = (from x in db.CourseUsers
                 where x.userId == user.Id
                 select x).FirstOrDefault();
+
             if (exists != null)
             {
                 return false;

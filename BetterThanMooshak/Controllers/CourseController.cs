@@ -16,7 +16,7 @@ namespace BetterThanMooshak.Controllers
     {
         private CourseService service = new CourseService(null);
 
-        #region Index view
+        #region Index Action - Get overview of all Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Index()
         {
@@ -37,7 +37,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Add view
+        #region Add Action - Add new Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Add()
         {
@@ -63,7 +63,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Import Courses
+        #region Import Action - Import list of Courses with .csv
 
         [HttpPost]
         public ActionResult Import(HttpPostedFileBase inputFileBase)
@@ -98,7 +98,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Edit view
+        #region Edit Action - Edit existing Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
@@ -126,7 +126,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Remove Course
+        #region Remove Action - Remove existing Courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Remove(int? id)
         {
@@ -148,7 +148,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Enrole view
+        #region Enrole Action - Link users to courses
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult Enrole(int? id)
         {
@@ -200,7 +200,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Usercourses view
+        #region Usercourses Action - Overview of courses linked to the current user
         public ActionResult UserCourses()
         {
             UserCoursesViewModel viewModel = service.GetUserCourses();
@@ -209,7 +209,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Details view
+        #region Details Action - Get details for certain Course
         public ActionResult Details(int? id)
         {
             CourseAssignments viewModel = service.GetCourseAssignments(id.Value);

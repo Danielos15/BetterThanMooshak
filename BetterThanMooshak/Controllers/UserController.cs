@@ -21,7 +21,7 @@ namespace BetterThanMooshak.Controllers
         private UserService service = new UserService();        
         private ApplicationUserManager _userManager;
 
-        #region UserManager setup
+        #region UserManager Action Setup
         public ApplicationUserManager UserManager
         {
             get
@@ -35,7 +35,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Index of all users for Admins
+        #region Index Action - Display all users for Admins
         // GET: User
         public ActionResult Index()
         {
@@ -54,7 +54,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Add user Actions
+        #region Add Action - Add Users to the database
         // GET: Add User
         public ActionResult Add()
         {
@@ -93,7 +93,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Edit user Actions
+        #region Edit Action - Edit a certain User
         // GET: Edit User
         public ActionResult Edit(string id)
         {
@@ -149,7 +149,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Send Email Validation to all that are not Validated
+        #region SendEmailValidation Action - Send email to all Users that are not Validated
         // GET: Send Email Validation
         public async Task<ActionResult> SendEmailValidation()
         {
@@ -171,7 +171,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Remove user Action
+        #region Remove Action - Remove a certain User
         // Get: Remove User
         public async Task<ActionResult> Remove(string id)
         {
@@ -196,7 +196,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Activate or Deactivate User
+        #region Active Action - Activate or Deactivate User
         // GET: Activate User
         public async Task<ActionResult> Active(string id)
         {
@@ -218,7 +218,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Import users from .csv file
+        #region Import Action - Import users from .csv file
         [HttpPost]
         public async Task<ActionResult> Import(HttpPostedFileBase inputFileBase)
         {
@@ -269,7 +269,7 @@ namespace BetterThanMooshak.Controllers
         }
         #endregion
 
-        #region Admin can confirm e-mail for users if needed
+        #region EmailConfirm Action - Admin can confirm e-mail for users if needed
         public async Task<ActionResult> EmailConfirm(string id)
         {
             ApplicationUser user = await UserManager.FindByIdAsync(id);
