@@ -193,7 +193,6 @@ namespace BetterThanMooshak.Services
 
         public AssignmentProblems GetAssignmentProblems (int id)
         {
-
             var assignment = GetAssignmentById(id);
 
             var currentCourse = (from course in db.Courses
@@ -208,12 +207,17 @@ namespace BetterThanMooshak.Services
                             where problems.assignmentId == assignment.id
                             select problems).AsQueryable();
 
+            var grade = (from g in db.Grades
+                         where g.assignmentId == assignment.id && g.userId == currentUser
+                         select g).SingleOrDefault();
+
             var result = new AssignmentProblems()
             {
                 courseUser = courseRole,
                 course = currentCourse,
                 assignment = assignment,
-                problems = assignmentProblems
+                problems = assignmentProblems,
+                grade = grade
             };
 
             return result;

@@ -4,7 +4,21 @@
 }
 
 <div class="boxTitle">
-    <h1>@Model.assignment.name - <a href="@Url.Action("details", "course", new { id = Model.course.id })"> @Model.course.name </a></h1>
+    <h1>
+        @Model.assignment.name - 
+
+        <a href="@Url.Action("details", "course", new { id = Model.course.id })">
+            @Model.course.name 
+        </a> 
+        @{
+            if (Model.grade != null)
+            {
+                <i class="pull-right">
+                    My Grade: @Model.grade.grade
+                </i>
+            }
+        }
+    </h1>
 </div>
 <div class="boxText">
     @{
