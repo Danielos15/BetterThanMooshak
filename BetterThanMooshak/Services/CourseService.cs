@@ -5,8 +5,10 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace BetterThanMooshak.Services
 {
@@ -310,5 +312,67 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges()); ;
         }
         #endregion
+
+        /// <summary>Import courses with csv
+        /// <para>Input : Filebase file containing the course data. Output : List with CourseAddViewModels</para>
+        /// </summary>
+        public List<CourseAddViewModel> ImportCourses(HttpPostedFileBase file)
+        {
+            var reader = new StreamReader(file.InputStream);
+
+            int rowCount = 0;
+            List<string> nameList = new List<string>();
+            int nameIndex = 0;
+            List<DateTime> startDateList = new List<DateTime>();
+            int startDateIndex = 0;
+            List<DateTime> endDateList = new List<DateTime>();
+            int endDateIndex = 0;
+
+            var firstLine = reader.ReadLine();
+            var types = firstLine.Split(';');
+
+            for (int i = 0; i < types.Length; i++)
+            {
+                switch (types[i])
+                {
+                    case "name":
+                        nameIndex = i;
+                        break;
+                    case "startdate":
+                        startDateIndex = i;
+                        break;
+                    case "enddate":
+                        endDateIndex = i;
+                        break;
+                }
+            }
+
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                var values = line.Split(';');
+
+                nameList.Add(values[nameIndex]);
+                startDateList.Add(Convert.ToDateTime(values[startDateIndex]));
+                endDateList.Add(Convert.ToDateTime(values[endDateIndex]));
+
+                rowCount++;
+            }
+
+            List<CourseAddViewModel> courses = new List<CourseAddViewModel>();
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                courses.Add(new CourseAddViewModel
+                {
+                    name = nameList.ElementAt(i),
+                    startDate = startDateList.ElementAt(i),
+                    endDate = endDateList.ElementAt(i)
+                });
+
+            }
+
+            return courses;
+        }
     }
 }

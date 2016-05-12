@@ -4,6 +4,7 @@ using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using BetterThanMooshak.Utilities;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -28,9 +29,11 @@ namespace BetterThanMooshak.Controllers
                 ViewBag.message = TempData["message"].ToString();
             }
 
-            IQueryable<Course> viewModel = service.GetAllCourses();
+            IQueryable<Course> courses = service.GetAllCourses();
 
-            return View(viewModel);
+            CourseIndexViewModel model = new CourseIndexViewModel { courses = courses};
+
+            return View(model);
         }
         #endregion
 
@@ -57,6 +60,27 @@ namespace BetterThanMooshak.Controllers
             }
             ModelState.AddModelError("", "Submission invalid!");
             return View(newCourse);
+        }
+        #endregion
+
+        #region Import Courses
+
+        [HttpPost]
+        public ActionResult Import(HttpPostedFileBase inputFileBase)
+        {
+            var newCourses = service.ImportCourses(inputFileBase);
+
+            foreach (var newCourse in newCourses)
+            {
+                if (!service.Add(newCourse))
+                {
+                    ModelState.AddModelError("", newCourse.name + " could not be saved!");
+                }
+            }
+
+            TempData["message"] = "Courses have been imported!";
+
+            return RedirectToAction("index");
         }
         #endregion
 
