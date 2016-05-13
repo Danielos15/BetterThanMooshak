@@ -368,5 +368,15 @@ namespace BetterThanMooshak.Services
 
             return count;
         }
+
+        public int GetMaxSolutionScore(string userId, int problemId)
+        {
+            var solution = (from x in db.Solutions
+                            where x.userId == userId
+                            && x.problemId == problemId
+                            orderby x.score descending
+                            select x.score).FirstOrDefault();
+            return solution;
+        }
     }
 }

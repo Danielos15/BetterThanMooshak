@@ -28,6 +28,31 @@ namespace BetterThanMooshak.Utilities
             return (workingFolder + model.fileName + ".cpp");
         }
 
+        public void MakeHandin (string userId, int problemId)
+        {
+            var baseFolder = ConfigurationManager.AppSettings.Get("baseDir");
+            var workingFolder = baseFolder + userId + "\\" + problemId + "\\";
+            var handinFolder = workingFolder + ConfigurationManager.AppSettings.Get("handinFolder");
+
+            if (!Directory.Exists(handinFolder))
+            {
+                Directory.CreateDirectory(handinFolder);
+            }
+
+            foreach (var file in Directory.GetFiles(workingFolder))
+            {
+                try
+                {
+                    var filename = Path.GetFileName(file);
+                    File.Copy(file, handinFolder + filename, true);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
+
         public SolutionPostJson Compile(SolutionPostViewModel model, List<Testcase> inputs, string userId, int problemId)
         {
             var savedFile = SaveFile(model, userId, problemId);
@@ -39,7 +64,6 @@ namespace BetterThanMooshak.Utilities
 
             var baseFolder = ConfigurationManager.AppSettings.Get("baseDir");
             var workingFolder = baseFolder + userId + "\\" + problemId + "\\";
-            var handinFolder = workingFolder + ConfigurationManager.AppSettings.Get("handinFolder");
             var compileFolder = workingFolder + ConfigurationManager.AppSettings.Get("compiledFolder");
             var cppFileName = model.fileName + ".cpp";
             var exeFilePath = compileFolder + model.fileName + ".exe";
@@ -124,7 +148,6 @@ namespace BetterThanMooshak.Utilities
                 {
                     Console.WriteLine(e.Message);
                 }
-                
             }
 
             return jsonObject;

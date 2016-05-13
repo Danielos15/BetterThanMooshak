@@ -37,7 +37,8 @@ namespace BetterThanMooshak.Controllers
         {
             if (id != null)
             {
-                var totalSubmissions = service.CountSubmissions(User.Identity.GetUserId(), id.Value);
+                var userId = User.Identity.GetUserId();
+                var totalSubmissions = service.CountSubmissions(userId, id.Value);
                 var problem = service.GetProblemById(id.Value);
                 if (totalSubmissions >= problem.maxAttempts)
                 {
@@ -48,12 +49,15 @@ namespace BetterThanMooshak.Controllers
                     };
                     return Json(jSon);
                 }
-
+                var bestScore = service.GetMaxSolutionScore(userId, id.Value);
                 model.fileName = "main";
                 List<Testcase> testcases = service.GetTestcasesByProblemId(id.Value);
                 Compiler compiler = new Compiler();
 
                 SolutionPostJson jsonObject = compiler.Compile(model, testcases, User.Identity.GetUserId(), id.Value);
+                if (jsonObject.totalScore >= bestScore) {
+                    compiler.MakeHandin(userId, id.Value);
+                }
 
                 Solution solution = new Solution()
                 {
