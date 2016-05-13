@@ -11,5 +11,6 @@ namespace BetterThanMooshak.Models.Entities
         public int problemId { get; set; }
         public string message { get; set; }
         public string title { get; set; }
+        public DateTime date { get; set; }
     }
 }

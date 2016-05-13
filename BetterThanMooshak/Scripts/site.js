@@ -6,6 +6,28 @@
 
 site = {};
 
+site.import = {
+    init: function() {
+        $('#chooseFile').click(function () {
+            $('#importField').trigger('click');
+        });
+        $('#importFile').click(function () {
+            $('#importForm').submit();
+        });
+
+        $("#importField").change(function () {
+            if ($(this).val() != "" && $(this).val() != undefined) {
+                $filename = $(this).val();
+                $filename = '<i class="fa fa-file"></i> ' + $filename.match(/[^\/\\]+$/);
+                $('#chooseFile').html($filename);
+            }
+            else {
+                $filename = '<i class="fa fa-file"></i> Choose file';
+                $('#chooseFile').html($filename);
+            }
+        });
+    }
+}
 site.enrole = {
     roles: {
         teachers: [],
@@ -226,6 +248,7 @@ site.solution = {
 }
 $(function () {
     site.solution.init();
+    site.import.init();
 
 
 

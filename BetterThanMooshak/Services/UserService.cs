@@ -18,6 +18,7 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
+        #region Functions that retrieve users
         public ApplicationUser GetUserById(string id)
         {
             ApplicationUser appUser = (from user in db.Users
@@ -42,6 +43,7 @@ namespace BetterThanMooshak.Services
                 select user).ToList();
             return model;
         }
+        #endregion
 
         public bool IfRoleExists(string role)
         {
@@ -72,6 +74,7 @@ namespace BetterThanMooshak.Services
             return true;
         }
 
+        #region Function to import users from a file
         public List<UserAddViewModel> ImportUsers(HttpPostedFileBase file)
         {
             var reader = new StreamReader(file.InputStream);
@@ -130,5 +133,6 @@ namespace BetterThanMooshak.Services
 
             return users;
         }
+        #endregion
     }
 }

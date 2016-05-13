@@ -77,6 +77,7 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean( db.SaveChanges() );
         }
 
+        #region Function that gets all assignments
         public AssignmentIndexViewModel GetAll(string userId)
         {
             var teacherCourses = from cu in db.CourseUsers
@@ -166,7 +167,9 @@ namespace BetterThanMooshak.Services
 
             return (model);
         }
+        #endregion
 
+        #region Function that gets all grades for each user
         public bool AddGrade(GradeProblemAddViewModel newGrade)
         {
             if ((newGrade.grade < 0) || (newGrade.grade > 10))
@@ -195,7 +198,6 @@ namespace BetterThanMooshak.Services
 
             return Convert.ToBoolean(db.SaveChanges());
         }
-
         public GradeViewModel GetGradeViewModel(int value)
         {
             //Get assignment
@@ -222,7 +224,7 @@ namespace BetterThanMooshak.Services
                                     where s.userId == user.Id
                                     select s).ToList();
 
-                var assignmentGrade = (from g in db.Grades
+                                var assignmentGrade = (from g in db.Grades
                                        where (g.assignmentId == assignment.id) && (g.userId == user.Id)
                                        select g).SingleOrDefault();
 
@@ -246,6 +248,8 @@ namespace BetterThanMooshak.Services
 
             return viewModel;
         }
+
+        #endregion
 
         /// <summary>
         /// Check whether a User is a Teacher for a Course
@@ -290,6 +294,7 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
+        #region Function that gets all problems within assignment
         public AssignmentProblems GetAssignmentProblems (int id, string userId)
         {
             var assignment = GetAssignmentById(id);
@@ -359,6 +364,7 @@ namespace BetterThanMooshak.Services
 
             return result;
         }
+        #endregion
 
         public bool verifyUser(int id, string userId)
         {

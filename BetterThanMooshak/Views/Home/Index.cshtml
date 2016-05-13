@@ -11,9 +11,9 @@
     <div class="col-md-6" id="Assignments">
         <h2>
             Open Assignments
-            <a class="btn btn-default" href="@Url.Action("index", "assignment")">
+            <a class="btn btn-default pull-right" href="@Url.Action("index", "assignment")">
                 View All &nbsp;
-                <i class="fa fa-long-arrow-right"></i>
+                <i class="fa fa-chevron-right"></i>
             </a>
         </h2>
         <div>
@@ -59,9 +59,11 @@
                     @foreach (var x in Model.notifications)
                     {
                         <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
-                            <td>@x.notification.title</td>
                             <td>
-                                    @x.assignment.name
+                                @x.notification.title
+                            </td>
+                            <td>
+                                @x.assignment.name
                             </td>
                         </tr>
                     }
@@ -74,9 +76,9 @@
     <div class="col-md-6" id="Courses">
         <h2>
             Active Courses
-            <a class="btn btn-default" href="@Url.Action("usercourses", "course")">
+            <a class="btn btn-default pull-right" href="@Url.Action("usercourses", "course")">
                 View All &nbsp;
-                <i class="fa fa-long-arrow-right"></i>
+                <i class="fa fa-chevron-right"></i>
             </a>
         </h2>
         <div>

@@ -12,15 +12,21 @@
             <i class="fa fa-plus-square"></i>
             Add User
         </a>
+        @using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal", enctype = "multipart/form-data" }))
+        {
+            @Html.TextBoxFor(m => m.inputFileBase, new { type = "file"})
 
-@using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal", enctype = "multipart/form-data" }))
-{
-    @Html.TextBoxFor(m => m.inputFileBase, new { type = "file"})
+            <input type="submit" />
 
-    <input type="submit" />
-
-}
-
+        }
+        <a class="btn btn-default" id="chooseFile">
+            <i class="fa fa-file"></i>
+            Choose File
+        </a>
+        <a class="btn btn-default" id="importFile">
+            <i class="fa fa-download"></i>
+            Import File
+        </a>
         <a href="@Url.Action("sendemailvalidation", "user")" class="btn btn-default">
             <i class="fa fa-envelope"></i>
             Send Verification
@@ -28,6 +34,10 @@
         <div class="form-search left20">
             <input id="userSearch" type="text" placeholder="Search..." class="form-control searchingFilter" />
         </div>
+        @using (Html.BeginForm("import", "user", FormMethod.Post, new { @class = "form-horizontal hidden", role = "form", enctype = "multipart/form-data", id = "importForm" }))
+        {
+            @Html.TextBoxFor(m => m.inputFileBase, new { @class = "", type = "file", id = "importField" })
+        }
     </div>
     @Html.AntiForgeryToken()
     <table id="userTable" class="table table-responsive table-hover">

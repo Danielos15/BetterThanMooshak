@@ -311,9 +311,22 @@ namespace BetterThanMooshak.Services
             {
                 problemId = problemId,
                 title = model.title,
-                message = model.message
+                message = model.message,
+                date = DateTime.Now
             };
             db.Hints.Add(hint);
+
+            var assignment = (from a in db.Assignments
+                                join p in db.Problems on a.id equals p.assignmentId
+                                select a).SingleOrDefault();
+
+            if (assignment != null)
+            {
+                var notification = new Notification { assignmentId = assignment.id, title = "New hint in " + assignment.name, date = DateTime.Now };
+
+                db.Notifications.Add(notification);
+            }
+
             return Convert.ToBoolean(db.SaveChanges());
         }
 
