@@ -59,10 +59,11 @@
                     @foreach (var x in Model.notifications)
                     {
                         <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
-                            <td>@x.notification.title</td>
                             <td>
-                                    @x.assignment.name
+                                @x.notification.title
+                            </td>
                             <td>
+                                @x.assignment.name
                             </td>
                         </tr>
                     }

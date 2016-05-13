@@ -76,6 +76,7 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public ApplicationUser user { get; set; }
         public List<GradeProblemViewModel> problems { get; set; }
+        public Grade assignmentGrade { get; set; }
     }
     public class GradeProblemViewModel
     {
@@ -87,6 +88,6 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public string userId { get; set; }
         public int assignmentId { get; set; }
-        public double grade { get; set; }
+        public float grade { get; set; }
     }
 }

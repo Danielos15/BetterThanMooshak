@@ -102,7 +102,6 @@ namespace UnitTest.Services
         public void AddAssignmet()
         {
             // Arrange:
-            var mockDb = new MockDataContext();
             var assignment4 = new AssignmentAddViewModel
             {
                 name = "Assignment 4",

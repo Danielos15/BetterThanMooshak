@@ -17,6 +17,8 @@ namespace BetterThanMooshak.Services
         {
             db = context ?? new ApplicationDbContext();
         }
+
+        #region Get functions for Home view
         public HomeViewModel GetAll(string userId)
         {
             var user = GetUserName(userId);
@@ -143,5 +145,6 @@ namespace BetterThanMooshak.Services
 
             return homeGrades;
         }
+        #endregion
     }
 }

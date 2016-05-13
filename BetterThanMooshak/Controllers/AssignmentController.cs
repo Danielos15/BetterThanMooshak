@@ -112,6 +112,15 @@ namespace BetterThanMooshak.Controllers
 
                 if (service.isTeacher(userId, id.Value))
                 {
+                    if (TempData["errorMessage"] != null)
+                    {
+                        ViewBag.errorMessage = TempData["errorMessage"].ToString();
+                    }
+                    if (TempData["message"] != null)
+                    {
+                        ViewBag.message = TempData["message"].ToString();
+                    }
+
                     var model = service.GetGradeViewModel(id.Value);
 
                     return View(model);
@@ -126,8 +135,15 @@ namespace BetterThanMooshak.Controllers
         [HttpPost]
         public ActionResult Grade(GradeProblemAddViewModel newGrade)
         {
-            service.AddGrade(newGrade);
-            
+            if(!service.AddGrade(newGrade))
+            {
+                TempData["errorMessage"] = "Grade could not be submitted!";
+            }
+            else
+            {
+                TempData["message"] = "Grade has been submitted!";
+            }
+
             return RedirectToAction("grade", "assignment", new { id = newGrade.assignmentId });
         }
         #endregion
