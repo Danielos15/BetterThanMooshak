@@ -12,12 +12,9 @@
             <i class="fa fa-plus-square"></i>
             Add User
         </a>
-        @using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal", enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal hidden", enctype = "multipart/form-data" }))
         {
             @Html.TextBoxFor(m => m.inputFileBase, new { type = "file"})
-
-            <input type="submit" />
-
         }
         <a class="btn btn-default" id="chooseFile">
             <i class="fa fa-file"></i>
