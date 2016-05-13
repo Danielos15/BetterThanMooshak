@@ -1,0 +1,58 @@
+﻿@model BetterThanMooshak.Models.ViewModel.GradeViewModel
+
+@{
+    ViewBag.Title = "Grade";
+}
+
+<h2>Grade problems for <a href="@Url.Action("details", "assignment", new { id = Model.assignment.id})">@Model.assignment.name</a></h2>
+
+@foreach (var student in Model.students)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+            <h3 class="panel-title" style="display:inline-block">@student.user.Name</h3>
+            <div class="info pull-right" style="display:inline-block">
+                <input type="number" />
+                <i class="fa fa-graduation-cap">Grade</i>
+            </div>
+        </div>
+        <div class="panel-body">
+            @{ 
+                if (student.problems == null)
+                {
+                    <p>There are no problems for this Assignment</p>
+                }
+                else
+                {
+                    foreach (var p in student.problems)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading clearfix">
+                                <h4>@p.problemName</h4>
+                                <div class="info pull-right" style="display:inline-block">
+                                    <i class="fa fa-long-arrow-right">View problem Code</i>
+                                </div>
+                             </div>
+                            <div class="panel-body">
+                                @{
+                                    if (p.submission == null)
+                                    {
+                                        <p>@student.user.Name has not submitted a solution for this Problem</p>
+                                    }
+                                    else
+                                    {
+                                        <p>View submission (id: @p.submission.Id) for assignment(id: @p.problemId)</p>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <div class="panel-footer clearfix">
+            <div class="btn-group pull-right">
+            </div>
+        </div>
+    </div>
+}

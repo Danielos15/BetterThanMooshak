@@ -167,6 +167,82 @@ namespace BetterThanMooshak.Services
             return (model);
         }
 
+        public GradeViewModel GetGradeViewModel(int value)
+        {
+            //Get assignment
+            var assignment = GetAssignmentById(value);
+
+            //Get List<GradeUserViewModel>
+            List<GradeUserViewModel> students = new List<GradeUserViewModel>();
+            
+            var assignmentProblems = (from p in db.Problems
+                           where p.assignmentId == assignment.id
+                           select p).ToList();
+                              
+            var users = (from cu in db.CourseUsers
+                             where (cu.courseId == assignment.courseId && (cu.role == 1))
+                             join u in db.Users on cu.userId equals u.Id
+                             select u).ToList();
+
+            foreach (var user in users)
+            {
+                //Get List<GradeProblemViewModel>
+                var problems = new List<GradeProblemViewModel>();
+
+                var userSolutions = (from s in db.Solutions
+                                    where s.userId == user.Id
+                                    select s).ToList();
+
+                foreach (var problem in assignmentProblems)
+                {
+                    var submission = (from s in userSolutions
+                                        where s.problemId == problem.id
+                                        orderby s.score descending, s.submissionDate descending
+                                        select s).FirstOrDefault();
+
+                    problems.Add(new GradeProblemViewModel { submission = submission, problemName = problem.name, problemId = problem.id });
+                }
+
+                students.Add(new GradeUserViewModel { user = user, problems = problems });
+            }
+
+            var viewModel = new GradeViewModel {
+                assignment = assignment,
+                students = students
+            };
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Check whether a User is a Teacher for a Course
+        /// with a given Assignment
+        /// </summary>
+        /// <param User="userId"></param>
+        /// <param Assignment="assignmentId"></param>
+        /// <returns>True if it's a teacher, false otherwise</returns>
+        public bool isTeacher(string userId, int assignmentId)
+        {
+            var courseId = GetAssignmentById(assignmentId).courseId;
+
+            var course = (from c in db.Courses
+                          where c.id == courseId
+                          select c).SingleOrDefault();
+
+            var role = (from cu in db.CourseUsers
+                        where (cu.courseId == course.id) && (cu.userId == userId)
+                        select cu).SingleOrDefault();
+
+            if (role == null)
+            {
+                return false;
+            }
+            else
+            {
+                return (role.role == 3);
+            }
+        }
+
         public bool Edit(int id, AssignmentAddViewModel model)
         {
             var item = (from assignments in db.Assignments
