@@ -1,15 +1,19 @@
 TODO:
 
+-- Index --
++Assignments
+	Color/Icon indicators (finished, started, not started)
+
 -- Import buttons --
 Fix layout (maybe AJAX ?)
+
+-- Assignment Index --
+Color/Icon indicators (finished, started, not started)
 
 -- Assignment Detail --
 Fix description
 fix Score
 buttons to group
-
--- Edit Problem --
-Fix form - not the correct one.
 
 -- Problem Details --
 Fix Score
@@ -25,7 +29,7 @@ fix handins
  Make sure hidden do not come.
  
  => Submissions
- Show all submissions
+ Show i/o for submissions
  show Datetime, score, status, in reverse order, latest first.
  
  => Hints

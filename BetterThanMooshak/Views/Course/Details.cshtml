@@ -62,20 +62,6 @@
                                             <a href="@Url.Action("edit", "assignment", new { id = x.id})" class="" title="Edit @x.name">
                                                 <i class="fa fa-pencil-square"></i>
                                             </a> 
-                                            @{
-                                                if (1 == 1)
-                                                {
-                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Hide @x.name">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Show @x.name">
-                                                        <i class="fa fa-eye-slash"></i>
-                                                    </a>
-                                                }
-                                            }
                                             <a href="@Url.Action("grade", "assignment", new { id = x.id })" class="" title="Grade @x.name">
                                                 <i class="fa fa-graduation-cap"></i>
                                             </a>
@@ -95,10 +81,13 @@
                         <tr>
                             <th>Name</th>
                             <th>Due Date</th>
-                            <th>Grade</th>
                             @{ if (Model.role.role == 3)
                                 {
                                     <th>Actions</th>
+                                }
+                                else
+                                {
+                                    <th>Grade</th>
                                 }
                             }
                         </tr>
@@ -106,41 +95,35 @@
                     <tbody>
                         @foreach (var x in Model.oldAssignments)
                                         {
-                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.id})">
+                            <tr class="clickable-row" data-url="@Url.Action("details", "assignment", new { id = x.assignment.id})">
                                 <td>
-                                        @x.name
+                                        @x.assignment.name
                                 </td>
                                 <td>
-                                    @x.endDate.ToLongDateString()
-                                </td>
-                                <td>
-                                    @*//TODO: Insert grades for closed assignments*@
+                                    @x.assignment.endDate.ToLongDateString()
                                 </td>
                                 @{ if (Model.role.role == 3)
                                     {
                                         <td>
-                                            <a href="@Url.Action("edit", "assignment", new { id = x.id})" class="" title="Edit @x.name">
+                                            <a href="@Url.Action("edit", "assignment", new { id = x.assignment.id})" class="" title="Edit @x.assignment.name">
                                                 <i class="fa fa-pencil-square"></i>
                                             </a>
-                                            @{
-                                                if (1 == 1)
-                                                {
-                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Hide @x.name">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="@Url.Action("active", "assignment", new { id = x.id})" class="" title="Show @x.name">
-                                                        <i class="fa fa-eye-slash"></i>
-                                                    </a>
-                                                }
-                                            }
-                                            <a href="@Url.Action("grade", "assignment", new { id = x.id })" class="" title="Grade @x.name">
+                                            <a href="@Url.Action("grade", "assignment", new { id = x.assignment.id })" class="" title="Grade @x.assignment.name">
                                                 <i class="fa fa-graduation-cap"></i>
                                             </a>
                                         </td>
-                                                }
+                                    }
+                                    else
+                                    {
+                                        if (x.grade.grade < 0)
+                                        {
+                                            <td>Not graded</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@x.grade.grade</td>
+                                        }
+                                    }
                                 }
                             </tr>
                         }

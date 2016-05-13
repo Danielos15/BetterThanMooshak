@@ -46,7 +46,7 @@ namespace BetterThanMooshak.Models.ViewModel
     {
         public Course course { get; set; }
         public IQueryable<Assignment> newAssignments { get; set; }
-        public IQueryable<Assignment> oldAssignments { get; set; }
+        public List<AssignmentViewModel> oldAssignments { get; set; }
         public CourseUser role { get; set; }
     }
     public class UserCoursesViewModel
