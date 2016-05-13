@@ -12,23 +12,22 @@ namespace BetterThanMooshak.Services
     public class HomeService
     {
         private ApplicationDbContext db;
-        private string currentUser = HttpContext.Current.User.Identity.GetUserId();
         public HomeService()
         {
             db = new ApplicationDbContext();
         }
 
-        public HomeViewModel getAll()
+        public HomeViewModel getAll(string userId)
         {
-            var user = getUserName();
+            var user = getUserName(userId);
 
-            var courses = getCourses();
+            var courses = getCourses(userId);
 
             var assignments = getAssignments(ref courses);
 
             var notifications = getNotifications(ref courses);
 
-            var grades = getGrades();
+            var grades = getGrades(userId);
 
             HomeViewModel viewModel = new HomeViewModel()
             {
@@ -41,20 +40,20 @@ namespace BetterThanMooshak.Services
             
             return viewModel;
         }
-        private string getUserName()
+        private string getUserName(string userId)
         {
             var user = (from users in db.Users
-                        where users.Id == currentUser
+                        where users.Id == userId
                         select users).SingleOrDefault();
 
             return user.Name;
         }
-        private IQueryable<Course> getCourses()
+        private IQueryable<Course> getCourses(string userId)
         {
             var userCourses = (from cu in db.CourseUsers
                               join c in db.Courses on cu.courseId equals c.id into result
-                              where cu.userId == currentUser
-                              from x in result
+                              where cu.userId == userId
+                               from x in result
                               where x.endDate > DateTime.Now
                               orderby x.endDate
                               select x).Take(5);
@@ -116,11 +115,11 @@ namespace BetterThanMooshak.Services
 
             return homeNotifications;
         }
-        private List<HomeGrade> getGrades()
+        private List<HomeGrade> getGrades(string userId)
         {
             var grades = (from g in db.Grades
-                   where g.userId == currentUser
-                   select g).Take(5).ToList();
+                   where g.userId == userId
+                          select g).Take(5).ToList();
 
             var assignments = (from g in grades
                                join a in db.Assignments on g.assignmentId equals a.id

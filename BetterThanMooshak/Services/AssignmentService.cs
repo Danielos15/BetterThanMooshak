@@ -12,7 +12,6 @@ namespace BetterThanMooshak.Services
     public class AssignmentService
     {
         private ApplicationDbContext db;
-        private string currentUser = HttpContext.Current.User.Identity.GetUserId();
 
         public AssignmentService()
         {
@@ -78,11 +77,11 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean( db.SaveChanges() );
         }
 
-        public AssignmentIndexViewModel GetAll()
+        public AssignmentIndexViewModel GetAll(string userId)
         {
             var teacherCourses = from cu in db.CourseUsers
                               join c in db.Courses on cu.courseId equals c.id into result
-                              where cu.userId == currentUser && cu.role == 3
+                              where cu.userId == userId && cu.role == 3
                               from x in result
                               select x;
 
@@ -95,7 +94,7 @@ namespace BetterThanMooshak.Services
 
             var userCourses = from cu in db.CourseUsers
                               join c in db.Courses on cu.courseId equals c.id into result
-                              where cu.userId == currentUser && cu.role < 3
+                              where cu.userId == userId && cu.role < 3
                               from x in result
                               select x;
 
@@ -149,7 +148,7 @@ namespace BetterThanMooshak.Services
 
             var oldGrades = (from a in oldAss
                              join g in db.Grades on a.id equals g.assignmentId
-                             where g.userId == currentUser
+                             where g.userId == userId
                              select g).ToList();
 
             var oldAssignments = new List<AssignmentViewModel> { };
@@ -191,7 +190,7 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public AssignmentProblems GetAssignmentProblems (int id)
+        public AssignmentProblems GetAssignmentProblems (int id, string userId)
         {
             var assignment = GetAssignmentById(id);
 
@@ -200,7 +199,7 @@ namespace BetterThanMooshak.Services
                                  select course).SingleOrDefault();
 
             var courseRole = (from role in db.CourseUsers
-                              where currentCourse.id == role.courseId && role.userId == currentUser
+                              where currentCourse.id == role.courseId && role.userId == userId
                               select role).SingleOrDefault();
 
             var assignmentProblems = (from problems in db.Problems
@@ -208,7 +207,7 @@ namespace BetterThanMooshak.Services
                             select problems).AsQueryable();
 
             var grade = (from g in db.Grades
-                         where g.assignmentId == assignment.id && g.userId == currentUser
+                         where g.assignmentId == assignment.id && g.userId == userId
                          select g).SingleOrDefault();
 
             var result = new AssignmentProblems()
@@ -223,12 +222,10 @@ namespace BetterThanMooshak.Services
             return result;
         }
 
-        public bool verifyUser(int id)
+        public bool verifyUser(int id, string userId)
         {
-            var currentUser = HttpContext.Current.User.Identity.GetUserId();
-
             var appUser = (from user in db.Users
-                           where user.Id == currentUser
+                           where user.Id == userId
                            select user).SingleOrDefault();
 
             var userCourses = from courseusers in db.CourseUsers

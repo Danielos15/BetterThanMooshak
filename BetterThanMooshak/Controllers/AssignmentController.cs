@@ -1,6 +1,7 @@
 ﻿using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -11,17 +12,20 @@ namespace BetterThanMooshak.Controllers
         #region Index Action - Get overview off all Courses
         public ActionResult Index()
         {
-            return View(service.GetAll());
+            var userId = User.Identity.GetUserId();
+            return View(service.GetAll(userId));
         }
         #endregion
 
         #region Details Action - Get details from single Course
         public ActionResult Details(int? id)
         {
+            var userId = User.Identity.GetUserId();
+
             if (id != null)
             {
-                if (service.verifyUser(id.Value))
-                    return View(service.GetAssignmentProblems(id.Value));
+                if (service.verifyUser(id.Value, userId))
+                    return View(service.GetAssignmentProblems(id.Value, userId));
                 else
                 {
                     ModelState.AddModelError("", "User not authorized");

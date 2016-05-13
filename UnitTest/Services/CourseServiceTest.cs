@@ -10,8 +10,6 @@ namespace UnitTest.ServicesUnitTests
     [TestClass]
     public class CourseServiceTest
     {
-        private string currentUser;
-
         private CourseService service;
 
         [TestInitialize]
