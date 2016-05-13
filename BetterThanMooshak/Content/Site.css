@@ -2,7 +2,8 @@
     padding-top: 80px;
     display: flex;
     min-height: 100vh;
-    flex-direction: column;  
+    flex-direction: column;
+    font-size: 20px  
 }
     .body-content {
         flex: 1;
@@ -29,13 +30,17 @@
         pointer-events: none;
     }
     body .label {
-        font-size: 100%
+        font-size: 16px;
     }
     .input-arrow {
         padding-top: 90px;
     }
     body a:hover {
         text-decoration: none;
+    }
+
+    h2 {
+        margin-bottom: 22px;
     }
 header.navbar {
     height: 70px;
@@ -107,13 +112,26 @@ header.navbar .menu {
     border: 1px solid #ccc;
     padding: 0;
     list-style: none;
+    min-width: 200px;
+    font-size: 20px;
+    text-transform: capitalize
+}
+@media (max-width: 768px) {
+    .menu .dropdown {
+        width: 100%;
+        padding: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+        top: 53px;
+    }
 }
     body.menuOpen .dropdown {
         display: block;
     }
     .menu .dropdown li {
         width: 100%;
-        padding: 8px 20px;
+        padding: 8px 30px;
         border-bottom: 1px solid #ccc;
     }
 
@@ -138,6 +156,10 @@ textarea.form-control {
    font-size: 18px;
 }
 
+.table td {
+    font-size: 18px;
+    text-transform:capitalize;
+}
 
 footer {
     border-top: 1px solid #ccc;
@@ -274,7 +296,7 @@ body span.fa {
 /* Login Form */
 #loginForm
 {
-    max-width: 340px;
+    max-width: 440px;
     margin: 0 auto;
     text-align: center;
     padding: 20px;

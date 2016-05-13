@@ -14,20 +14,23 @@
             <i class="fa fa-plus-square"></i>
             Add Course
         </a>
-        @using (Html.BeginForm("import", "course", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-        {
-            @Html.TextBoxFor(m => m.inputFileBase, new { type = "file" })
-
-            <input type="submit" class="btn btn-default"/>
-        }
-
-        <a href="@Url.Action("index", "course")" class="btn btn-default">
+        <a  class="btn btn-default" id="chooseFile">
+            <i class="fa fa-file"></i>
+            Choose File
+        </a>
+        <a class="btn btn-default" id="importFile">
             <i class="fa fa-download"></i>
-            Import Courses
+            Import File
         </a>
         <div class="form-search left20">
             <input id="userSearch" type="text" placeholder="Search..." class="form-control searchingFilter" />
         </div>
+    </div>
+    <div class="pull-right">
+        @using (Html.BeginForm("import", "course", FormMethod.Post, new { @class = "form-inline hidden", role = "form", enctype = "multipart/form-data", id = "importForm" }))
+        {
+            @Html.TextBoxFor(m => m.inputFileBase, new { @class = "", type = "file", id = "importField" })
+        }
     </div>
     <table id="courseTable" class="table table-responsive table-hover">
         <thead>
