@@ -24,11 +24,9 @@ namespace BetterThanMooshak.Services
                     select p).SingleOrDefault();
         }
 
-        internal bool verifyUser(int value)
+        internal bool verifyUser(int value, string userId)
         {
-            var currentUser = HttpContext.Current.User.Identity.GetUserId();
-
-            var problem = (from problems in getAllProblems()
+            var problem = (from problems in getAllProblems(userId)
                            where problems.id == value
                            select problems).SingleOrDefault();
 
@@ -92,13 +90,11 @@ namespace BetterThanMooshak.Services
             return viewModel;
         }
 
-        public IQueryable<Problem> getAllProblems()
+        public IQueryable<Problem> getAllProblems(string userId)
         {
-            var currentUser = HttpContext.Current.User.Identity.GetUserId();
-
             var problems = from cu in db.CourseUsers
                            join c in db.Courses on cu.courseId equals c.id into userCourses
-                           where cu.userId == currentUser
+                           where cu.userId == userId
                            from course in userCourses
                            join a in db.Assignments on course.id equals a.courseId into assignments
                            from ass in assignments
@@ -149,10 +145,8 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public ProblemDetailsViewModel getDetails(int value)
+        public ProblemDetailsViewModel getDetails(int value, string userId)
         {
-            var currentUser = HttpContext.Current.User.Identity.GetUserId();
-
             var problem = GetProblemById(value);
 
             var assignment = (from problems in db.Problems
@@ -168,19 +162,19 @@ namespace BetterThanMooshak.Services
                           select co).SingleOrDefault();
 
             var userRole = (from cu in db.CourseUsers
-                where cu.courseId == course.id && cu.userId == currentUser
-                select cu).SingleOrDefault();
+                where cu.courseId == course.id && cu.userId == userId
+                            select cu).SingleOrDefault();
 
             var isTeacher = userRole.role == 3;
 
-            var currSolution = new Solution { problemId = problem.id, userId = currentUser };
+            var currSolution = new Solution { problemId = problem.id, userId = userId };
 
             var testcases = (from t in db.Testcases
                              where t.problemId == problem.id
                              select t).AsQueryable();
 
             var submissions = (from s in db.Solutions
-                               where s.userId == currentUser && s.problemId == problem.id
+                               where s.userId == userId && s.problemId == problem.id
                                select s).AsQueryable();
 
             IQueryable<string> hints = null; //TODO

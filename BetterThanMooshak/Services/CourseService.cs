@@ -15,8 +15,6 @@ namespace BetterThanMooshak.Services
     public class CourseService
     {
         private readonly IAppDataContext db;
-        //private string currentUser = "1";
-        private string currentUser = HttpContext.Current.User.Identity.GetUserId();
 
         public CourseService(IAppDataContext context)
         {
@@ -94,17 +92,17 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
-        public UserCoursesViewModel GetUserCourses()
+        public UserCoursesViewModel GetUserCourses(string userId)
         {
             var newCourses = (from courseusers in db.CourseUsers
                               join courses in db.Courses on courseusers.courseId equals courses.id
-                              where courseusers.userId == currentUser && courses.endDate > DateTime.Now
+                              where courseusers.userId == userId && courses.endDate > DateTime.Now
                               orderby courses.endDate ascending
                               select courses).ToList();
 
             var newCoursesRoles = (from courses in newCourses
                                    join roles in db.CourseUsers on courses.id equals roles.courseId
-                                   where roles.userId == currentUser
+                                   where roles.userId == userId
                                    select roles).ToList();
 
             List<CourseWithRoles> activeCourses = new List<CourseWithRoles> { };
@@ -119,14 +117,14 @@ namespace BetterThanMooshak.Services
 
             var oldCourses = (from courseusers in db.CourseUsers
                               join courses in db.Courses on courseusers.courseId equals courses.id into result
-                              where courseusers.userId == currentUser
+                              where courseusers.userId == userId
                               from x in result
                               where x.endDate < DateTime.Now
                               select x).ToList();
 
             var oldCoursesRoles = (from courses in oldCourses
                                    join roles in db.CourseUsers on courses.id equals roles.courseId
-                                   where roles.userId == currentUser
+                                   where roles.userId == userId
                                    select roles).ToList();
 
             List<CourseWithRoles> inactiveCourses = new List<CourseWithRoles> { };
@@ -142,11 +140,11 @@ namespace BetterThanMooshak.Services
             return new UserCoursesViewModel { activeCourses = activeCourses, inactiveCourses = inactiveCourses };
         }
 
-        public CourseAssignments GetCourseAssignments(int? id)
+        public CourseAssignments GetCourseAssignments(int? id, string userId)
         {
             var isTeacher = (from cu in db.CourseUsers
-                where cu.courseId == id.Value && cu.userId == currentUser
-                select cu).SingleOrDefault().role;
+                where cu.courseId == id.Value && cu.userId == userId
+                             select cu).SingleOrDefault().role;
 
             IQueryable<Assignment> newAssignments;
 
@@ -177,7 +175,7 @@ namespace BetterThanMooshak.Services
                                  select x;
 
             var role = (from uc in db.CourseUsers
-                        where uc.userId == currentUser && uc.courseId == id.Value
+                        where uc.userId == userId && uc.courseId == id.Value
                         select uc).SingleOrDefault();
 
             var viewModel = new CourseAssignments {

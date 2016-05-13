@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using BetterThanMooshak.Services;
 using BetterThanMooshak.Models.ViewModel;
+using Microsoft.AspNet.Identity;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -9,7 +10,9 @@ namespace BetterThanMooshak.Controllers
         private HomeService service = new HomeService();
         public ActionResult Index()
         {
-            HomeViewModel viewModel = service.getAll();
+            var userId = User.Identity.GetUserId();
+
+            HomeViewModel viewModel = service.getAll(userId);
 
             return View(viewModel);
         }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-
+using Microsoft.AspNet.Identity;
 
 
 namespace BetterThanMooshak.Controllers
@@ -203,7 +203,8 @@ namespace BetterThanMooshak.Controllers
         #region Usercourses Action - Overview of courses linked to the current user
         public ActionResult UserCourses()
         {
-            UserCoursesViewModel viewModel = service.GetUserCourses();
+            var userId = User.Identity.GetUserId();
+            UserCoursesViewModel viewModel = service.GetUserCourses(userId);
 
             return View(viewModel);
         }
@@ -212,7 +213,8 @@ namespace BetterThanMooshak.Controllers
         #region Details Action - Get details for certain Course
         public ActionResult Details(int? id)
         {
-            CourseAssignments viewModel = service.GetCourseAssignments(id.Value);
+            var userId = User.Identity.GetUserId();
+            CourseAssignments viewModel = service.GetCourseAssignments(id.Value, userId);
 
             return View(viewModel);
         }
