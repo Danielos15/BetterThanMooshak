@@ -318,11 +318,15 @@ namespace BetterThanMooshak.Services
 
             var assignment = (from a in db.Assignments
                                 join p in db.Problems on a.id equals p.assignmentId
-                                select a).SingleOrDefault();
+                                select a).FirstOrDefault();
+
+            var problem = (from p in db.Problems
+                           where p.id == problemId
+                           select p).SingleOrDefault();
 
             if (assignment != null)
             {
-                var notification = new Notification { assignmentId = assignment.id, title = "New hint in " + assignment.name, date = DateTime.Now };
+                var notification = new Notification { assignmentId = assignment.id, title = "New hint in " + problem.name, date = DateTime.Now };
 
                 db.Notifications.Add(notification);
             }
