@@ -5,7 +5,7 @@
 }
 
 <h2>Grade problems for <a href="@Url.Action("details", "assignment", new { id = Model.assignment.id})">@Model.assignment.name</a></h2>
-
+@Html.Partial("_ViewBagAlerts")
 @foreach (var student in Model.students)
 {
     <div class="panel panel-default">
@@ -13,7 +13,16 @@
             <h3 class="panel-title" style="display:inline-block">@student.user.Name</h3>
             <div class="info pull-right" style="display:inline-block">
                 <form method="post" action="/assignment/grade">
-                    <input type="number" name="grade"/>
+                    @{
+                        if (student.assignmentGrade != null)
+                        {
+                            <input type="number" step="0.1" name="grade" value="@student.assignmentGrade.grade" />
+                        }
+                        else
+                        {
+                            <input type="number" step="0.1" name="grade" />
+                        }
+                    }
                     <input type="hidden" name="userId" value="@student.user.Id"/>
                     <input type="hidden" name="assignmentId" value="@Model.assignment.id"/>
                     <button class="btn btn-default" type="submit"><i class="fa fa-graduation-cap">Grade</i></button>
