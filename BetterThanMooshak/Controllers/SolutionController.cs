@@ -13,7 +13,7 @@ namespace BetterThanMooshak.Controllers
 {
     public class SolutionController : Controller
     {
-        private ProblemService service = new ProblemService();
+        private ProblemService service = new ProblemService(null);
 
         #region Save Action - Save a certain Solution
         [HttpPost]

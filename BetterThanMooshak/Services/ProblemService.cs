@@ -11,11 +11,11 @@ namespace BetterThanMooshak.Services
 {
     public class ProblemService
     {
-        private ApplicationDbContext db;
+        private readonly IAppDataContext db;
 
-        public ProblemService()
+        public ProblemService(IAppDataContext context)
         {
-            db = new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
         }
         public Problem GetProblemById(int problemId)
         {

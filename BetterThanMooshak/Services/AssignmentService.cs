@@ -11,11 +11,11 @@ namespace BetterThanMooshak.Services
 {
     public class AssignmentService
     {
-        private ApplicationDbContext db;
+        private readonly IAppDataContext db;
 
-        public AssignmentService()
+        public AssignmentService(IAppDataContext context)
         {
-            db = new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
         }
 
         public Assignment GetAssignmentById (int id)

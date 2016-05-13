@@ -47,17 +47,16 @@ namespace UnitTest.ServicesUnitTests
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void GetAllCoursesTest()
         {
             // Arrange:
-
+            const int userId = 3;
 
             // Act:
             var result = service.GetAllCourses().ToList();
 
             //Assert:
-            Assert.AreEqual(3, result.Count);
-
+            Assert.AreEqual(userId, result.Count);
         }
     }
 }
