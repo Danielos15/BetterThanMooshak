@@ -1,4 +1,10 @@
-﻿site = {};
+﻿$scrollTo = function(selector) {
+    $('html, body').animate({
+        scrollTop: ($(selector).offset().top) - 80
+    }, 1500);
+}
+
+site = {};
 
 site.enrole = {
     roles: {
@@ -78,12 +84,85 @@ site.solution = {
     localSave : function() {
         localStorage.setItem(site.solution.localPath, site.solution.editor.getValue());
     },
-    success : function() {
-        console.log("Post was a Success");
+    success: function (data) {
+        console.log('SuccessFunction Started');
+        var response = data;
+        console.log(response);
+        $('#compilerRespond').empty();
+        if (response.hasCompileError) {
+            $compileError =
+                $('<div class="alert alert-danger alert-dismissible" role="alert">'
+                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                    + '<strong>Warning!</strong> Compile Error'
+                    + '<hr />'
+                    + '<span style="white-space:pre-line;">'
+                        + response.errorMessage
+                    + '</span>'
+                + '</div>');
+            $('#compilerRespond').append($compileError);
+        } else {
+            for (i = 0; i < response.tests.length; i++) {
+                $type = "warning";
+                $text = "<strong>Wrong Output</strong> Something is not going as planes";
+                if (response.tests[i].score > 0) {
+                    $type = "success";
+                    $text = "<strong>Correct Output</strong> Looks like you did it! Congratulations;";
+                }
+                $output =
+                $('<div class="alert alert-' + $type + ' alert-dismissible" role="alert">'
+                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                    + $text
+                    + '<hr />'
+                    + '<div class="panel panel-info">'
+                        + '<div class="panel-heading">Input</div>'
+                        + '<div class="panel-body">'
+                            + '<span style="white-space:pre-line;">'
+                                + ((response.tests[i].input == "null") ? "" : response.tests[i].input)
+                            + '</span>'
+                        + '</div>'
+                    + '</div>'
+                    + '<div class="panel panel-info">'
+                        + '<div class="panel-heading">Expected Output</div>'
+                        + '<div class="panel-body">'
+                            + '<span style="white-space:pre-line;">'
+                                + response.tests[i].expectedOutput
+                            + '</span>'
+                        + '</div>'
+                    + '</div>'
+                    + '<div class="panel panel-info">'
+                        + '<div class="panel-heading">Optained Output</div>'
+                        + '<div class="panel-body">'
+                            + '<span style="white-space:pre-line;">'
+                                + response.tests[i].output
+                            + '</span>'
+                        + '</div>'
+                    + '</div>'
+                + '</div>');
+
+                $('#compilerRespond').append($output);
+            }
+        }
+        $scrollTo('#compilerRespond');
+        console.log('SuccessFunction Ended');
+    },
+    timeout: function () {
+        $('#compilerRespond').empty();
+        $compileError =
+               $('<div class="alert alert-danger alert-dismissible" role="alert">'
+                   + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                   + '<strong>Warning!</strong> Runtime Error'
+                   + '<hr />'
+                   + '<span style="white-space:pre-line;">'
+                       + 'The Process took to long and had to be terminated by the operating system!'
+                   + '</span>'
+               + '</div>');
+        $scrollTo('#compilerRespond');
+        $('#compilerRespond').append($compileError);
     },
     save: function (id) {
         $.ajax({
             url: "/solution/save/"+id,
+            timeout: 120000,
             method: "POST",
             data: {
                 code: site.solution.editor.getValue()
@@ -92,15 +171,24 @@ site.solution = {
         });
     },
     submit: function (id) {
-        $.ajax({
+        site.solution.debug = $.ajax({
             url: "/solution/submit/"+id,
             method: "POST",
+            timeout: 120000,
             data: {
                 code: site.solution.editor.getValue()
-            },
-            success: site.solution.success
-        });
-        return false;
+            }
+        })
+            .done(function (data) {
+                site.solution.success(data)
+            })
+            .fail(function (jqXHR, textStatus) {
+                console.log('fail function called');
+                if (textStatus === 'timeout') {
+                    site.solution.timeout();
+                }
+                console.log('fail function ended');
+            });
     }
 }
 $(function () {
@@ -131,6 +219,7 @@ $(function () {
         widgetPositioning: {horizontal: 'left', vertical: 'bottom'}
     });
 });
+
 
 $(function () {
 

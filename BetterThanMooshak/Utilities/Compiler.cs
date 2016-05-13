@@ -6,6 +6,8 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace BetterThanMooshak.Utilities
@@ -26,11 +28,14 @@ namespace BetterThanMooshak.Utilities
             return (workingFolder + model.fileName + ".cpp");
         }
 
-        public List<string> Compile(SolutionPostViewModel model, List<Testcase> inputs, string userId, int problemId)
+        public SolutionPostJson Compile(SolutionPostViewModel model, List<Testcase> inputs, string userId, int problemId)
         {
             var savedFile = SaveFile(model, userId, problemId);
 
-            List<string> outputs = new List<string>();
+            SolutionPostJson jsonObject = new SolutionPostJson()
+            {
+                tests = new List<SoultionCompareViewMode>()
+            };
 
             var baseFolder = ConfigurationManager.AppSettings.Get("baseDir");
             var workingFolder = baseFolder + userId + "\\" + problemId + "\\";
@@ -60,7 +65,7 @@ namespace BetterThanMooshak.Utilities
             compiler.StandardInput.WriteLine("cl.exe /nologo /EHsc " + cppFileName);
             compiler.StandardInput.WriteLine("exit");
             string compilerOutput = compiler.StandardOutput.ReadToEnd();
-            compiler.WaitForExit();
+            compiler.WaitForExit(20000);
             compiler.Close();
 
             // Check if the compile succeeded, and if it did,
@@ -77,31 +82,55 @@ namespace BetterThanMooshak.Utilities
                 {
                     foreach (var input in inputs)
                     {
+                        SoultionCompareViewMode status = new SoultionCompareViewMode()
+                        {
+                            input = input.input,
+                            expectedOutput = input.output
+                        };
                         processExe.StartInfo = processInfoExe;
                         processExe.Start();
                         processExe.StandardInput.WriteLine(input.input);
 
-                        string output = "";
+
+                        processExe.StandardInput.Close();
                         // We then read the output of the program:
-                        while (!processExe.StandardOutput.EndOfStream)
-                        {
-                            output += processExe.StandardOutput.ReadLine();
+                        string output = processExe.StandardOutput.ReadToEnd();
+                        processExe.WaitForExit(8000);
+
+                        if (output.Equals(input.output)) {
+                            jsonObject.totalScore += input.score;
+                            status.score = 1;
                         }
-                        outputs.Add(output);
+                        status.output = output;
+                        jsonObject.maxScore += input.score;
+                        if (input.visible)
+                        {
+                            jsonObject.tests.Add(status);
+                        }
+                        
                     }
                 }
             }
             else
             {
-                outputs.Add(compilerOutput);
+                jsonObject.hasCompileError = true;
+                jsonObject.errorMessage = compilerOutput;
             }
 
             foreach (var file in Directory.GetFiles(compileFolder))
             {
-                File.Delete(file);
+                try
+                {
+                    File.Delete(file);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
             }
 
-            return outputs;
+            return jsonObject;
 
         }
     }

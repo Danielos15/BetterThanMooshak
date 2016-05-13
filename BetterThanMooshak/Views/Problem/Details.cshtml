@@ -1,6 +1,6 @@
 ﻿@model BetterThanMooshak.Models.ViewModel.ProblemDetailsViewModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Problem Details";
 }
 
 <div class="boxTitle">
@@ -16,9 +16,9 @@
     <p>Score: <i>user score</i>/
         @{
             var total = 0;
-            foreach (var x in Model.testcases)
+            foreach (var testcase in Model.testcases)
             {
-                total += 2;
+                total += testcase.score;
             }
         }
         @total

@@ -17,4 +17,20 @@ namespace BetterThanMooshak.Models.ViewModel
         public string code { get; set; }
         public string fileName { get; set; }
     }
+
+    public class SoultionCompareViewMode
+    {
+        public string input { get; set; }
+        public string output { get; set; }
+        public string expectedOutput { get; set; }
+        public int score { get; set; }
+    }
+    public class SolutionPostJson
+    {
+        public List<SoultionCompareViewMode> tests { get; set; }
+        public string errorMessage { get; set; }
+        public bool hasCompileError { get; set; }
+        public int totalScore { get; set; }
+        public int maxScore { get; set; }
+    }
 }

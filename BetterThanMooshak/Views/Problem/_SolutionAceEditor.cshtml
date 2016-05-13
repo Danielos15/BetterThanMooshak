@@ -2,16 +2,16 @@
 
 <div class="clearfix bottom20">
     <div class="pull-right btn-group" role="group">
-        <a class="btn btn-default" href="#">
+        <a class="btn btn-default">
             <i class="fa fa-floppy-o"></i> Save
         </a>
-        <a class="btn btn-default" href="#">
+        <a class="btn btn-default">
             <i class="fa fa-cloud-upload"></i> Upload file
         </a>
-        <a class="btn btn-default" href="#">
+        <a class="btn btn-default">
             <i class="fa fa-cloud-download"></i> Download file
         </a>
-        <a class="btn btn-default" href="#" onclick="site.solution.submit(@Model.problem.id)">
+        <a class="btn btn-default" onclick="site.solution.submit(@Model.problem.id)">
             <i class="fa fa-terminal"></i>
             Run
         </a>
@@ -21,3 +21,7 @@
 <textarea id="editor"></textarea>
 <span id="localPath" data-path="@Model.localPath"></span>
 <span id="serverCode" data-code="@Model.currSolution.program"></span>
+
+<div id="compilerRespond">
+    
+</div>

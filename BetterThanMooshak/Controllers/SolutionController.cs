@@ -4,6 +4,7 @@ using BetterThanMooshak.Services;
 using BetterThanMooshak.Utilities;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace BetterThanMooshak.Controllers
@@ -25,7 +26,7 @@ namespace BetterThanMooshak.Controllers
             }
             return View("404");
         }
-#endregion
+        #endregion
 
         #region Submit Action - Solution for a problem
         [HttpPost]
@@ -37,8 +38,12 @@ namespace BetterThanMooshak.Controllers
                 model.fileName = "main";
                 List<Testcase> testcases = service.GetTestcasesByProblemId(id.Value);
                 Compiler compiler = new Compiler();
-                
-                var output = compiler.Compile(model, testcases, User.Identity.GetUserId(), id.Value);
+
+                SolutionPostJson jsonObject = compiler.Compile(model, testcases, User.Identity.GetUserId(), id.Value);
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(jsonObject);
+                }
             }
             return View("404");
         }
