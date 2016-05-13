@@ -33,6 +33,7 @@ namespace BetterThanMooshak.Models.ViewModel
         public Solution currSolution { get; set; }
         public IQueryable<Testcase> testcases { get; set; }
         public IQueryable<Solution> submissions { get; set; }
+        public List<BestSolutionViewModel> allSubmissions { get; set; }
         public IQueryable<Hint> hints { get; set; }
         public DiscussionViewModel discussions { get; set; }
         public Solution answer { get; set; }

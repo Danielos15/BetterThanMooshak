@@ -39,7 +39,6 @@ namespace BetterThanMooshak.Models
     public interface IAppDataContext
     {
         IDbSet<Assignment> Assignments { get; set; }
-        IDbSet<BestSolution> BestSolutions { get; set; }
         IDbSet<Course> Courses { get; set; }
         IDbSet<CourseUser> CourseUsers { get; set; }
         IDbSet<DiscussionComment> DiscussionComments { get; set; }
@@ -50,6 +49,7 @@ namespace BetterThanMooshak.Models
         IDbSet<Solution> Solutions { get; set; }
         IDbSet<Testcase> Testcases { get; set; }
         IDbSet<ApplicationUser> Users { get; set; }
+        IDbSet<Hint> Hints { get; set; }
         int SaveChanges();
 
     }
@@ -67,7 +67,6 @@ namespace BetterThanMooshak.Models
         }
         
         public IDbSet<Assignment> Assignments { get; set; }
-        public IDbSet<BestSolution> BestSolutions { get; set; }
         public IDbSet<Course> Courses { get; set; }
         public IDbSet<CourseUser> CourseUsers { get; set; }
         public IDbSet<DiscussionComment> DiscussionComments { get; set; }

@@ -35,4 +35,13 @@ namespace BetterThanMooshak.Models.ViewModel
         public int totalScore { get; set; }
         public int maxScore { get; set; }
     }
+
+    public class BestSolutionViewModel
+    {
+        public string userName { get; set; }
+        public int id { get; set; }
+        public int totalScore { get; set; }
+        public int maxScore { get; set; }
+        public DateTime submissionDate { get; set; }
+    }
 }

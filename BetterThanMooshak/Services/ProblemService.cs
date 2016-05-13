@@ -144,7 +144,7 @@ namespace BetterThanMooshak.Services
 
             return Convert.ToBoolean(db.SaveChanges());
         }
-
+        #region GetDetails for problem view - Enter at your own risk, here there be Dragons... And alot of them.
         public ProblemDetailsViewModel getDetails(int value, string userId)
         {
             var problem = GetProblemById(value);
@@ -179,6 +179,38 @@ namespace BetterThanMooshak.Services
                                where s.userId == userId && s.problemId == problem.id
                                orderby s.submissionDate descending
                                select s).AsQueryable();
+
+            List<BestSolutionViewModel> allSubmissions = new List<BestSolutionViewModel>();
+            if (isTeacher || isAssistant)
+            {
+                var users = (from link in db.CourseUsers
+                               join user in db.Users on link.userId equals user.Id
+                               where link.courseId == course.id
+                               select user).ToList();
+
+                foreach (var currUser in users)
+                {
+                    var userSolution = (from solution in db.Solutions
+                                         where solution.userId == currUser.Id
+                                         && solution.problemId == problem.id
+                                         orderby solution.score descending,
+                                         solution.submissionDate descending
+                                         select solution).FirstOrDefault();
+                    if (userSolution != null)
+                    {
+                        BestSolutionViewModel best = new BestSolutionViewModel
+                        {
+                            id = userSolution.Id,
+                            totalScore = userSolution.score,
+                            maxScore = userSolution.maxScore,
+                            userName = currUser.Name,
+                            submissionDate = userSolution.submissionDate
+                        };
+                        allSubmissions.Add(best);
+                    }
+                    
+                }
+            }
 
             var hints = (from hint in db.Hints
                         where hint.problemId == problem.id
@@ -222,6 +254,7 @@ namespace BetterThanMooshak.Services
                 currSolution = currSolution,
                 testcases = testcases,
                 submissions = submissions,
+                allSubmissions = allSubmissions,
                 hints = hints,
                 discussions = discussions,
                 //answer = answer,
@@ -231,6 +264,7 @@ namespace BetterThanMooshak.Services
 
             return viewModel;
         }
+        #endregion
 
         public bool AddTestcase(TestcaseAddViewModel model)
         {
