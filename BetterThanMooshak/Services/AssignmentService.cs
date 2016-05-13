@@ -170,6 +170,34 @@ namespace BetterThanMooshak.Services
         #endregion
 
         #region Function that gets all grades for each user
+        public bool AddGrade(GradeProblemAddViewModel newGrade)
+        {
+            if ((newGrade.grade < 0) || (newGrade.grade > 10))
+                return false;
+
+            var exists = (from g in db.Grades
+                          where (g.assignmentId == newGrade.assignmentId) && (g.userId == newGrade.userId)
+                          select g).SingleOrDefault();
+
+            if (exists != null)
+            {
+                exists.grade = newGrade.grade;
+            }
+            else
+            {
+                var grade = new Grade
+                {
+                    assignmentId = newGrade.assignmentId,
+                    grade = newGrade.grade,
+                    userId = newGrade.userId,
+                    gradedDate = DateTime.Now
+                };
+
+                db.Grades.Add(grade);
+            }
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
         public GradeViewModel GetGradeViewModel(int value)
         {
             //Get assignment
@@ -196,6 +224,10 @@ namespace BetterThanMooshak.Services
                                     where s.userId == user.Id
                                     select s).ToList();
 
+                                var assignmentGrade = (from g in db.Grades
+                                       where (g.assignmentId == assignment.id) && (g.userId == user.Id)
+                                       select g).SingleOrDefault();
+
                 foreach (var problem in assignmentProblems)
                 {
                     var submission = (from s in userSolutions
@@ -206,7 +238,7 @@ namespace BetterThanMooshak.Services
                     problems.Add(new GradeProblemViewModel { submission = submission, problemName = problem.name, problemId = problem.id });
                 }
 
-                students.Add(new GradeUserViewModel { user = user, problems = problems });
+                students.Add(new GradeUserViewModel { user = user, problems = problems, assignmentGrade = assignmentGrade });
             }
 
             var viewModel = new GradeViewModel {
