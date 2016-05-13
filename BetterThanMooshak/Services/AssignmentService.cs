@@ -11,11 +11,11 @@ namespace BetterThanMooshak.Services
 {
     public class AssignmentService
     {
-        private ApplicationDbContext db;
+        private readonly IAppDataContext db;
 
-        public AssignmentService()
+        public AssignmentService(IAppDataContext context)
         {
-            db = new ApplicationDbContext();
+            db = context ?? new ApplicationDbContext();
         }
 
         public Assignment GetAssignmentById (int id)
@@ -104,21 +104,12 @@ namespace BetterThanMooshak.Services
                                   where x.endDate > DateTime.Now && x.startDate < DateTime.Now
                                   orderby x.endDate ascending
                                   select x).ToList();
-            
-            foreach(var t in teacherAss)
-            {
-                int index = 0;
 
-                for (int i = 0; i < userAss.Count; i++)
-                {
-                    if (userAss.ElementAt(i).endDate > t.endDate)
-                        break;
+            userAss.AddRange(teacherAss);
 
-                    index++;
-                }
-
-                userAss.Insert(index, t);
-            }
+            userAss = (from a in userAss
+                       orderby a.endDate ascending
+                       select a).ToList();
 
             var newCourses = (from a in userAss
                 join c in db.Courses on a.courseId equals c.id

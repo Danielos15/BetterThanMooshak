@@ -8,7 +8,7 @@ namespace BetterThanMooshak.Controllers
 {
     public class ProblemController : Controller
     {
-        private ProblemService service = new ProblemService();
+        private ProblemService service = new ProblemService(null);
         // GET: Problem
         #region Index Action - Get overview of all Problems for current user
         public ActionResult Index()

@@ -7,7 +7,7 @@ namespace BetterThanMooshak.Controllers
 {
     public class AssignmentController : Controller
     {
-        private AssignmentService service = new AssignmentService();
+        private AssignmentService service = new AssignmentService(null);
 
         #region Index Action - Get overview off all Assignments
         public ActionResult Index()

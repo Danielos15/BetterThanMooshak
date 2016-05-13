@@ -7,7 +7,7 @@ namespace BetterThanMooshak.Controllers
 {
     public class HomeController : Controller
     {
-        private HomeService service = new HomeService();
+        private HomeService service = new HomeService(null);
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();

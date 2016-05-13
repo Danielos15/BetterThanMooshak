@@ -11,12 +11,12 @@ namespace BetterThanMooshak.Services
 {
     public class HomeService
     {
-        private ApplicationDbContext db;
-        public HomeService()
-        {
-            db = new ApplicationDbContext();
-        }
+        private readonly IAppDataContext db;
 
+        public HomeService(IAppDataContext context)
+        {
+            db = context ?? new ApplicationDbContext();
+        }
         public HomeViewModel getAll(string userId)
         {
             var user = getUserName(userId);

@@ -155,6 +155,7 @@ namespace BetterThanMooshak.Services
                                         where course.id == id
                                         from x in result
                                         where x.endDate > DateTime.Now
+                                        orderby x.endDate
                                         select x;
             }
             else
@@ -164,16 +165,42 @@ namespace BetterThanMooshak.Services
                                      where course.id == id
                                      from x in result
                                      where x.endDate > DateTime.Now && x.startDate < DateTime.Now
+                                     orderby x.endDate
                                      select x;
             }
 
-            var oldAssignments = from course in db.Courses
+            var oldAss = (from course in db.Courses
                                  join ass in db.Assignments on course.id equals ass.courseId into result
                                  where course.id == id
                                  from x in result
                                  where x.endDate < DateTime.Now
-                                 select x;
+                                 orderby x.endDate
+                                 select x).ToList();
 
+            var oldGrades = (from a in oldAss
+                             join g in db.Grades on a.id equals g.assignmentId
+                             where g.userId == userId
+                             select g).ToList();
+
+            var oldAssignments = new List<AssignmentViewModel> { };
+
+            for (int i = 0; i < oldAss.Count; i++)
+            {
+                Grade currGrade = new Grade { grade = -1 };
+
+                foreach (var g in oldGrades)
+                {
+                    if (g.assignmentId == oldAss.ElementAt(i).id)
+                        currGrade = g;
+                }
+
+                oldAssignments.Add(new AssignmentViewModel
+                {
+                    assignment = oldAss.ElementAt(i),
+                    grade = currGrade
+                });
+            }
+            
             var role = (from uc in db.CourseUsers
                         where uc.userId == userId && uc.courseId == id.Value
                         select uc).SingleOrDefault();

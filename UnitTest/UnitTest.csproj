@@ -94,6 +94,7 @@
     <Compile Include="MockDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CourseServiceTest.cs" />
+    <Compile Include="Services\AssignmentServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BetterThanMooshak\BetterThanMooshak.csproj">
