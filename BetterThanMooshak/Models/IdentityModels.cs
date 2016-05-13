@@ -77,5 +77,6 @@ namespace BetterThanMooshak.Models
         public IDbSet<Grade> Grades { get; set; }
         public IDbSet<Solution> Solutions { get; set; }
         public IDbSet<Testcase> Testcases { get; set; }
+        public IDbSet<Hint> Hints { get; set; }
     }
 }

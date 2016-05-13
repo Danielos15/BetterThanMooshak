@@ -191,6 +191,23 @@ namespace BetterThanMooshak.Controllers
             }
             return RedirectToAction("notfound", "error");
         }
-#endregion
+        #endregion
+
+        #region Add Hint Action - Add a hint to a given Problem
+        public ActionResult AddHint(int? id, HintAddViewModel model)
+        {
+            if (id != null)
+            {
+                Course course = service.GetCourseByProblemId(id.Value);
+
+                if (service.IsAuthorized(User.Identity.GetUserId(), course.id, 2)) {
+                    service.AddHint(id.Value, model);
+                    return RedirectToAction("details", "problem", new { id = id.Value });
+                }
+                return RedirectToAction("unauthorizedError", "error");
+            }
+            return View("404");
+        }
+        #endregion
     }
 }

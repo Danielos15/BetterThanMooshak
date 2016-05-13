@@ -76,7 +76,15 @@
 
         @*Hints Tab*@
         <div class="tab-pane fade" id="hints">
-            @Html.Partial("_ProblemHints")
+            @if (Model.isTeacher)
+            {
+                @Html.Partial("_ProblemHintsForm", Model.problem.id)
+            }
+
+            @foreach (var hint in Model.hints)
+            {
+                @Html.Partial("_ProblemHints", hint)
+            }
         </div>
 
         @*Discussion Tab*@

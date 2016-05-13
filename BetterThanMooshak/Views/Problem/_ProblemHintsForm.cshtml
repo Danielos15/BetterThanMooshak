@@ -1,0 +1,27 @@
+﻿<div class="bottom20 clearfix">
+    <a class="btn btn-default pull-right" data-toggle="collapse" href="#addHint">
+        <i class="fa fa-plus-square"></i> New Hint
+    </a>
+</div>
+
+@using (Html.BeginForm("addHint", "problem", new { id = Model }, FormMethod.Post, new { @class = "", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div id="addHint" class="panel panel-default panel-collapse collapse">
+        <div class="panel-heading">
+            <div class="form-group bottom0">
+                <input type="text" name="title" class="form-control" rows="5" id="comment" placeholder="Hint Title..."></input>
+            </div>
+        </div>
+        <div class="panel-body clearfix">
+            <div class="form-group">
+                <textarea name="message" class="form-control" rows="5" id="comment" placeholder="Hint Content..."></textarea>
+            </div>
+            <button class="btn btn-default pull-right">
+                <i class="fa fa-info-circle"></i> Post Hint
+            </button>
+        </div>
+    </div>
+}

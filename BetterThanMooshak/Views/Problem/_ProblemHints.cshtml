@@ -1,5 +1,9 @@
-﻿
-<div>
-    Hints come here
-    @*//TODO:*@
+﻿@model BetterThanMooshak.Models.Entities.Hint
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">@Model.title</h2>
     </div>
+    <div class="panel-body clearfix">
+        <span style="white-space: pre-line">@Model.message</span>
+    </div>
+</div>
