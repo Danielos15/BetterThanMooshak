@@ -13,18 +13,7 @@
             <a class="btn btn-default pull-right" href="@Url.Action("addtestcase", "problem", new { id = Model.problem.id })">Add Testcase</a>
         }
     }
-    <p>Score: <i>user score</i>/
-        @{
-            var total = 0;
-            foreach (var testcase in Model.testcases)
-            {
-                total += testcase.score;
-            }
-        }
-        @total
-    </p>
-    <p>Handins: <i>user handins</i> / @Model.problem.maxAttempts</p>
-
+    
     <div class="desc">
         <span style="white-space: pre-line">
             @Model.problem.description
