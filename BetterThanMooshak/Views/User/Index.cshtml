@@ -13,7 +13,7 @@
             Add User
         </a>
 
-@using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("import", "user", FormMethod.Post, new {@class = "form-horizontal", enctype = "multipart/form-data" }))
 {
     @Html.TextBoxFor(m => m.inputFileBase, new { type = "file"})
 
