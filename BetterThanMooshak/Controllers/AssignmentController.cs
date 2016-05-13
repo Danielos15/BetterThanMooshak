@@ -24,11 +24,7 @@ namespace BetterThanMooshak.Controllers
 
             if (id != null)
             {
-<<<<<<< HEAD
                 if (service.verifyUser(id.Value, userId))
-                    return View(service.GetAssignmentProblems(id.Value, userId));
-=======
-                if (service.verifyUser(id.Value))
                 {
                     if (TempData["errorMessage"] != null)
                     {
@@ -39,9 +35,8 @@ namespace BetterThanMooshak.Controllers
                         ViewBag.message = TempData["message"].ToString();
                     }
 
-                    return View(service.GetAssignmentProblems(id.Value));
+                    return View(service.GetAssignmentProblems(id.Value, userId));
                 }
->>>>>>> origin/master
                 else
                 {
                     return RedirectToAction("index", "home");
