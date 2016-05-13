@@ -3,6 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BetterThanMooshak.Services;
 using BetterThanMooshak.Models.Entities;
 using UnitTest.Tests;
+using BetterThanMooshak.Models.ViewModel;
+using System.Linq;
+using BetterThanMooshak.Models;
+using BetterThanMooshak;
 
 namespace UnitTest.Services
 {
@@ -49,6 +53,15 @@ namespace UnitTest.Services
             };
             mockDb.Assignments.Add(assignment3);
 
+            var course1 = new Course
+            {
+                id = 1,
+                name = "Gagnaskipan",
+                startDate = DateTime.Now,
+                endDate = DateTime.Now
+            };
+            mockDb.Courses.Add(course1);
+
             service = new AssignmentService(mockDb);
         }
 
@@ -65,5 +78,45 @@ namespace UnitTest.Services
             Assert.AreEqual("Assignment 3", result.name);
         }
 
+        [TestMethod]
+        public void EditAssignmentTest()
+        {
+            // Arrange:
+            const int assignmentId = 2;
+            var assignment4 = new AssignmentAddViewModel
+            {
+                name = "Verkefni II",
+                endDate = DateTime.Now,
+                startDate = DateTime.Now,
+                description = "erfiður áfangi"
+            };
+
+            // Act:
+            service.Edit(assignmentId, assignment4);
+            var editCourse = service.GetAssignmentById(assignmentId);
+
+            //Assert:
+            Assert.AreNotEqual("Assignment 2", editCourse.name);
+        }
+
+        [TestMethod]
+        public void AddAssignmet()
+        {
+            // Arrange:
+            var mockDb = new MockDataContext();
+            var assignment4 = new AssignmentAddViewModel
+            {
+                name = "Assignment 4",
+                startDate = DateTime.Now,
+                endDate = DateTime.Now,
+                description = "Includes 4 problem"
+            };
+
+            // Act:
+            var result = service.AddAssignmet(1, assignment4);
+
+            //Assert:
+            Assert.AreNotEqual(4, mockDb.Assignments.Count());
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace BetterThanMooshak.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            HomeViewModel viewModel = service.getAll(userId);
+            HomeViewModel viewModel = service.GetAll(userId);
 
             return View(viewModel);
         }

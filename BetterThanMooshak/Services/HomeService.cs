@@ -17,17 +17,17 @@ namespace BetterThanMooshak.Services
         {
             db = context ?? new ApplicationDbContext();
         }
-        public HomeViewModel getAll(string userId)
+        public HomeViewModel GetAll(string userId)
         {
-            var user = getUserName(userId);
+            var user = GetUserName(userId);
 
-            var courses = getCourses(userId);
+            var courses = GetCourses(userId);
 
-            var assignments = getAssignments(ref courses);
+            var assignments = GetAssignments(ref courses);
 
-            var notifications = getNotifications(ref courses);
+            var notifications = GetNotifications(ref courses);
 
-            var grades = getGrades(userId);
+            var grades = GetGrades(userId);
 
             HomeViewModel viewModel = new HomeViewModel()
             {
@@ -40,7 +40,7 @@ namespace BetterThanMooshak.Services
             
             return viewModel;
         }
-        private string getUserName(string userId)
+        private string GetUserName(string userId)
         {
             var user = (from users in db.Users
                         where users.Id == userId
@@ -48,7 +48,7 @@ namespace BetterThanMooshak.Services
 
             return user.Name;
         }
-        private IQueryable<Course> getCourses(string userId)
+        private IQueryable<Course> GetCourses(string userId)
         {
             var userCourses = (from cu in db.CourseUsers
                               join c in db.Courses on cu.courseId equals c.id into result
@@ -60,7 +60,7 @@ namespace BetterThanMooshak.Services
 
             return userCourses;
         }
-        private List<AssignmentViewModel> getAssignments(ref IQueryable<Course> userCourses)
+        private List<AssignmentViewModel> GetAssignments(ref IQueryable<Course> userCourses)
         {
             var assignments = (from course in userCourses
                                join ass in db.Assignments on course.id equals ass.courseId into result
@@ -88,7 +88,7 @@ namespace BetterThanMooshak.Services
 
             return userAssignments;
         }
-        private List<HomeNotification> getNotifications(ref IQueryable<Course> userCourses)
+        private List<HomeNotification> GetNotifications(ref IQueryable<Course> userCourses)
         {
             var notifications = (from c in userCourses
                                  join a in db.Assignments on c.id equals a.courseId into x
@@ -115,7 +115,7 @@ namespace BetterThanMooshak.Services
 
             return homeNotifications;
         }
-        private List<HomeGrade> getGrades(string userId)
+        private List<HomeGrade> GetGrades(string userId)
         {
             var grades = (from g in db.Grades
                    where g.userId == userId
