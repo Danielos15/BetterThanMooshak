@@ -58,10 +58,12 @@ site.solution = {
             site.solution.editor.getSession().on("change", site.solution.localSave);
 
             //set Answer editor
-            site.solution.answer();
+            site.solution.answer(true);
+        } else {
+            site.solution.answer(false);
         }
     },
-    answer : function() {
+    answer : function(isReadOnly) {
         if ($('#answerEditor').length > 0) {
             site.solution.answerEditor = ace.edit("answerEditor");
             site.solution.answerEditor.setOptions({
@@ -71,7 +73,7 @@ site.solution = {
                 fontSize: 18,
                 animatedScroll: true,
                 theme: "ace/theme/xcode",
-                readOnly: true
+                readOnly: isReadOnly
             });
             site.solution.answerEditor.getSession().setMode("ace/mode/c_cpp");
         }

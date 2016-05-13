@@ -181,10 +181,10 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Assignment.cs" />
-    <Compile Include="Models\Entities\BestSolution.cs" />
     <Compile Include="Models\Entities\CourseUser.cs" />
     <Compile Include="Models\Entities\DiscussionComment.cs" />
     <Compile Include="Models\Entities\DiscussionTopic.cs" />
+    <Compile Include="Models\Entities\Hint.cs" />
     <Compile Include="Models\Entities\Notification.cs" />
     <Compile Include="Models\Entities\Problem.cs" />
     <Compile Include="Models\Entities\Grade.cs" />
@@ -197,6 +197,7 @@
     <Compile Include="Models\ViewModel\CourseViewModel.cs" />
     <Compile Include="Models\ViewModel\DiscussionCommentViewModel.cs" />
     <Compile Include="Models\ViewModel\DiscussionViewModel.cs" />
+    <Compile Include="Models\ViewModel\HintViewModels.cs" />
     <Compile Include="Models\ViewModel\HomeViewModel.cs" />
     <Compile Include="Models\ViewModel\NotificationViewModel.cs" />
     <Compile Include="Models\ViewModel\ProblemViewModel.cs" />
@@ -666,6 +667,8 @@
     <Content Include="Views\Assignment\_AssignmentForm.cshtml" />
     <Content Include="Views\Problem\_ProblemAnswer.cshtml" />
     <Content Include="Views\Assignment\Grade.cshtml" />
+    <Content Include="Views\Problem\_ProblemHintsForm.cshtml" />
+    <Content Include="Views\Problem\_ProblemSubmissionTeacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

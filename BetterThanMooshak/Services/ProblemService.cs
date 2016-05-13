@@ -131,7 +131,7 @@ namespace BetterThanMooshak.Services
         }
     
 
-    public bool deleteProblem(Problem problem)
+        public bool deleteProblem(Problem problem)
         {
             db.Problems.Remove(GetProblemById(problem.id));
 
@@ -144,7 +144,7 @@ namespace BetterThanMooshak.Services
 
             return Convert.ToBoolean(db.SaveChanges());
         }
-
+        #region GetDetails for problem view - Enter at your own risk, here there be Dragons... And alot of them.
         public ProblemDetailsViewModel getDetails(int value, string userId)
         {
             var problem = GetProblemById(value);
@@ -166,6 +166,7 @@ namespace BetterThanMooshak.Services
                             select cu).SingleOrDefault();
 
             var isTeacher = userRole.role == 3;
+            var isAssistant = userRole.role == 2;
 
             var currSolution = new Solution { problemId = problem.id, userId = userId };
 
@@ -179,7 +180,41 @@ namespace BetterThanMooshak.Services
                                orderby s.submissionDate descending
                                select s).AsQueryable();
 
-            IQueryable<string> hints = null; //TODO
+            List<BestSolutionViewModel> allSubmissions = new List<BestSolutionViewModel>();
+            if (isTeacher || isAssistant)
+            {
+                var users = (from link in db.CourseUsers
+                               join user in db.Users on link.userId equals user.Id
+                               where link.courseId == course.id
+                               select user).ToList();
+
+                foreach (var currUser in users)
+                {
+                    var userSolution = (from solution in db.Solutions
+                                         where solution.userId == currUser.Id
+                                         && solution.problemId == problem.id
+                                         orderby solution.score descending,
+                                         solution.submissionDate descending
+                                         select solution).FirstOrDefault();
+                    if (userSolution != null)
+                    {
+                        BestSolutionViewModel best = new BestSolutionViewModel
+                        {
+                            id = userSolution.Id,
+                            totalScore = userSolution.score,
+                            maxScore = userSolution.maxScore,
+                            userName = currUser.Name,
+                            submissionDate = userSolution.submissionDate
+                        };
+                        allSubmissions.Add(best);
+                    }
+                    
+                }
+            }
+
+            var hints = (from hint in db.Hints
+                        where hint.problemId == problem.id
+                        select hint);
 
             var topics = (from d in db.DiscussionTopics
                           where d.problemId == problem.id
@@ -219,14 +254,17 @@ namespace BetterThanMooshak.Services
                 currSolution = currSolution,
                 testcases = testcases,
                 submissions = submissions,
+                allSubmissions = allSubmissions,
                 hints = hints,
                 discussions = discussions,
                 //answer = answer,
-                isTeacher = isTeacher
+                isTeacher = isTeacher,
+                isAssistant = isAssistant
             };
 
             return viewModel;
         }
+        #endregion
 
         public bool AddTestcase(TestcaseAddViewModel model)
         {
@@ -267,6 +305,18 @@ namespace BetterThanMooshak.Services
             return Convert.ToBoolean(db.SaveChanges());
         }
 
+        public bool AddHint(int problemId, HintAddViewModel model)
+        {
+            Hint hint = new Hint()
+            {
+                problemId = problemId,
+                title = model.title,
+                message = model.message
+            };
+            db.Hints.Add(hint);
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
         public List<Testcase> GetTestcasesByProblemId(int id)
         {
             var testcases = (from testcase in db.Testcases
@@ -279,6 +329,34 @@ namespace BetterThanMooshak.Services
         {
             db.Solutions.Add(solution);
             return Convert.ToBoolean(db.SaveChanges());
+        }
+
+        /// <summary>
+        /// Checks if User with userId has the requared Role
+        /// </summary>
+        /// <param name="userId">Id of the User to test</param>
+        /// <param name="courseId">Id of the Course to test if the user is authorized</param>
+        /// <param name="roleNumber">Minimum Role requerments to be authorized</param>
+        /// <returns>Bool: True if minRole is >= than users Role</returns>
+        public bool IsAuthorized(string userId, int courseId, int minRole)
+        {
+            var isAuthorized = (from role in db.CourseUsers
+                                where role.courseId == courseId
+                                && role.userId == userId
+                                && role.role >= minRole
+                                select role).SingleOrDefault();
+
+            return (isAuthorized != null);
+        }
+
+        public Course GetCourseByProblemId(int problemId)
+        {
+            Course course = (from c in db.Courses
+                             join a in db.Assignments on c.id equals a.courseId
+                             join p in db.Problems on a.id equals p.assignmentId
+                             where p.id == problemId
+                             select c).SingleOrDefault();
+            return course;
         }
     }
 }

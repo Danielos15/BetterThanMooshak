@@ -4,50 +4,63 @@
 }
 
 <div class="boxTitle">
-    <h1>@Model.problem.name for <a href="@Url.Action("details","assignment", new { id = Model.assignment.id})">@Model.assignment.name</a></h1>
+    <h1>@Model.problem.name for <a href="@Url.Action("details", "assignment", new { id = Model.assignment.id })">@Model.assignment.name</a></h1>
 </div>
 <div class="boxText">
     @{
         if (Model.isTeacher)
         {
-            <a class="btn btn-default pull-right" href="@Url.Action("addtestcase", "problem", new {id = Model.problem.id})">Add Testcase</a>
+            <a class="btn btn-default pull-right" href="@Url.Action("addtestcase", "problem", new { id = Model.problem.id })">Add Testcase</a>
         }
     }
-    <p>Score: <i>user score</i>/
-        @{
-            var total = 0;
-            foreach (var testcase in Model.testcases)
-            {
-                total += testcase.score;
-            }
-        }
-        @total
-    </p>
-    <p>Handins: <i>user handins</i> / @Model.problem.maxAttempts</p>
-
+    
     <div class="desc">
         <span style="white-space: pre-line">
             @Model.problem.description
         </span>
     </div>
 
+    @{
+        if (Model.isTeacher || Model.isAssistant)
+        {
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#input">Input / Output</a></li>
+                <li><a data-toggle="tab" href="#submission">Submissions</a></li>
+                <li><a data-toggle="tab" href="#hints">Hints</a></li>
+                <li><a data-toggle="tab" href="#discussion">Discussion</a></li>
+                <li><a data-toggle="tab" href="#answer">Answer</a></li>
+            </ul>
+        }
+        else
+        {
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#solution">Solution</a></li>
+                <li><a data-toggle="tab" href="#input">Input / Output</a></li>
+                <li><a data-toggle="tab" href="#submission">Submissions</a></li>
+                <li><a data-toggle="tab" href="#hints">Hints</a></li>
+                <li><a data-toggle="tab" href="#discussion">Discussion</a></li>
+                <li><a data-toggle="tab" href="#answer">Answer</a></li>
+            </ul>
+        }
+    }
+    
 
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#solution">Solution</a></li>
-        <li><a data-toggle="tab" href="#input">Input / Output</a></li>
-        <li><a data-toggle="tab" href="#submission">Submissions</a></li>
-        <li><a data-toggle="tab" href="#hints">Hints</a></li>
-        <li><a data-toggle="tab" href="#discussion">Discussion</a></li>
-        <li><a data-toggle="tab" href="#answer">Answer</a></li>
-    </ul>
+    
     <div class="tab-content">
-        @*Solutions Tab *@
-        <div class="tab-pane fade in active" id="solution">
-            @Html.Partial("_SolutionAceEditor")
-        </div>
 
+        @{
+            if (!Model.isTeacher && !Model.isAssistant)
+            {
+                @*Solutions Tab *@
+                <div class="tab-pane fade in active" id="solution">
+                    @Html.Partial("_SolutionAceEditor")
+                </div>
+            }
+        }
+       
+    
         @*Input / Output Tab*@
-        <div class="tab-pane fade" id="input">
+        <div class="tab-pane fade in active" id="input">
             @foreach (var testcase in Model.testcases)
             {
                 @Html.Partial("_ProblemInputOutput", testcase)
@@ -60,15 +73,34 @@
                 <thead>
                     <tr>
                         <td><h3>Id</h3></td>
+                        @{ 
+                            if(Model.isTeacher || Model.isAssistant)
+                            {
+                                <td><h3>User</h3></td>
+                            }
+                        }
                         <td><h3>Submitted</h3></td>
                         <td><h3>Score</h3></td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var submission in Model.submissions)
-                    {
-                        @Html.Partial("_ProblemSubmission", submission)
-                    }        
+                    @{
+                        if (Model.isTeacher || Model.isAssistant)
+                        {
+                            foreach (var submission in Model.allSubmissions)
+                            {
+                                @Html.Partial("_ProblemSubmissionTeacher", submission)
+                            }
+                        }
+                        else
+                        {
+                            foreach (var submission in Model.submissions)
+                            {
+                                @Html.Partial("_ProblemSubmission", submission)
+                            }
+                        }
+                    }
+                     
                 </tbody>
             </table>
             
@@ -76,7 +108,15 @@
 
         @*Hints Tab*@
         <div class="tab-pane fade" id="hints">
-            @Html.Partial("_ProblemHints")
+            @if (Model.isTeacher)
+            {
+                @Html.Partial("_ProblemHintsForm", Model.problem.id)
+            }
+
+            @foreach (var hint in Model.hints)
+            {
+                @Html.Partial("_ProblemHints", hint)
+            }
         </div>
 
         @*Discussion Tab*@
@@ -89,6 +129,7 @@
             }
 
         </div>
+
         @*Answer Tab*@
         <div class="tab-pane fade" id="answer">
             @Html.Partial("_ProblemAnswer")

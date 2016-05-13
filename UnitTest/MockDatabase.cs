@@ -14,7 +14,6 @@ namespace UnitTest.Tests
         {
             // We're setting our DbSets to be InMemoryDbSets rather than using SQL Server.
             this.Assignments = new InMemoryDbSet<Assignment>();
-            this.BestSolutions = new InMemoryDbSet<BestSolution>();
             this.Courses = new InMemoryDbSet<Course>();
             this.CourseUsers = new InMemoryDbSet<CourseUser>();
             this.DiscussionComments = new InMemoryDbSet<DiscussionComment>();
@@ -25,10 +24,10 @@ namespace UnitTest.Tests
             this.Solutions = new InMemoryDbSet<Solution>();
             this.Testcases = new InMemoryDbSet<Testcase>();
             this.Users = new InMemoryDbSet<ApplicationUser>();
+            this.Hints = new InMemoryDbSet<Hint>();
         }
 
         public IDbSet<Assignment> Assignments { get; set; }
-        public IDbSet<BestSolution> BestSolutions { get; set; }
         public IDbSet<Course> Courses { get; set; }
         public IDbSet<CourseUser> CourseUsers { get; set; }
         public IDbSet<DiscussionComment> DiscussionComments { get; set; }
@@ -39,6 +38,7 @@ namespace UnitTest.Tests
         public IDbSet<Solution> Solutions { get; set; }
         public IDbSet<Testcase> Testcases { get; set; }
         public IDbSet<ApplicationUser> Users { get; set; }
+        public IDbSet<Hint> Hints { get; set; }
         // TODO: bætið við fleiri færslum hér
         // eftir því sem þeim fjölgar í AppDataContext klasanum ykkar!
 
