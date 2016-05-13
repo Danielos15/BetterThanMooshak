@@ -14,12 +14,11 @@ namespace UnitTest.Services
     public class AssignmentServiceTest
     {
         private AssignmentService service;
+        private MockDataContext mockDb = new MockDataContext();
 
         [TestInitialize]
         public void Initialize()
         {
-            var mockDb = new MockDataContext();
-
             var assignment1 = new Assignment
             {
                 id = 1,

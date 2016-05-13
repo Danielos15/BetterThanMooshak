@@ -4,6 +4,7 @@ using UnitTest.Tests;
 using BetterThanMooshak.Models.Entities;
 using BetterThanMooshak.Services;
 using System.Linq;
+using BetterThanMooshak.Models.ViewModel;
 
 namespace UnitTest.Services
 {
@@ -11,11 +12,11 @@ namespace UnitTest.Services
     public class ProblemServiceTest
     {
         private ProblemService service;
+        private MockDataContext mockDb = new MockDataContext();
 
         [TestInitialize]
         public void Initialize()
         {
-            var mockDb = new MockDataContext();
             var problem1 = new Problem
             {
                 id = 1,
@@ -70,11 +71,60 @@ namespace UnitTest.Services
         public void DeleteProblemTest()
         {
             // Arrange:
+            var problem4 = new Problem
+            {
+                id = 4,
+                assignmentId = 1,
+                description = "This is problem 4",
+                maxAttempts = 40,
+                name = "Gagnaskipan problem 4",
+                percentOfGrade = 40
+            };
 
             // Act:
+            service.AddProblem(problem4);
 
             //Assert:
+            Assert.AreEqual(4, mockDb.Problems.Count());
         }
-        
+
+        [TestMethod]
+        public void AddProblemTest()
+        {
+            // Arrange:
+            const int problemId = 1;
+
+            // Act:
+            var result = service.GetProblemById(problemId);
+            service.deleteProblem(result);
+
+            //Assert:
+            Assert.AreNotEqual(3, mockDb.Problems.Count());
+        }
+
+        [TestMethod]
+        public void EditProblemTest()
+        {
+            // Arrange:
+            var problem5 = new ProblemAddViewModel
+            {
+                assignmentId = 5,
+                description = "This is problem 5",
+                maxAttempts = 50,
+                name = "Gagnaskipan problem 5",
+                percentOfGrade = 50,
+                assignmentName = "Skilaverkefni 5",
+                courseName = "Gagnaskipan"
+            };
+
+            // Act:
+            service.Edit(1, ref problem5);
+            var result = service.GetProblemById(1);
+
+            //Assert:
+            Assert.AreEqual(3, mockDb.Problems.Count());
+            Assert.AreEqual(50, result.maxAttempts);
+        }
+
     }
 }

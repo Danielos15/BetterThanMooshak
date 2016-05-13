@@ -11,11 +11,11 @@ namespace UnitTest.Services
     public class HomeServiceTest
     {
         private HomeService service;
+        private MockDataContext mockDb = new MockDataContext();
 
         [TestInitialize]
         public void Initialize()
         {
-            var mockDb = new MockDataContext();
 
         }
     }

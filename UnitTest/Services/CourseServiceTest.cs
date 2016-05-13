@@ -12,11 +12,11 @@ namespace UnitTest.ServicesUnitTests
     public class CourseServiceTest
     {
         private CourseService service;
+        private MockDataContext mockDb = new MockDataContext();
 
         [TestInitialize]
         public void Initialize()
         {
-            var mockDb = new MockDataContext();
             var course1 = new Course
             {
                 id = 1,
