@@ -32,6 +32,7 @@ namespace BetterThanMooshak.Models.ViewModel
         public List<SoultionCompareViewMode> tests { get; set; }
         public string errorMessage { get; set; }
         public bool hasCompileError { get; set; }
+        public bool maxAttemptsReach { get; set; }
         public int totalScore { get; set; }
         public int maxScore { get; set; }
     }

@@ -37,6 +37,18 @@ namespace BetterThanMooshak.Controllers
         {
             if (id != null)
             {
+                var totalSubmissions = service.CountSubmissions(User.Identity.GetUserId(), id.Value);
+                var problem = service.GetProblemById(id.Value);
+                if (totalSubmissions >= problem.maxAttempts)
+                {
+                    SolutionPostJson jSon = new SolutionPostJson()
+                    {
+                        errorMessage = "Max attempts reached",
+                        maxAttemptsReach = true
+                    };
+                    return Json(jSon);
+                }
+
                 model.fileName = "main";
                 List<Testcase> testcases = service.GetTestcasesByProblemId(id.Value);
                 Compiler compiler = new Compiler();

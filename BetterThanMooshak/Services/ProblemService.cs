@@ -358,5 +358,15 @@ namespace BetterThanMooshak.Services
                              select c).SingleOrDefault();
             return course;
         }
+
+        public int CountSubmissions(string userId, int problemId)
+        {
+            var count = (from x in db.Solutions
+                         where x.userId == userId
+                         && x.problemId == problemId
+                         select x).Count();
+
+            return count;
+        }
     }
 }

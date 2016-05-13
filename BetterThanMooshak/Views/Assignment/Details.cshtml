@@ -59,7 +59,8 @@
         <div class="panel-heading clearfix">
             <h3 class="panel-title" style="display:inline-block">@problem.name</h3>
             <div class="info pull-right" style="display:inline-block">
-                <span class="label label-primary" title="Remaining Attempts">2 / @problem.maxAttempts</span>
+                <span class="label label-info" title="Score for Problem">@problem.currentScore / @problem.maxScore</span>
+                <span class="label label-primary" title="Remaining Attempts">@problem.currentAttempts / @problem.maxAttempts</span>
                 <span class="label label-default" title="Percent of Assignment">@problem.percentOfGrade %</span>
             </div>
         </div>
@@ -68,9 +69,7 @@
         </div>
         <div class="panel-footer clearfix">
             <div class="btn-group pull-right">
-                <a class="btn btn-default" href="@Url.Action("details", "problem", new { id = problem.id})">
-                    <i class="fa fa-code"></i> Solve
-                </a>
+                
                 @if (Model.courseUser.role == 3)
                 {
                     <a class="btn btn-default" href="@Url.Action("edit", "problem", new { id = problem.id})">
@@ -78,6 +77,18 @@
                     </a>
                     <a class="btn btn-default" href="@Url.Action("delete", "problem", problem)">
                         <i class="fa fa-trash"></i> Delete
+                    </a>
+                }
+                @if (Model.courseUser.role >= 2)
+                {
+                    <a class="btn btn-default" href="@Url.Action("details", "problem", new { id = problem.id})">
+                        <i class="fa fa-code"></i> View
+                    </a>
+                }
+                else
+                {
+                    <a class="btn btn-default" href="@Url.Action("details", "problem", new { id = problem.id})">
+                        <i class="fa fa-code"></i> Solve
                     </a>
                 }
             </div>

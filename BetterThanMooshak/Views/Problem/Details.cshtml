@@ -10,7 +10,9 @@
     @{
         if (Model.isTeacher)
         {
-            <a class="btn btn-default pull-right" href="@Url.Action("addtestcase", "problem", new { id = Model.problem.id })">Add Testcase</a>
+            <div class="clearfix">
+                <a class="btn btn-default pull-right" href="@Url.Action("addtestcase", "problem", new { id = Model.problem.id })">Add Testcase</a>
+            </div>
         }
     }
     

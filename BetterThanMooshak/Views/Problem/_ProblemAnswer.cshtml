@@ -1,10 +1,13 @@
 ﻿
-<div class="clearfix bottom20">
-    <div class="pull-right btn-group" role="group">
-        <a class="btn btn-default" onclick="alert('Function not yet implemented...')">
-            <i class="fa fa-floppy-o"></i> Save
-        </a>
+@if (Model.isTeacher || Model.isAssistant)
+{
+    <div class="clearfix bottom20">
+        <div class="pull-right btn-group" role="group">
+            <a class="btn btn-default" onclick="alert('Function not yet implemented...')">
+                <i class="fa fa-floppy-o"></i> Save
+            </a>
+        </div>
     </div>
-</div>
+}
 
 <textarea id="answerEditor">@Model.answer</textarea>

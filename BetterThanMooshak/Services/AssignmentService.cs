@@ -195,7 +195,45 @@ namespace BetterThanMooshak.Services
 
             var assignmentProblems = (from problems in db.Problems
                             where problems.assignmentId == assignment.id
-                            select problems).AsQueryable();
+                            select problems).ToList();
+
+            var listOfProblems = new List<AssignmentDetailsProblemViewModel>();
+            foreach (var assignProb in assignmentProblems)
+            {
+                var best = (from x in db.Solutions
+                            where x.userId == userId
+                            && x.problemId == assignProb.id
+                            orderby x.score descending,
+                            x.submissionDate descending
+                            select x).FirstOrDefault();
+
+                var count = (from x in db.Solutions
+                             where x.userId == userId
+                             && x.problemId == assignProb.id
+                             select x).Count();
+
+                var maxScore = (from x in db.Testcases
+                                where x.problemId == assignProb.id
+                                select x.score).DefaultIfEmpty().Sum();
+
+                var prob = new AssignmentDetailsProblemViewModel()
+                {
+                    assignmentId = assignProb.assignmentId,
+                    description = assignProb.description,
+                    maxAttempts = assignProb.maxAttempts,
+                    id = assignProb.id,
+                    percentOfGrade = assignProb.percentOfGrade,
+                    name = assignProb.name,
+                    currentAttempts = count,
+                    currentScore = 0,
+                    maxScore = maxScore
+                };
+                if (best != null)
+                {
+                    prob.currentScore = best.score;
+                }
+                listOfProblems.Add(prob);
+            }
 
             var grade = (from g in db.Grades
                          where g.assignmentId == assignment.id && g.userId == userId
@@ -206,7 +244,7 @@ namespace BetterThanMooshak.Services
                 courseUser = courseRole,
                 course = currentCourse,
                 assignment = assignment,
-                problems = assignmentProblems,
+                problems = listOfProblems,
                 grade = grade
             };
 

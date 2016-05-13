@@ -91,7 +91,19 @@ site.solution = {
         var response = data;
         console.log(response);
         $('#compilerRespond').empty();
-        if (response.hasCompileError) {
+        if (response.maxAttemptsReach) {
+            $compileError =
+                $('<div class="alert alert-warning alert-dismissible" role="alert">'
+                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+                    + '<strong>Warning!</strong> Max Attempts reach Error!'
+                    + '<hr />'
+                    + '<span style="white-space:pre-line;">'
+                        + response.errorMessage
+                    + '</span>'
+                + '</div>');
+            $('#compilerRespond').append($compileError);
+        }
+        else if (response.hasCompileError) {
             $compileError =
                 $('<div class="alert alert-danger alert-dismissible" role="alert">'
                     + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
