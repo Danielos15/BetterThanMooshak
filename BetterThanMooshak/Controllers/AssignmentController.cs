@@ -102,5 +102,26 @@ namespace BetterThanMooshak.Controllers
             return View("404");
         }
         #endregion
+
+        #region Grade Action - Teachers grade students solution
+        public ActionResult Grade(int? id)
+        {
+            if (id != null)
+            {
+                var userId = User.Identity.GetUserId();
+
+                if (service.isTeacher(userId, id.Value))
+                {
+                    var model = service.GetGradeViewModel(id.Value);
+
+                    return View(model);
+                }
+
+                return RedirectToAction("unauthorizederror", "error");
+            }
+
+            return View("404");
+        }
+        #endregion
     }
 }

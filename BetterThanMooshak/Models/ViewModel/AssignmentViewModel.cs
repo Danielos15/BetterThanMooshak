@@ -48,7 +48,24 @@ namespace BetterThanMooshak.Models.ViewModel
         public Course course { get; set; }
         public Assignment assignment { get; set; }
         public IQueryable<Problem> problems { get; set; }
-        public CourseUser courseUser {get; set;}
+        public CourseUser courseUser { get; set; }
         public Grade grade { get; set; }
+    }
+
+    public class GradeViewModel
+    {
+        public Assignment assignment { get; set; }
+        public List<GradeUserViewModel> students { get; set; }
+    }
+    public class GradeUserViewModel
+    {
+        public ApplicationUser user { get; set; }
+        public List<GradeProblemViewModel> problems { get; set; }
+    }
+    public class GradeProblemViewModel
+    {
+        public Solution submission { get; set; }
+        public string problemName { get; set; }
+        public int problemId { get; set; }
     }
 }
