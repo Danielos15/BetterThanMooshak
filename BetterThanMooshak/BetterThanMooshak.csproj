@@ -646,7 +646,6 @@
     <Content Include="Views\Course\UserCourses.cshtml" />
     <Content Include="Views\Course\Details.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
-    <Content Include="Views\Problem\Index.cshtml" />
     <Content Include="Views\Problem\Details.cshtml" />
     <Content Include="Views\Problem\Edit.cshtml" />
     <Content Include="Views\Problem\Add.cshtml" />

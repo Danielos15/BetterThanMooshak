@@ -167,6 +167,28 @@ namespace BetterThanMooshak.Services
             return (model);
         }
 
+        public bool AddGrade(GradeProblemAddViewModel newGrade)
+        {
+            var exists = (from g in db.Grades
+                          where (g.assignmentId == newGrade.assignmentId) && (g.userId == newGrade.userId)
+                          select g).SingleOrDefault();
+
+            if (exists != null)
+                return false;
+
+            var grade = new Grade
+            {
+                assignmentId = newGrade.assignmentId,
+                grade = newGrade.grade,
+                userId = newGrade.userId,
+                gradedDate = DateTime.Now
+            };
+
+            db.Grades.Add(grade);
+
+            return Convert.ToBoolean(db.SaveChanges());
+        }
+
         public GradeViewModel GetGradeViewModel(int value)
         {
             //Get assignment

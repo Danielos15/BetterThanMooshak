@@ -10,14 +10,6 @@ namespace BetterThanMooshak.Controllers
     {
         private ProblemService service = new ProblemService(null);
         // GET: Problem
-        #region Index Action - Get overview of all Problems for current user
-        public ActionResult Index()
-        {
-            var userId = User.Identity.GetUserId();
-
-            return View(service.getAllProblems(userId));
-        }
-        #endregion
 
         #region Details Action - Get details for a certain Problem
         public ActionResult Details (int? id)

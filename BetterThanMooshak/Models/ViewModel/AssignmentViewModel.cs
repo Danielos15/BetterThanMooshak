@@ -83,4 +83,10 @@ namespace BetterThanMooshak.Models.ViewModel
         public string problemName { get; set; }
         public int problemId { get; set; }
     }
+    public class GradeProblemAddViewModel
+    {
+        public string userId { get; set; }
+        public int assignmentId { get; set; }
+        public double grade { get; set; }
+    }
 }

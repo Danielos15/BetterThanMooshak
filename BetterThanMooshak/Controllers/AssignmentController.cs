@@ -122,6 +122,14 @@ namespace BetterThanMooshak.Controllers
 
             return View("404");
         }
+
+        [HttpPost]
+        public ActionResult Grade(GradeProblemAddViewModel newGrade)
+        {
+            service.AddGrade(newGrade);
+            
+            return RedirectToAction("grade", "assignment", new { id = newGrade.assignmentId });
+        }
         #endregion
     }
 }
