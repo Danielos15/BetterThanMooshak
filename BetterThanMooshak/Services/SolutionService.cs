@@ -18,43 +18,13 @@ namespace BetterThanMooshak.Services
             db = new ApplicationDbContext();
         }
 
-        public bool AddSolution(Solution s)
-        {
-
-            Solution temp = new Solution { Id = s.Id, userId = s.userId, problemId = s.problemId, program = s.program };
-            db.Solutions.Add(temp);
-
-            return Convert.ToBoolean(db.SaveChanges());
-        }
-
-        public bool EditSolution(Solution solution)
-        {
-            var s = GetSolutionById(solution.Id);
-            s.Id = solution.Id;
-            s.userId = solution.userId;
-            s.problemId = solution.problemId;
-            s.program = solution.program;
-
-            return Convert.ToBoolean(db.SaveChanges());
-        }
+        
 
         public Solution GetSolutionById(int id)
         {
             return (from s in db.Solutions
                             where s.Id == id
                             select s).SingleOrDefault();
-        }
-
-        public SolutionViewModel GetSolutionsByProblemAndUser(int pId, int uId)
-        {
-            var solution = (from x in db.Solutions
-                            where x.Id == pId && x.Id == uId
-                            select x).ToList();
-
-            SolutionViewModel result = new SolutionViewModel();
-            result.solutions = solution;
-
-            return result;
         }
 
         public SolutionViewModel GetSolutionsByUser(int uId)
@@ -68,6 +38,21 @@ namespace BetterThanMooshak.Services
 
             return result;
         }
+
+        public SolutionViewModel GetSolutionsByProblemAndUser(int pId, int uId)
+        {
+            var solution = (from x in db.Solutions
+                            where x.Id == pId 
+                            && x.Id == uId
+                            select x).ToList();
+
+            SolutionViewModel result = new SolutionViewModel();
+            result.solutions = solution;
+
+            return result;
+        }
+
+        
 
         public IQueryable<Solution> getAllSolutions()
         {
@@ -90,6 +75,7 @@ namespace BetterThanMooshak.Services
 
         public bool SaveSolution(int id, string userId, SolutionPostViewModel model)
         {
+            /*
             Solution solution = new Solution()
             {
                 problemId = id,
@@ -98,6 +84,8 @@ namespace BetterThanMooshak.Services
             };
             db.Solutions.Add(solution);
             return Convert.ToBoolean(db.SaveChanges());
+            */
+            return false;
         }
     }
 }

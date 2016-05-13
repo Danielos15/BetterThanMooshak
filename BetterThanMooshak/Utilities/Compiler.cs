@@ -41,8 +41,6 @@ namespace BetterThanMooshak.Utilities
             var workingFolder = baseFolder + userId + "\\" + problemId + "\\";
             var handinFolder = workingFolder + ConfigurationManager.AppSettings.Get("handinFolder");
             var compileFolder = workingFolder + ConfigurationManager.AppSettings.Get("compiledFolder");
-            
-
             var cppFileName = model.fileName + ".cpp";
             var exeFilePath = compileFolder + model.fileName + ".exe";
 
@@ -82,32 +80,31 @@ namespace BetterThanMooshak.Utilities
                 {
                     foreach (var input in inputs)
                     {
-                        SoultionCompareViewMode status = new SoultionCompareViewMode()
-                        {
-                            input = input.input,
-                            expectedOutput = input.output
-                        };
                         processExe.StartInfo = processInfoExe;
                         processExe.Start();
                         processExe.StandardInput.WriteLine(input.input);
-
-
                         processExe.StandardInput.Close();
-                        // We then read the output of the program:
+
                         string output = processExe.StandardOutput.ReadToEnd();
                         processExe.WaitForExit(8000);
 
-                        if (output.Equals(input.output)) {
-                            jsonObject.totalScore += input.score;
-                            status.score = 1;
-                        }
-                        status.output = output;
-                        jsonObject.maxScore += input.score;
-                        if (input.visible)
+                        SoultionCompareViewMode status = new SoultionCompareViewMode()
                         {
-                            jsonObject.tests.Add(status);
+                            input = input.input,
+                            expectedOutput = input.output,
+                            score = input.score,
+                            isVisible = input.visible,
+                            output = output,
+                            isCorrect = false
+                        };
+
+                        if (output.Equals(input.output)) {
+                            status.isCorrect = true;
+                            jsonObject.totalScore += input.score;
                         }
                         
+                        jsonObject.maxScore += input.score;
+                        jsonObject.tests.Add(status);
                     }
                 }
             }

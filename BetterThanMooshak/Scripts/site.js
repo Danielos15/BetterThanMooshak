@@ -84,7 +84,7 @@ site.solution = {
     localSave : function() {
         localStorage.setItem(site.solution.localPath, site.solution.editor.getValue());
     },
-    success: function (data) {
+    submitSuccess: function (data) {
         console.log('SuccessFunction Started');
         var response = data;
         console.log(response);
@@ -162,25 +162,31 @@ site.solution = {
     save: function (id) {
         $.ajax({
             url: "/solution/save/"+id,
-            timeout: 120000,
+            timeout: 60000,
             method: "POST",
             data: {
                 code: site.solution.editor.getValue()
             },
             success: site.solution.success
+        })
+        .done(function (data) {
+
+        })
+        .fail(function (jqXHR, textStatus) {
+
         });
     },
     submit: function (id) {
-        site.solution.debug = $.ajax({
+        site.solution.debug =  $.ajax({
             url: "/solution/submit/"+id,
             method: "POST",
-            timeout: 120000,
+            timeout: 60000,
             data: {
                 code: site.solution.editor.getValue()
             }
         })
             .done(function (data) {
-                site.solution.success(data)
+                site.solution.submitSuccess(data)
             })
             .fail(function (jqXHR, textStatus) {
                 console.log('fail function called');
@@ -188,6 +194,19 @@ site.solution = {
                     site.solution.timeout();
                 }
                 console.log('fail function ended');
+            });
+    },
+    load: function (id) {
+        $.ajax({
+            url: "/solution/load/" + id,
+            method: "POST",
+            timeout: 60000,
+        })
+            .done(function (data) {
+                site.solution.editor.setValue(data);
+            })
+            .fail(function (jqXHR, textStatus) {
+                console.log('fail function called for load');
             });
     }
 }

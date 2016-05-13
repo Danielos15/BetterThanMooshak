@@ -3,7 +3,6 @@ using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -30,7 +29,7 @@ namespace BetterThanMooshak.Controllers
                 if (service.verifyUser(id.Value, userId))
                 {
                     ProblemDetailsViewModel model = service.getDetails(id.Value, userId);
-                    model.localPath = User.Identity.GetUserId() + model.courseId + model.assignment.id + model.problem.id;
+                    model.localPath = User.Identity.GetUserId() + model.problem.id;
                     return View(model);
                 }
                 else

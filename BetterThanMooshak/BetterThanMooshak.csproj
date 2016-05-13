@@ -214,6 +214,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\Compiler.cs" />
     <Compile Include="Utilities\CustomAuthorize.cs" />
+    <Compile Include="Utilities\FileHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.min.css" />

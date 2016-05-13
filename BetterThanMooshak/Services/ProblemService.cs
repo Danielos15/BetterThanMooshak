@@ -171,10 +171,12 @@ namespace BetterThanMooshak.Services
 
             var testcases = (from t in db.Testcases
                              where t.problemId == problem.id
+                             && t.visible == true
                              select t).AsQueryable();
 
             var submissions = (from s in db.Solutions
                                where s.userId == userId && s.problemId == problem.id
+                               orderby s.submissionDate descending
                                select s).AsQueryable();
 
             IQueryable<string> hints = null; //TODO
@@ -206,19 +208,7 @@ namespace BetterThanMooshak.Services
                 discussions.topics.Add(topicModel);
             }
 
-            var answer = new Solution { program = @"
-#include <iostream>
-                       
-using namespace std;
-
-int main() {
-    
-    cout << 'Hello World!';
-    return 0;
-}
-
-
-", problemId = problem.id };
+            //var answer = "";
 
             var viewModel = new ProblemDetailsViewModel()
             {
@@ -231,7 +221,7 @@ int main() {
                 submissions = submissions,
                 hints = hints,
                 discussions = discussions,
-                answer = answer,
+                //answer = answer,
                 isTeacher = isTeacher
             };
 
@@ -283,6 +273,12 @@ int main() {
                              where testcase.problemId == id
                              select testcase).ToList();
             return testcases;
+        }
+
+        public bool AddSolution(Solution solution)
+        {
+            db.Solutions.Add(solution);
+            return Convert.ToBoolean(db.SaveChanges());
         }
     }
 }

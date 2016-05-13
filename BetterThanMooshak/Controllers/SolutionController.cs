@@ -3,9 +3,11 @@ using BetterThanMooshak.Models.ViewModel;
 using BetterThanMooshak.Services;
 using BetterThanMooshak.Utilities;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace BetterThanMooshak.Controllers
 {
@@ -40,6 +42,21 @@ namespace BetterThanMooshak.Controllers
                 Compiler compiler = new Compiler();
 
                 SolutionPostJson jsonObject = compiler.Compile(model, testcases, User.Identity.GetUserId(), id.Value);
+
+                Solution solution = new Solution()
+                {
+                    problemId = id.Value,
+                    userId = User.Identity.GetUserId(),
+                    score = jsonObject.totalScore,
+                    maxScore = jsonObject.maxScore,
+                    submissionDate = DateTime.Now
+                };
+                service.AddSolution(solution);
+
+                var visibleTest = (from test in jsonObject.tests
+                               where test.isVisible == true
+                               select test).ToList();
+                jsonObject.tests = visibleTest;
                 if (Request.IsAjaxRequest())
                 {
                     return Json(jsonObject);
@@ -48,5 +65,22 @@ namespace BetterThanMooshak.Controllers
             return View("404");
         }
         #endregion
+
+        [HttpPost]
+        public ActionResult Load(int? id)
+        {
+            if (id != null)
+            {
+                string fileName = "main.cpp";
+                FileHandler handler = new FileHandler();
+                string json = handler.GetFileContentByUserAndProblem(User.Identity.GetUserId(), id.Value, fileName);
+                
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(json);
+                }
+            }
+            return View("404");
+        }
     }
 }

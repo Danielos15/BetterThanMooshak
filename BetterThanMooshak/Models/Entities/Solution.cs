@@ -12,7 +12,8 @@ namespace BetterThanMooshak.Models.Entities
         public int Id { get; set; }
         public string userId { get; set; }
         public int problemId { get; set; }
-        public string program { get; set; }
-
+        public int score { get; set; }
+        public int maxScore { get; set; }
+        public DateTime submissionDate { get; set; }
     }
 }

@@ -24,6 +24,8 @@ namespace BetterThanMooshak.Models.ViewModel
         public string output { get; set; }
         public string expectedOutput { get; set; }
         public int score { get; set; }
+        public bool isVisible { get; set; }
+        public bool isCorrect { get; set; }
     }
     public class SolutionPostJson
     {

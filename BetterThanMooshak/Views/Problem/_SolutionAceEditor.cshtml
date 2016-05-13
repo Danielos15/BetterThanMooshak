@@ -2,14 +2,17 @@
 
 <div class="clearfix bottom20">
     <div class="pull-right btn-group" role="group">
-        <a class="btn btn-default">
+        <a class="btn btn-default" onclick="site.solution.save(@Model.problem.id)">
             <i class="fa fa-floppy-o"></i> Save
         </a>
-        <a class="btn btn-default">
+        <a class="btn btn-default" onclick="site.solution.load(@Model.problem.id)">
+            <i class="fa fa-cog"></i> Load
+        </a>
+        <a class="btn btn-default" onclick="alert('Unavalible Function...')">
             <i class="fa fa-cloud-upload"></i> Upload file
         </a>
-        <a class="btn btn-default">
-            <i class="fa fa-cloud-download"></i> Download file
+        <a class="btn btn-default" onclick="alert('Unavalible Function...')">
+            <i class="fa fa-cloud-download" ></i> Download file
         </a>
         <a class="btn btn-default" onclick="site.solution.submit(@Model.problem.id)">
             <i class="fa fa-terminal"></i>
@@ -20,7 +23,6 @@
 
 <textarea id="editor"></textarea>
 <span id="localPath" data-path="@Model.localPath"></span>
-<span id="serverCode" data-code="@Model.currSolution.program"></span>
 
 <div id="compilerRespond">
     
