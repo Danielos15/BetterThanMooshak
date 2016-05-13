@@ -311,7 +311,8 @@ namespace BetterThanMooshak.Services
             {
                 problemId = problemId,
                 title = model.title,
-                message = model.message
+                message = model.message,
+                date = DateTime.Now
             };
             db.Hints.Add(hint);
             return Convert.ToBoolean(db.SaveChanges());
