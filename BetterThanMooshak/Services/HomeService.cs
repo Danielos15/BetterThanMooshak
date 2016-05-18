@@ -96,7 +96,7 @@ namespace BetterThanMooshak.Services
                                  join a in db.Assignments on c.id equals a.courseId into x
                                  from y in x
                                  join n in db.Notifications on y.id equals n.assignmentId into result
-                                 from z in result
+                                 from z in result orderby z.date descending
                                  select z).Take(5).ToList();
 
             var assignments = (from n in notifications
@@ -121,6 +121,7 @@ namespace BetterThanMooshak.Services
         {
             var grades = (from g in db.Grades
                    where g.userId == userId
+                   orderby g.gradedDate descending
                           select g).Take(5).ToList();
 
             var assignments = (from g in grades

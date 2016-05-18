@@ -114,7 +114,6 @@ header.navbar .menu {
     list-style: none;
     min-width: 200px;
     font-size: 20px;
-    text-transform: capitalize
 }
 @media (max-width: 768px) {
     .menu .dropdown {
@@ -158,7 +157,6 @@ textarea.form-control {
 
 .table td {
     font-size: 18px;
-    text-transform:capitalize;
 }
 
 footer {
