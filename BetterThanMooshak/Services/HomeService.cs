@@ -96,8 +96,9 @@ namespace BetterThanMooshak.Services
                                  join a in db.Assignments on c.id equals a.courseId into x
                                  from y in x
                                  join n in db.Notifications on y.id equals n.assignmentId into result
-                                 from z in result orderby z.date descending
-                                 select z).Take(5).ToList();
+                                 from z in result
+                                 orderby z.date ascending
+                                 select z).Take(5).OrderBy(x => x.date).ToList();
 
             var assignments = (from n in notifications
                                join a in db.Assignments on n.assignmentId equals a.id into result

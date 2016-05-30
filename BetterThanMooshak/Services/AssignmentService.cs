@@ -128,7 +128,7 @@ namespace BetterThanMooshak.Services
                 });
             }
 
-            var oldAss = (from course in userCourses
+            var oldAss = (from course in userCourses.Concat(teacherCourses)
                                   join ass in db.Assignments on course.id equals ass.courseId into result
                                   from x in result
                                   where x.endDate < DateTime.Now
