@@ -168,9 +168,6 @@ footer {
         float: left;
         width: 50%;
     }
-        footer .dateTime {
-            text-transform: capitalize
-        }
         footer .version {
             text-align: right;
         }

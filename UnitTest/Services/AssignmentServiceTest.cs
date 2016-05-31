@@ -114,7 +114,7 @@ namespace UnitTest.Services
             var result = service.AddAssignmet(1, assignment4);
 
             //Assert:
-            Assert.AreNotEqual(4, mockDb.Assignments.Count());
+            Assert.AreEqual(4, mockDb.Assignments.Count());
         }
     }
 }

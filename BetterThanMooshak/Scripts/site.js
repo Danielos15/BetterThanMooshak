@@ -139,7 +139,7 @@ site.solution = {
         } else {
             for (i = 0; i < response.tests.length; i++) {
                 $type = "warning";
-                $text = "<strong>Wrong Output</strong> Something is not going as planes";
+                $text = "<strong>Wrong Output</strong> Something is not going as planned";
                 if (response.tests[i].isCorrect > 0) {
                     $type = "success";
                     $text = "<strong>Correct Output</strong> Looks like you did it! Congratulations;";
